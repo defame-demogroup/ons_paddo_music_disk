@@ -1,0 +1,102 @@
+PATTO/ONSLAUGHT SID BACKUP (August 2021)
+---------------------------------------
+Super Castlevania 4 Remix (Patto) [8580] [1x]-optimized.sid
+Golden Axe Wilderness (Patto) [8580] [1x]-optimized.sid
+Sonic 1 Special Stage (Patto) [8580] [1x]-optimized.sid
+Castlevania Bloodlines Bloody Tears (Patto) [8580]-optimized.sid
+Aladdin (Patto) [8580] [2x]-optimized.sid
+Castlevania Bloodlines Reincarnated Souls (Patto) [8580]-optimized.sid
+Into You - Ariana Grande (Patto) [8580] [2x]-optimized.sid
+Against All Odds (Patto) [8580] [1x]-optimized.sid
+Snow Patrol - Chasing Cars (Patto) [8580] [2x]-optimized.sid
+Electric Dreams (Patto) [8580] [1x]-optimized.sid
+Castlevania Bloodlines Calling From Heaven (Patto) [8580] [2x]-optimized.sid
+Street Fighter II Ken Theme (Patto) [8580] [2x]-optimized.sid
+Street Fighter II Guile Theme (Patto) [8580] [1x]-optimized.sid
+Rocky Theme (Patto) [8580] [2x]-optimized.sid
+Ocean Loader 1 (Patto) [8580] [1x]-optimized.sid
+Street Fighter II Ryu Theme (Patto) [8580] [2x]-optimized.sid
+Rambo First Blood Part II (Patto) [8580][1x]-optimized.sid
+Ace Combat 7 Charge Assault (Patto) [8580] [2x]-optimized.sid
+Lovely Day (Patto) [8580] [1x]-optimized.sid
+Ocean Loader 3 (Patto) [8580] [2x]-optimized.sid
+Giana Sisters Intro (Patto) [8580] [2x]-optimized.sid
+Ghost n Goblins (Patto) [8580] [1x]-optimized.sid
+Superstition (Patto) [8580] [2x]-optimized.sid
+Michael Jackson Billie Jean (Patto) [8580] [1x]-optimized.sid
+Escapism (Patto) [8580] [1x]-optimized.sid
+Fireflies (Patto) [8580] [1x]-optimized.sid
+Blade Runner (Patto) [8580] [1x]-optimized.sid
+Test Drive 2 (Patto) [8580] [1x]-optimized.sid
+Robocop 3 (Patto) [8580] [2x]-optimized.sid
+Cybernoid 2 (Patto) [8580] [1x]-optimized.sid
+Mad World (Patto) [8580] [1x]-optimized.sid
+Heroic (Patto) [8580] [1x]-optimized.sid
+In Too Deep - Genesis (Patto) [8580] [1x]-optimized.sid
+Beverly Hills Cop Axel Foley (Patto) [8580] [1x]-optimized.sid
+Summer Breeze (Patto) [8580] [1x]-optimized.sid
+Funk (Patto) [8580] [1x]-optimized.sid
+Commando Hiscore (Patto) [8580] [1x]-optimized.sid
+Delta (Patto) [8580] [1x]-optimized.sid
+Lightforce Intro (Patto) [8580] [2x]-optimized.sid
+Supercycle (Patto) [8580] [1x]-optimized.sid
+Flimbo's Quest (Patto) [8580] [1x]-optimized.sid
+Shinobi (Patto) [8580] [1x]-optimized.sid
+Doom Episode 1 Mission 1 (Patto) [8580] [1x]-optimized.sid
+Defender of the Crown (Patto) [8580] [1x]-optimized.sid
+1942 (Patto) [8580] [1x]-optimized.sid
+Rastan Saga (Patto) [8580] [2x]-optimized.sid
+Bruce Lee (Patto) [8580] [1x]-optimized.sid
+Kickstart 2 (Patto) [8580] [1x]-optimized.sid
+Bionic Commando (Patto) [8580] [1x]-optimized.sid
+Afterburner (Patto) [8580] [2x]-optimized.sid
+Strider Mass of Cloud (Patto) [8580] [1x]-optimized.sid
+Strider Raid (Patto) [8580] [1x]-optimized.sid
+Boulderdash (Patto) [8580] [1x]-optimized.sid
+Commando (Patto) [8580] [1x]-optimized.sid
+Midnight Resistance (Patto) [8580] [1x]-optimized.sid
+Sonic 2 Chemical Plant Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 2 Casino Night Zone (Patto) [8580] [2x]-optimized.sid
+Shinobi Mission 2-1 (Patto) [8580] [1x]-optimized.sid
+Shinobi Mission 2-2 (Patto) [8580] [1x]-optimized.sid
+Shinobi Mission 1-2 (Patto) [8580] [1x]-optimized.sid
+Michael Jackson Beat It (Patto) [8580] [2x].sid
+Wonderboy in Monsterland Death Has The Key (Patto) [8580] [1x]-optimized.sid
+Last Ninja 1 Wastelands (Patto) [8580] [1x]-optimized.sid
+Last Ninja 2 Central Park (Patto) [8580] [1x]-optimized.sid
+Bubble Bobble (Patto) [8580] [1x]-optimized.sid
+Paperboy (Patto) [8580] [1x]-optimized.sid
+Sonic 2 Oil Ocean Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 2 Metropolis Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 1 Green Hill Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 1 Main Theme (Patto) [8580] [1x]-optimized.sid
+Last Ninja 2 The Sewers Loader (Patto) [8580] [1x]-optimized.sid
+Space Harrier Theme (Patto) [8580] [1x]-optimized.sid
+Spy vs Spy II (Patto) [8580] [1x]-optimized.sid
+Sonic 1 Starlight Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 2 Emerald Hill Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 1 Scrap Brain Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 2 Aquatic Ruin Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 2 Hilltop Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 1 Labyrinth Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 2 Mystic Zone (Patto) [8580] [1x]-optimized.sid
+Bad Guy - Billie Eilish (Patto) [8580] [2x]-optimized.sid
+Galaga Start Theme (Patto) [8580] [1x]-optimized.sid
+Dig Dug Exploration (Patto) [8580] [1x]-optimized.sid
+Wonderboy in Monsterland Barbaroo (Patto) [8580] [1x]-optimized.sid
+Outrun Splash Wave (Patto) [8580] [2x]-optimized.sid
+Outrun Last Wave (Patto) [8580] [1x]-optimized.sid
+Operation Wolf Loader (Patto) [8580] [1x]-optimized.sid
+Miami Vice Crocketts Theme (Patto) [8580] [1x]-optimized.sid
+Last Ninja 3 Level 6 Void (Patto) [8580] [1x]-optimized.sid
+Last Ninja 3 Level 2 Earth (Patto) [8580] [1x]-optimized.sid
+Halloween Theme (Patto) [8580] [2x]-optimized.sid
+Double Dragon Level 4 Great Fortress (Patto) [8580] [2x]-optimized.sid
+Double Dragon Level 3 Forest (Patto) [8580] [1x]-optimized.sid
+Double Dragon Level 2 Industrial Area (Patto) [8580] [1x]-optimized.sid
+Double Dragon Level 1 City Slums (Patto) [8580] [2x]-optimized.sid
+Sonic 1 Spring Yard Zone (Patto) [8580] [1x]-optimized.sid
+Sonic 1 Marble Zone (Patto) [8580] [1x]-optimized.sid
+Outrun Passing Breeze (Patto) [8580] [1x]-optimized.sid
+Wonderboy in Monsterland Remix (Patto) [8580] [1x]-optimized.sid
+The Hero (Patto) [8580] [2x]-optimized.sid

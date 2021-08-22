@@ -1,0 +1,6 @@
+*.sym
+*.prg
+.source.txt
+convert_music.asm
+convert_animations.asm
+
