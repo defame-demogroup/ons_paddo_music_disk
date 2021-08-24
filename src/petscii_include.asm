@@ -1,6 +1,6 @@
 .var petscii_base=$2000
 
-.segment drummer [outPrg="aa.prg"]
+.segment drummer [outPrg="../rsrc/../rsrc/aa.prg"]
 .pc=petscii_base
 //drummer1 : txt_drummer1 + col_drummer1
 .pc=* "txt_drummer1"
@@ -37,7 +37,7 @@ col_03:
 
 
 
-.segment final [outPrg="bb.prg"]
+.segment final [outPrg="../rsrc/bb.prg"]
 .pc=petscii_base
 //final1 : txt_final1 + col_final1
 .pc=* "txt_final1"
@@ -58,7 +58,7 @@ col_05:
 
 
 
-.segment circle [outPrg="cc.prg"]
+.segment circle [outPrg="../rsrc/cc.prg"]
 .pc=petscii_base
 //irclefx1 : txt_irclefx1 + col_irclefx1
 .pc=* "txt_irclefx1"
@@ -111,7 +111,7 @@ col_11:
 
 
 
-.segment close [outPrg="dd.prg"]
+.segment close [outPrg="../rsrc/dd.prg"]
 .pc=petscii_base
 //lose1 : txt_lose1 + col_lose1
 .pc=* "txt_lose1"
@@ -148,7 +148,7 @@ col_15:
 
 
 
-.segment moreskullz [outPrg="ee.prg"]
+.segment moreskullz [outPrg="../rsrc/ee.prg"]
 .pc=petscii_base
 //moreskulls1 : txt_moreskulls1 + col_moreskulls1
 .pc=* "txt_moreskulls1"
@@ -206,7 +206,7 @@ txt_22:
 col_22: 
 .import c64 "rsrc/col_moreskulls7.prg"
 
-.segment logo_ons [outPrg="ff.prg"]
+.segment logo_ons [outPrg="../rsrc/ff.prg"]
 .pc=petscii_base
 //onslogo_only : txt_onslogo_only + col_onslogo_only
 .pc=* "txt_onslogo_only"
@@ -218,7 +218,7 @@ col_23:
 
 
 
-.segment open [outPrg="gg.prg"]
+.segment open [outPrg="../rsrc/gg.prg"]
 .pc=petscii_base
 //open1 : txt_open1 + col_open1
 .pc=* "txt_open1"
@@ -295,7 +295,7 @@ col_32:
 
 
 
-.segment open_loop [outPrg="hh.prg"]
+.segment open_loop [outPrg="../rsrc/hh.prg"]
 .pc=petscii_base
 //openloop1 : txt_openloop1 + col_openloop1
 .pc=* "txt_openloop1"
@@ -331,7 +331,7 @@ col_36:
 
 
 
-.segment playerbase [outPrg="ii.prg"]
+.segment playerbase [outPrg="../rsrc/ii.prg"]
 .pc=petscii_base
 //playe : txt_playe + col_playe
 .pc=* "txt_playe"
@@ -351,7 +351,7 @@ col_38:
 
 
 
-.segment door_open [outPrg="jj.prg"]
+.segment door_open [outPrg="../rsrc/jj.prg"]
 .pc=petscii_base
 //player_dooropen1 : txt_player_dooropen1 + col_player_dooropen1
 .pc=* "txt_player_dooropen1"
@@ -379,7 +379,7 @@ col_41:
 
 
 
-.segment credits [outPrg="kk.prg"]
+.segment credits [outPrg="../rsrc/kk.prg"]
 .pc=petscii_base
 //redits : txt_redits + col_redits
 .pc=* "txt_redits"
@@ -391,7 +391,7 @@ col_42:
 
 
 
-.segment sk [outPrg="ll.prg"]
+.segment sk [outPrg="../rsrc/ll.prg"]
 .pc=petscii_base
 //sk1 : txt_sk1 + col_sk1
 .pc=* "txt_sk1"
@@ -493,7 +493,7 @@ col_46:
 
 
 
-.segment skull_rotate [outPrg="mm.prg"]
+.segment skull_rotate [outPrg="../rsrc/mm.prg"]
 .pc=petscii_base
 //skullrotate1 : txt_skullrotate1 + col_skullrotate1
 .pc=* "txt_skullrotate1"
