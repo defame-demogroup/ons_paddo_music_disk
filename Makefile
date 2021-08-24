@@ -28,6 +28,20 @@ src/demo.prg: src/demo.asm rsrc ## compile c64 demo
 disk1.d64: src/demo.prg ## create c64 disk demo side 1
 	c1541 -format "onslaught,2a" d64 $@
 	c1541 -attach $@ -write src/demo.prg "start" 
+	c1541 -attach $@ -write src/aa.prg "aa"
+	c1541 -attach $@ -write src/bb.prg "bb"
+	c1541 -attach $@ -write src/cc.prg "cc"
+	c1541 -attach $@ -write src/dd.prg "dd"
+	c1541 -attach $@ -write src/ee.prg "ee"
+	c1541 -attach $@ -write src/ff.prg "ff"
+	c1541 -attach $@ -write src/gg.prg "gg"
+	c1541 -attach $@ -write src/hh.prg "hh"
+	c1541 -attach $@ -write src/ii.prg "ii"
+	c1541 -attach $@ -write src/jj.prg "jj"
+	c1541 -attach $@ -write src/kk.prg "kk"
+	c1541 -attach $@ -write src/ll.prg "ll"
+	c1541 -attach $@ -write src/mm.prg "mm"
+
 	c1541 -attach $@ -write rsrc/00.prg "00"
 	c1541 -attach $@ -write rsrc/01.prg "01"
 	c1541 -attach $@ -write rsrc/02.prg "02"

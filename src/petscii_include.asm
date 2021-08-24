@@ -1,4 +1,7 @@
+.var petscii_base=$2000
 
+.segment drummer [outPrg="aa.prg"]
+.pc=petscii_base
 //drummer1 : txt_drummer1 + col_drummer1
 .pc=* "txt_drummer1"
 txt_00:
@@ -31,6 +34,11 @@ txt_03:
 col_03: 
 .import c64 "rsrc/col_drummer4.prg"
 
+
+
+
+.segment final [outPrg="bb.prg"]
+.pc=petscii_base
 //final1 : txt_final1 + col_final1
 .pc=* "txt_final1"
 txt_04:
@@ -47,6 +55,11 @@ txt_05:
 col_05: 
 .import c64 "rsrc/col_final2.prg"
 
+
+
+
+.segment circle [outPrg="cc.prg"]
+.pc=petscii_base
 //irclefx1 : txt_irclefx1 + col_irclefx1
 .pc=* "txt_irclefx1"
 txt_06:
@@ -95,6 +108,11 @@ txt_11:
 col_11: 
 .import c64 "rsrc/col_irclefx6.prg"
 
+
+
+
+.segment close [outPrg="dd.prg"]
+.pc=petscii_base
 //lose1 : txt_lose1 + col_lose1
 .pc=* "txt_lose1"
 txt_12:
@@ -127,6 +145,11 @@ txt_15:
 col_15: 
 .import c64 "rsrc/col_lose4.prg"
 
+
+
+
+.segment moreskullz [outPrg="ee.prg"]
+.pc=petscii_base
 //moreskulls1 : txt_moreskulls1 + col_moreskulls1
 .pc=* "txt_moreskulls1"
 txt_16:
@@ -183,6 +206,8 @@ txt_22:
 col_22: 
 .import c64 "rsrc/col_moreskulls7.prg"
 
+.segment logo_ons [outPrg="ff.prg"]
+.pc=petscii_base
 //onslogo_only : txt_onslogo_only + col_onslogo_only
 .pc=* "txt_onslogo_only"
 txt_23:
@@ -191,6 +216,10 @@ txt_23:
 col_23: 
 .import c64 "rsrc/col_onslogo_only.prg"
 
+
+
+.segment open [outPrg="gg.prg"]
+.pc=petscii_base
 //open1 : txt_open1 + col_open1
 .pc=* "txt_open1"
 txt_24:
@@ -263,6 +292,11 @@ txt_32:
 col_32: 
 .import c64 "rsrc/col_open9.prg"
 
+
+
+
+.segment open_loop [outPrg="hh.prg"]
+.pc=petscii_base
 //openloop1 : txt_openloop1 + col_openloop1
 .pc=* "txt_openloop1"
 txt_33:
@@ -295,6 +329,10 @@ txt_36:
 col_36: 
 .import c64 "rsrc/col_openloop4.prg"
 
+
+
+.segment playerbase [outPrg="ii.prg"]
+.pc=petscii_base
 //playe : txt_playe + col_playe
 .pc=* "txt_playe"
 txt_37:
@@ -311,6 +349,10 @@ txt_38:
 col_38: 
 .import c64 "rsrc/col_player_door.prg"
 
+
+
+.segment door_open [outPrg="jj.prg"]
+.pc=petscii_base
 //player_dooropen1 : txt_player_dooropen1 + col_player_dooropen1
 .pc=* "txt_player_dooropen1"
 txt_39:
@@ -335,6 +377,10 @@ txt_41:
 col_41: 
 .import c64 "rsrc/col_player_dooropen3.prg"
 
+
+
+.segment credits [outPrg="kk.prg"]
+.pc=petscii_base
 //redits : txt_redits + col_redits
 .pc=* "txt_redits"
 txt_42:
@@ -343,6 +389,10 @@ txt_42:
 col_42: 
 .import c64 "rsrc/col_redits.prg"
 
+
+
+.segment sk [outPrg="ll.prg"]
+.pc=petscii_base
 //sk1 : txt_sk1 + col_sk1
 .pc=* "txt_sk1"
 txt_43:
@@ -350,30 +400,6 @@ txt_43:
 .pc=* "col_sk1"
 col_43: 
 .import c64 "rsrc/col_sk1.prg"
-
-//sk10 : txt_sk10 + col_sk10
-.pc=* "txt_sk10"
-txt_44:
-.import c64 "rsrc/txt_sk10.prg"
-.pc=* "col_sk10"
-col_44: 
-.import c64 "rsrc/col_sk10.prg"
-
-//sk11 : txt_sk11 + col_sk11
-.pc=* "txt_sk11"
-txt_45:
-.import c64 "rsrc/txt_sk11.prg"
-.pc=* "col_sk11"
-col_45: 
-.import c64 "rsrc/col_sk11.prg"
-
-//sk12 : txt_sk12 + col_sk12
-.pc=* "txt_sk12"
-txt_46:
-.import c64 "rsrc/txt_sk12.prg"
-.pc=* "col_sk12"
-col_46: 
-.import c64 "rsrc/col_sk12.prg"
 
 //sk2 : txt_sk2 + col_sk2
 .pc=* "txt_sk2"
@@ -439,6 +465,36 @@ txt_54:
 col_54: 
 .import c64 "rsrc/col_sk9.prg"
 
+//sk10 : txt_sk10 + col_sk10
+.pc=* "txt_sk10"
+txt_44:
+.import c64 "rsrc/txt_sk10.prg"
+.pc=* "col_sk10"
+col_44: 
+.import c64 "rsrc/col_sk10.prg"
+
+//sk11 : txt_sk11 + col_sk11
+.pc=* "txt_sk11"
+txt_45:
+.import c64 "rsrc/txt_sk11.prg"
+.pc=* "col_sk11"
+col_45: 
+.import c64 "rsrc/col_sk11.prg"
+
+//sk12 : txt_sk12 + col_sk12
+.pc=* "txt_sk12"
+txt_46:
+.import c64 "rsrc/txt_sk12.prg"
+.pc=* "col_sk12"
+col_46: 
+.import c64 "rsrc/col_sk12.prg"
+
+
+
+
+
+.segment skull_rotate [outPrg="mm.prg"]
+.pc=petscii_base
 //skullrotate1 : txt_skullrotate1 + col_skullrotate1
 .pc=* "txt_skullrotate1"
 txt_55:
