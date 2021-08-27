@@ -1,4 +1,4 @@
-.namespace loader_init{
+.namespace __loader_init{
 /*
 ZP used by this code
 */
