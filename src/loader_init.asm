@@ -1,3 +1,4 @@
+.namespace loader_init{
 /*
 ZP used by this code
 */
@@ -352,3 +353,4 @@ end_drivecode:
 ce5e   00         brk
 */
 
+}

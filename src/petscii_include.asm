@@ -1,4 +1,4 @@
-.var petscii_base=$2000
+.var petscii_base=$3000
 
 .segment drummer [outPrg="../rsrc/../rsrc/aa.prg"]
 .pc=petscii_base
