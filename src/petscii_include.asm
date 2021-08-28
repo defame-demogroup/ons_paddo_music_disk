@@ -1,6 +1,6 @@
 .var petscii_base=$3000
 
-.segment drummer [outPrg="../rsrc/../rsrc/aa.prg"]
+.segment drummer [outPrg="../rsrc/aa.prg"]
 .pc=petscii_base
 //drummer1 : txt_drummer1 + col_drummer1
 .pc=* "txt_drummer1"

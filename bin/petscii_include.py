@@ -4,6 +4,15 @@ import glob
 from pathlib import Path
 
 
+"""
+This code generates a baseline file that we then adapt.
+If you overwrite the src/petscii_include.asm with the 
+output of this render, it will be different! This is used
+to simply bootstrap the demo coding because I don't want
+to manually type all this stuff. 
+"""
+
+
 print("Rendering petscii include")
 current: Path = Path(os.path.dirname(os.path.realpath(__file__)))
 root: Path = current.parent.absolute()

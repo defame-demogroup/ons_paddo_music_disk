@@ -1,4 +1,5 @@
 *.prg
 makefile_fragement.txt
 petscii_include.asm
+sid_include.asm
 

@@ -4,6 +4,14 @@ Memory Map
 These are the raw addresses of each of the 
 animation frames based on the file groups
 in petscii_include.asm 
+
+Need to have this since we are dynamically
+loading the groups of frames into the animation
+buffer...
+
+You need to load, de-exomize and then 
+use these labels to actually address 
+the animation frames for the rle-depacker!
 */
 .var txt_drummer1 = $3000
 .var col_drummer1 = $30c2
