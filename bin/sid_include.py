@@ -45,7 +45,7 @@ $0f04/$0f05 lo/hi byte of the music play JSR
             ptr: str = str(count).rjust(2,'0')
             # clean up (Patto) [8580] [1x]-optimized
             # note: double-double-space-replace is on purpose! 
-            name: str = ptr + " " + filename.replace(".sid","").replace("(Patto)","").replace("[8580]","").replace("[1x]","").replace("[2x]","").replace("-optimized","").replace("  "," ").replace("  "," ").strip().upper()
+            name: str = ptr + ": " + filename.replace(".sid","").replace("(Patto)","").replace("[8580]","").replace("[1x]","").replace("[2x]","").replace("-optimized","").replace("  "," ").replace("  "," ").strip().upper()
             o.write(f"""
 //{ptr}.prg = {filename}
 .eval sid_name.add("{name}")
