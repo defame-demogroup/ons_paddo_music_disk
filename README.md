@@ -17,4 +17,13 @@ Ok, so I finally started adding a journal to keep track of the work I have been 
 
 _TODO:_ Check the player details for each tune to make sure they are correct for each song. Perhaps put that at the start of each SID so the player can pick up the correct data as the song loads... This will change the size of the files on disk (marginally) so will need to be tested since the disks _just fit_ the 100 songs right now once the code is included. 
 
-
+### 2021 08 28 (part 2)
+* Yeah, so I ended up writing a little script that generates the Makefile to exomize all the music as well.
+* Made some updates to the `Makefile` for convenience - logically breaks everything down into bits that make sense.
+* Paddo gave me updated songs that should have been relocated to $1000 but they are still at $4000 for some reason. Try again.
+* Started putting the demo core together - and the new make pipeline means I can just call the `make src/demo.prg` target and then `make disk1.d64` to get an updated build (after running `make all` the very first time)
+* Twiddled on the loader a bit
+* Now comes the hard part, how should we build up the intro and main sections? 
+* Just realised, I need to make all the SID names in CAPS since the PETSCII is using uppercase mode for graphics! I ended up using lower case mode for the AI demo - the PETSCII graphics are much simpler, but you get better text - which is mainly the point with that one anyway. This demo is a bit (lot) different...
+ 
+_TODO:_ Need to test the loader and 1) make sure you can get the END LOAD ADDRESS from that routine and pass it to Exomizer for the depacker routine to work properly. This should be turned into an extension of the loader macro.

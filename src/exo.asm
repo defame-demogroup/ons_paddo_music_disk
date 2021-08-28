@@ -96,15 +96,10 @@ usage: exomizer mem [option]... infile[,<address>]...
 .var exod_tabl_lo = exod_decrunch_table + 52
 .var exod_tabl_hi = exod_decrunch_table + 104
 
-//TODO: This needs to be a macro
-.var bitmap_bitmap_exo = LoadBinary("bitmaps/logo_320x200_bitmap.exo")
-// Exomizer crunched data file of same bitmap as above
-* = $4000 "Bitmap Exomizer"
-Bitmap_Exo: .fill bitmap_bitmap_exo.getSize(), bitmap_bitmap_exo.get(i)
 
+//	jsr exod_decrunch
+//	rts
 
-	jsr exod_decrunch
-	rts
 exod_get_crunched_byte:
 	lda opbase + 1
 	bne nowrap

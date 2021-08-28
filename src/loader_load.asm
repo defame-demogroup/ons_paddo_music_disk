@@ -1,23 +1,20 @@
 /*
-example usage - loading multiple parts
-seems like the y register is preserved between calls to load
-ce80   20 00 cc   jsr $cc00
-ce83   a2 46      ldx #$46
-ce85   a0 30      ldy #$30
-ce87   20 00 cf   jsr $cf00
-ce8a   c8         iny
-ce8b   c0 34      cpy #$34
-ce8d   d0 f8      bne $ce87
-ce8f   a9 40      lda #$40
-ce91   8d f9 ff   sta $fff9
-ce94   a9 f9      lda #$f9
-ce96   8d fa ff   sta $fffa
-ce99   a9 ff      lda #$ff
-ce9b   8d fb ff   sta $fffb
-ce9e   4c 42 41   jmp $4142
+StreetGang Loader 
+Disassembled by Zig
 
 */
-load:
+.macro load(filenameA, filenameB, loadAddress){
+    ldx fna:  #filenameA
+    ldy fnb:  #filenameB
+    lda fhi:  #>loadAddress
+    sta $ff
+    lda flo:  #<loadAddress
+    sta $fe
+    jsr loader_load
+}
+
+
+loader_load:
     lda $dd00
     and #$0f
     sta l_cfce + 1

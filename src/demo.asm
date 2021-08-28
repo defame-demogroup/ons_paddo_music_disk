@@ -10,6 +10,7 @@ $C000 - $D000 : Load Buffer
 
 */
 .import source "petscii_addresses.asm"
+.import source "sid_include.asm"
 
 BasicUpstart2(start)
 
@@ -24,10 +25,52 @@ start:
     lda #$00
     sta $d020
     sta $d021
+    sei
     jsr loader_init
+    cli
+    lda #$00
+    sta $d020
+    sta $d021
+    jsr $e544 // clear screen
+    lda#$17
+    sta $d018	
+    lda#$80
+    sta $0291
+    sei             
+    lda #$7f       // Disable CIA
+    sta $dc0d
+    lda $d01a      // Enable raster interrupts
+    ora #$01
+    sta $d01a
+    lda $d011      // High bit of raster line cleared, we're
+    and #$7f       // only working within single byte ranges
+    sta $d011
+    lda #$01    // We want an interrupt at the top line
+    sta $d012
+    lda #<irq    
+    sta $0314    
+    lda #>irq
+    sta $0315
+    cli  
+
+    load(30,30,$c000) //00.prg
+
+
+
     rts    
+
+/*
+Interrupt Handler
+*/
+.pc=* "irq"
+irq:
+    lda #$ff 
+    sta $d019
+    jmp $ea31  
+    
 
 .import source "loader_load.asm"
 .import source "keyboard.asm"
 .import source "rle_depacker.asm"
 .import source "petscii_include.asm"
+.import source "exo.asm"

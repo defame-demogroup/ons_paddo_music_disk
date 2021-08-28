@@ -15,5 +15,9 @@ with open(output, mode="w") as o:
         txt_filename: str = os.path.basename(filename)
         name: str = txt_filename.strip(".prg")
         o.write(f"	c1541 -attach $@ -write rsrc/{txt_filename} \"{name}\"\n")
+    for filename in filenames:
+        txt_filename: str = os.path.basename(filename)
+        name: str = txt_filename.strip(".prg")
+        o.write(f"	cd rsrc;exomizer mem -c -l auto -o ../src/{txt_filename} {txt_filename}\n")
 
 
