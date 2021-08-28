@@ -3,5 +3,6 @@
 .source.txt
 convert_music.asm
 convert_animations.asm
-# petscii_include.asm
+# petscii_include.asm (<< This is modified from the version in rsrc!)
+sid_include.asm
 
