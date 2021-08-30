@@ -27,3 +27,8 @@ _TODO:_ Check the player details for each tune to make sure they are correct for
 * Just realised, I need to make all the SID names in CAPS since the PETSCII is using uppercase mode for graphics! I ended up using lower case mode for the AI demo - the PETSCII graphics are much simpler, but you get better text - which is mainly the point with that one anyway. This demo is a bit (lot) different...
  
 _TODO:_ Need to test the loader and 1) make sure you can get the END LOAD ADDRESS from that routine and pass it to Exomizer for the depacker routine to work properly. This should be turned into an extension of the loader macro.
+
+### 2021 08 30
+* Argh! Days of fighting Exomizer... I need to understand what the hell is going on with the examples first I think. Makes no sense how this is set up and currently failing.
+
+
