@@ -21,6 +21,16 @@ loader_init:
 * = $3000 "PETSCII Animation Buffers"
 .fill $2000, $00
 * = $5000 "Code"
+.pc=* "Exomizer"
+.import source "exo.asm"
+.pc=* "RLE Depacker"
+.import source "rle_depacker.asm"
+.pc=* "IRQ Loader"
+.import source "loader_load.asm"
+keyboard:
+.pc=* "keyboard handler"
+.import source "keyboard.asm"
+.pc = * "Main DEMO"
 start:
     lda #$00
     sta $d020
@@ -36,7 +46,7 @@ start:
     sta $d018	
     lda#$80
     sta $0291
-    sei             
+    sei              
     lda #$7f       // Disable CIA
     sta $dc0d
     lda $d01a      // Enable raster interrupts
@@ -53,11 +63,61 @@ start:
     sta $0315
     cli  
 
-    load(30,30,$c000) //00.prg
-
-
-
+    load($30,$30,$c000) //00.prg
+    inc $d020
+    jsr ex_music
+    dec $d020
+!:
+    jmp !-
     rts    
+
+ex_music:
+    inc $fe
+    bne !+
+    inc $ff
+!:  lda $fe
+    sta opbase + 1
+    lda $ff
+    sta opbase + 2
+    lda #$00
+    sta exod_zp_dest_lo
+    lda #$0f
+    sta exod_zp_dest_hi
+    lda #$00
+    sta exod_zp_src_lo
+    lda #$c0
+    sta exod_zp_src_hi
+    jsr exod_decrunch
+    rts
+ex_anim:
+    inc $fe
+    bne !+
+    inc $ff
+!:  lda $fe
+    sta opbase + 1
+    lda $ff
+    sta opbase + 2
+    lda #$00
+    sta exod_zp_dest_lo
+    lda #$30
+    sta exod_zp_dest_hi
+    lda #$00
+    sta exod_zp_src_lo
+    lda #$c0
+    sta exod_zp_src_hi
+    jsr exod_decrunch
+    rts
+
+.pc=* "event handlers"
+press_space:
+    jsr keyboard
+    bcs press_space
+    cmp #$20
+    beq !finish+
+    jmp press_space
+!finish:
+    rts
+
 
 /*
 Interrupt Handler
@@ -68,9 +128,5 @@ irq:
     sta $d019
     jmp $ea31  
     
-
-.import source "loader_load.asm"
-.import source "keyboard.asm"
-.import source "rle_depacker.asm"
+.pc=* "Petscii"
 .import source "petscii_include.asm"
-.import source "exo.asm"

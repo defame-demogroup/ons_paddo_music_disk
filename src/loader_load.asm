@@ -50,7 +50,8 @@ l_cf33:
     jmp l_cf33
 l_cf4f:
     sta ($fe),y
-    iny
+    // iny <-- Removed use of Y register and instead use ZP updates
+    inc $fe
     bne l_cf56
     inc $ff
 l_cf56:
