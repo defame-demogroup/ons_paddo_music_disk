@@ -36,18 +36,20 @@ upk_set_col:
 Perform unpack (screen and colormap at once)
 *************************************************/
 upk_unpack:
-upk_loop:
+upk_txt_loop:
 	jsr upk_txt_read
 upk_txt_sentinel:
 	cmp #$00
 	beq upk_txt_unpack
 	jsr upk_txt_write
+
+upk_col_loop:
 	jsr upk_col_read
 upk_col_sentinel:
 	cmp #$00
 	beq upk_col_unpack
 	jsr upk_col_write
-	jmp upk_loop
+	jmp upk_txt_loop
 
 upk_txt_unpack:
 	jsr upk_txt_read
@@ -63,7 +65,7 @@ upk_txt_ip_loop:
 	cpx #$00
 	bne upk_txt_ip_loop
 	cpy #$00
-	beq upk_loop
+	beq upk_col_loop
 	dey
 	jmp upk_txt_ip_loop
 upk_txt_finish:
@@ -83,7 +85,7 @@ upk_col_ip_loop:
 	cpx #$00
 	bne upk_col_ip_loop
 	cpy #$00
-	beq upk_loop
+	beq upk_txt_loop
 	dey
 	jmp upk_col_ip_loop
 upk_col_finish:

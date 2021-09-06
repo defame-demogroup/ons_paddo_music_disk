@@ -206,6 +206,8 @@ txt_22:
 col_22: 
 .import c64 "rsrc/col_moreskulls7.prg"
 
+
+
 .segment logo_ons [outPrg="../rsrc/ff.prg"]
 .pc=petscii_base
 //onslogo_only : txt_onslogo_only + col_onslogo_only

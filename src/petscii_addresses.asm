@@ -13,6 +13,7 @@ You need to load, de-exomize and then
 use these labels to actually address 
 the animation frames for the rle-depacker!
 */
+//aa
 .var txt_drummer1 = $3000
 .var col_drummer1 = $30c2
 .var txt_drummer2 = $3161
@@ -22,11 +23,13 @@ the animation frames for the rle-depacker!
 .var txt_drummer4 = $33ed
 .var col_drummer4 = $3494
 
+//bb
 .var  txt_final1 = $3000
 .var  col_final1 = $3346
 .var  txt_final2 = $35ab
 .var  col_final2 = $38f1
 
+//cc
 .var  txt_irclefx1 = $3000
 .var  col_irclefx1 = $3061
 .var  txt_irclefx2 = $306a
@@ -40,6 +43,7 @@ the animation frames for the rle-depacker!
 .var  txt_irclefx6 = $32bc
 .var  col_irclefx6 = $3375
 
+//dd
 .var  txt_lose1 = $3000
 .var  col_lose1 = $338c
 .var  txt_lose2 = $35e4
@@ -49,6 +53,7 @@ the animation frames for the rle-depacker!
 .var  txt_lose4 = $4290
 .var  col_lose4 = $4615
 
+//ee
 .var  txt_moreskulls1 = $3000
 .var  col_moreskulls1 = $30e9
 .var  txt_moreskulls2 = $31ba
@@ -64,9 +69,11 @@ the animation frames for the rle-depacker!
 .var  txt_moreskulls7 = $3a6e
 .var  col_moreskulls7 = $3b58
 
+//ff
 .var  txt_onslogo_only = $3000
 .var  col_onslogo_only = $313d
 
+//gg
 .var  txt_open1 = $3000
 .var  col_open1 = $3025
 .var  txt_open2 = $3038
@@ -86,6 +93,7 @@ the animation frames for the rle-depacker!
 .var  txt_open9 = $3a06
 .var  col_open9 = $3bc3
 
+//hh
 .var  txt_openloop1 = $3000
 .var  col_openloop1 = $333f
 .var  txt_openloop2 = $34ca
@@ -95,11 +103,13 @@ the animation frames for the rle-depacker!
 .var  txt_openloop4 = $3de9
 .var  col_openloop4 = $40af
 
+//ii
 .var  txt_playe = $3000
 .var  col_playe = $325d
 .var  txt_player_doo = $3422
 .var  col_player_doo = $3711
 
+//jj
 .var  txt_player_dooropen1 = $3000
 .var  col_player_dooropen1 = $3301
 .var  txt_player_dooropen2 = $3549
@@ -107,9 +117,11 @@ the animation frames for the rle-depacker!
 .var  txt_player_dooropen3 = $3a3f
 .var  col_player_dooropen3 = $3ce0
 
+//kk
 .var  txt_redits = $3000
 .var  col_redits = $3254
 
+//ll
 .var  txt_sk1 = $3000
 .var  col_sk1 = $3296
 .var  txt_sk2 = $32ab
@@ -135,6 +147,7 @@ the animation frames for the rle-depacker!
 .var  txt_sk12 = $3fab
 .var  col_sk12 = $406a
 
+//mm
 .var  txt_skullrotate1 = $3000
 .var  col_skullrotate1 = $30ad
 .var  txt_skullrotate2 = $3130

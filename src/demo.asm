@@ -42,7 +42,7 @@ start:
     sta $d020
     sta $d021
     jsr $e544 // clear screen
-    lda#$17
+    lda #$15
     sta $d018	
     lda#$80
     sta $0291
@@ -61,52 +61,27 @@ start:
     sta $0314    
     lda #>irq
     sta $0315
+    lda #$36
+    sta $01
     cli  
 
     load($30,$30,$c000) //00.prg
-    inc $d020
-    jsr ex_music
-    dec $d020
+    jsr exo_exo
+    load(70,70,$c000) //ff.prg 
+    jsr exo_exo
+
+    ldx #<txt_onslogo_only
+    ldy #>txt_onslogo_only
+    jsr upk_set_txt
+    ldx #<col_onslogo_only
+    ldy #>col_onslogo_only
+    jsr upk_set_col
+    jsr upk_unpack
+
 !:
     jmp !-
     rts    
 
-ex_music:
-    inc $fe
-    bne !+
-    inc $ff
-!:  lda $fe
-    sta opbase + 1
-    lda $ff
-    sta opbase + 2
-    lda #$00
-    sta exod_zp_dest_lo
-    lda #$0f
-    sta exod_zp_dest_hi
-    lda #$00
-    sta exod_zp_src_lo
-    lda #$c0
-    sta exod_zp_src_hi
-    jsr exod_decrunch
-    rts
-ex_anim:
-    inc $fe
-    bne !+
-    inc $ff
-!:  lda $fe
-    sta opbase + 1
-    lda $ff
-    sta opbase + 2
-    lda #$00
-    sta exod_zp_dest_lo
-    lda #$30
-    sta exod_zp_dest_hi
-    lda #$00
-    sta exod_zp_src_lo
-    lda #$c0
-    sta exod_zp_src_hi
-    jsr exod_decrunch
-    rts
 
 .pc=* "event handlers"
 press_space:

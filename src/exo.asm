@@ -1,3 +1,9 @@
+exo_exo:
+    lda $fe
+    sta opbase + 1
+    lda $ff
+    sta opbase + 2
+    jmp exod_decrunch
 
 exod_get_crunched_byte:
 	lda opbase + 1
@@ -5,8 +11,6 @@ exod_get_crunched_byte:
 	dec opbase + 2
 nowrap:	
 	dec opbase + 1
-	// change the $ffff to point to the byte immediately following the last
-	// byte of the crunched file data (mem command)
 opbase:
 	lda $ffff
 	rts
@@ -83,16 +87,6 @@ opbase:
 // This function will not change the interrupt status bit and it will not
 // modify the memory configuration.
 // -------------------------------------------------------------------
-#if ENABLE_SPLIT_ENCODING
-// -------------------------------------------------------------------
-// To decrunch files crunched with the split feature (-E) you can't use the
-// decrunch function. Instead you call the split_decrunch function. But you
-// can only do this if the decrunch table contains the encoding used by the
-// file you are decrunching. To generate the correct content for the decrunch
-// table call set the get_crunched_byte function to point to the encoding data
-// and then call the split_gentable function.
-// -------------------------------------------------------------------
-#endif
 // -------------------------------------------------------------------
 // zero page addresses used
 // -------------------------------------------------------------------
@@ -198,18 +192,9 @@ _gb_get_hi:
 // no constraints on register content, however the
 // decimal flag has to be cleared (it almost always is, otherwise do a cld)
 exod_decrunch:
-#if ENABLE_SPLIT_ENCODING
-        ldx #3
-        jsr _internal_gentable
-        jmp _normal_decrunch
-exod_split_gentable:
-        ldx #1
-_internal_gentable:
-        jsr _split_init_zp
-#else
         ldx #3
         :exod_mac_init_zp()
-#endif
+
 // -------------------------------------------------------------------
 // calculate tables (64 bytes) + get_bits macro
 // x and y must be #0 when entering
@@ -524,11 +509,6 @@ _tabl_bit:
         .byte $8c, $e2
 #endif
 
-#if ENABLE_SPLIT_ENCODING
-_split_init_zp:
-        :exod_mac_init_zp()
-        rts
-#endif
 // -------------------------------------------------------------------
 // end of decruncher
 // -------------------------------------------------------------------
