@@ -67,19 +67,69 @@ start:
 
     load($30,$30,$c000) //00.prg
     jsr exo_exo
-    load(70,70,$c000) //ff.prg 
+    load(69,69,$c000) //ee.prg 
     jsr exo_exo
 
-    ldx #<txt_onslogo_only
-    ldy #>txt_onslogo_only
+anim_start:
+    ldx #<txt_moreskulls1
+    ldy #>txt_moreskulls1
     jsr upk_set_txt
-    ldx #<col_onslogo_only
-    ldy #>col_onslogo_only
+    ldx #<col_moreskulls1
+    ldy #>col_moreskulls1
+    jsr upk_set_col
+    jsr upk_unpack
+
+    ldx #<txt_moreskulls2
+    ldy #>txt_moreskulls2
+    jsr upk_set_txt
+    ldx #<col_moreskulls2
+    ldy #>col_moreskulls2
+    jsr upk_set_col
+    jsr upk_unpack
+
+    ldx #<txt_moreskulls3
+    ldy #>txt_moreskulls3
+    jsr upk_set_txt
+    ldx #<col_moreskulls3
+    ldy #>col_moreskulls3
+    jsr upk_set_col
+    jsr upk_unpack
+
+    ldx #<txt_moreskulls4
+    ldy #>txt_moreskulls4
+    jsr upk_set_txt
+    ldx #<col_moreskulls4
+    ldy #>col_moreskulls4
+    jsr upk_set_col
+    jsr upk_unpack
+
+    ldx #<txt_moreskulls5
+    ldy #>txt_moreskulls5
+    jsr upk_set_txt
+    ldx #<col_moreskulls5
+    ldy #>col_moreskulls5
+    jsr upk_set_col
+    jsr upk_unpack
+
+    ldx #<txt_moreskulls6
+    ldy #>txt_moreskulls6
+    jsr upk_set_txt
+    ldx #<col_moreskulls6
+    ldy #>col_moreskulls6
+    jsr upk_set_col
+    jsr upk_unpack
+
+    ldx #<txt_moreskulls7
+    ldy #>txt_moreskulls7
+    jsr upk_set_txt
+    ldx #<col_moreskulls7
+    ldy #>col_moreskulls7
     jsr upk_set_col
     jsr upk_unpack
 
 !:
-    jmp !-
+    inc $d020
+    jmp anim_start
     rts    
 
 

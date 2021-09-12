@@ -14,7 +14,15 @@ upk_set_txt:
 	sta upk_txt_dst + 1
 	jsr upk_txt_read
 	sta upk_txt_sentinel + 1 // this is the sentinel char
+    //reset self-modifying code here
+    lda #$20
+    sta upk_txt_loop
+    lda #<upk_txt_read
+    sta upk_txt_loop + 1
+    lda #>upk_txt_read
+    sta upk_txt_loop + 2
     rts
+    
 
 /************************************************
 Set up equal-byte unpack (Colormap)
@@ -24,13 +32,26 @@ Set up equal-byte unpack (Colormap)
 upk_set_col:
 	stx upk_col_src + 1
 	sty upk_col_src + 2
-    lda #$d8
-	sta upk_col_dst + 2
 	lda #$00
 	sta upk_col_dst + 1
+    lda #$d8
+	sta upk_col_dst + 2
 	jsr upk_col_read
 	sta upk_col_sentinel + 1 // this is the sentinel char
+    //reset self-modifying code here
+    lda #$20
+    sta upk_col_loop
+    lda #<upk_col_read
+    sta upk_col_loop + 1
+    lda #>upk_col_read
+    sta upk_col_loop + 2
     rts
+
+/*************************************************
+Self-modifying code fragments
+*************************************************/
+upk_finish_semaphore:
+    .byte $00
 
 /*************************************************
 Perform unpack (screen and colormap at once)
@@ -49,7 +70,7 @@ upk_col_sentinel:
 	cmp #$00
 	beq upk_col_unpack
 	jsr upk_col_write
-	jmp upk_txt_loop
+	jmp upk_unpack
 
 upk_txt_unpack:
 	jsr upk_txt_read
@@ -69,7 +90,16 @@ upk_txt_ip_loop:
 	dey
 	jmp upk_txt_ip_loop
 upk_txt_finish:
-	rts
+    lda upk_finish_semaphore
+    bne upk_actual_end
+    inc upk_finish_semaphore
+    lda #$4c //JMP... the following code rewrites the depacker to no longer depack text
+    sta upk_txt_loop
+    lda #<upk_col_loop
+    sta upk_txt_loop + 1
+    lda #>upk_col_loop
+    sta upk_txt_loop + 2
+    jmp upk_unpack
 
 upk_col_unpack:
 	jsr upk_col_read
@@ -89,8 +119,19 @@ upk_col_ip_loop:
 	dey
 	jmp upk_col_ip_loop
 upk_col_finish:
-	rts
+    lda upk_finish_semaphore
+    bne upk_actual_end
+    inc upk_finish_semaphore
+    lda #$4c //JMP... the following code rewrites the depacker to no longer depack color
+    sta upk_col_loop
+    lda #<upk_txt_loop
+    sta upk_col_loop + 1
+    lda #>upk_txt_loop
+    sta upk_col_loop + 2
+    jmp upk_unpack
 
+upk_actual_end:
+    rts
 /*************************************************
 Enable transparency logic during unpack
     a: transparent byte
