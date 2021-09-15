@@ -30,6 +30,8 @@ loader_init:
 keyboard:
 .pc=* "keyboard handler"
 .import source "keyboard.asm"
+.pc=* "Scroller"
+.import source "scroller.asm"
 .pc = * "Main DEMO"
 start:
     lda #$00
@@ -38,6 +40,7 @@ start:
     sei
     jsr loader_init
     cli
+    jsr s_init
     lda #$00
     sta $d020
     sta $d021
@@ -69,6 +72,9 @@ start:
     jsr exo_exo
     load(69,69,$c000) //ee.prg 
     jsr exo_exo
+
+!:
+    jmp !-
 
 anim_start:
     ldx #<txt_moreskulls1
@@ -149,6 +155,9 @@ Interrupt Handler
 */
 .pc=* "irq"
 irq:
+    inc $d020
+    jsr s_scroll
+    dec $d020
     lda #$ff 
     sta $d019
     jmp $ea31  
