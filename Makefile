@@ -271,4 +271,5 @@ main_clean: ## Clean up enough to build main demo code
 	rm -f src/*.sym src/*.prg *.d64 src/.source.txt src/convert_animations.asm src/convert_music.asm 
 
 test: main_clean src/demo.prg disk1.d64 disk2.d64  ## Rebuild the demo code only
+	x64 disk1.d64
 	echo "Done"

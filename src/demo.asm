@@ -40,7 +40,6 @@ start:
     sei
     jsr loader_init
     cli
-    jsr s_init
     lda #$00
     sta $d020
     sta $d021
@@ -49,6 +48,8 @@ start:
     sta $d018	
     lda#$80
     sta $0291
+    //have to init scroller after clearing the screen!
+    jsr s_init
     sei              
     lda #$7f       // Disable CIA
     sta $dc0d
@@ -68,13 +69,24 @@ start:
     sta $01
     cli  
 
-    load($30,$30,$c000) //00.prg
+    load($30,$31,$c000) //00.prg
     jsr exo_exo
     load(69,69,$c000) //ee.prg 
     jsr exo_exo
 
-!:
+    lda #$00
+    jsr $1000
+    lda #$01
+    sta enable_music
+
+    !:
     jmp !-
+
+    lda #$a0
+    jsr upk_txt_enable_transparency
+
+    lda #$00
+    jsr upk_col_enable_transparency
 
 anim_start:
     ldx #<txt_moreskulls1
@@ -133,8 +145,6 @@ anim_start:
     jsr upk_set_col
     jsr upk_unpack
 
-!:
-    inc $d020
     jmp anim_start
     rts    
 
@@ -149,18 +159,23 @@ press_space:
 !finish:
     rts
 
+enable_music:
+.byte $00
 
 /*
 Interrupt Handler
 */
 .pc=* "irq"
 irq:
-    inc $d020
     jsr s_scroll
-    dec $d020
+    lda enable_music
+    beq !skip+
+    jsr $1003
+!skip:
     lda #$ff 
     sta $d019
     jmp $ea31  
     
 .pc=* "Petscii"
 .import source "petscii_include.asm"
+

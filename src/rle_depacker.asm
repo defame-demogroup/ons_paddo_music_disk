@@ -201,6 +201,10 @@ upk_col_src:
 	inc upk_col_src + 2
 !:	rts
 
+
+.align $100
+.pc = * "DEBUG"
+
 upk_txt_write:
 upk_txt_w_trans_enable:
 	cmp #$66
@@ -209,6 +213,7 @@ upk_txt_dst:
 	sta $ffff
 upk_txt_w_trans:
 	inc upk_txt_dst + 1
+    lda upk_txt_dst + 1
 	bne !+
 	inc upk_txt_dst + 2
 !:	rts
@@ -221,6 +226,7 @@ upk_col_dst:
 	sta $ffff
 upk_col_w_trans:
 	inc upk_col_dst + 1
+	lda upk_col_dst + 1
 	bne !+
 	inc upk_col_dst + 2
 !:	rts
