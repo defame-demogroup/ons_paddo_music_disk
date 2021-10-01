@@ -2,3 +2,7 @@
 *.sym
 *.d64
 build/
+*.dbg
+*.prg
+*.vs
+
