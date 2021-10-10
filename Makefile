@@ -273,3 +273,8 @@ main_clean: ## Clean up enough to build main demo code
 test: main_clean src/demo.prg disk1.d64 disk2.d64  ## Rebuild the demo code only
 	x64 disk1.d64
 	echo "Done"
+
+debug: main_clean src/demo.prg disk1.d64 ## debug
+	~/Applications/C64-65XE-NES-Debugger-v0.64.58.4-linux-x64/C64-65XE-NES-Debugger/c64debugger disk1.d64
+	echo "Done"
+

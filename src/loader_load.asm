@@ -3,13 +3,20 @@ StreetGang Loader
 Disassembled by Zig
 
 */
+
+.var ll_zp1_lo = $fe
+.var ll_zp1_hi = $ff
+.var ll_zp2_lo = $fc
+.var ll_zp2_hi = $fd
+
+
 .macro load(filenameA, filenameB, loadAddress){
     ldx fna:  #filenameA
     ldy fnb:  #filenameB
     lda fhi:  #>loadAddress
-    sta $ff
+    sta ll_zp1_hi
     lda flo:  #<loadAddress
-    sta $fe
+    sta ll_zp1_lo
     jsr loader_load
 }
 
@@ -31,9 +38,9 @@ loader_load:
     jsr l_cf63
     jsr l_cfdc
     jsr l_cf83
-    bit $fe
+    bit ll_zp1_lo
     jsr l_cf83
-    bit $ff
+    bit ll_zp1_hi
     ldy #$00
 l_cf33:
     jsr l_cf83
@@ -49,11 +56,11 @@ l_cf33:
     jsr l_cfdc
     jmp l_cf33
 l_cf4f:
-    sta ($fe),y
+    sta (ll_zp1_lo),y
     // iny <-- Removed use of Y register and instead use ZP updates
-    inc $fe
+    inc ll_zp1_lo
     bne l_cf56
-    inc $ff
+    inc ll_zp1_hi
 l_cf56:
     jmp l_cf33
 l_cf59:
@@ -84,7 +91,7 @@ l_cf83:
     jsr l_cf95
     jsr l_cf95
     jsr l_cf94
-    lda $fd
+    lda ll_zp2_hi
 l_cf94:
     rts
 l_cf95:
@@ -92,7 +99,7 @@ l_cf95:
     lda $dd00
     stx $dd00
     asl
-    ror $fd
+    ror ll_zp2_hi
     pha
     pla
     pha
@@ -102,10 +109,10 @@ l_cfa4:
     lda $dd00
     stx $dd00
     asl
-    ror $fd
+    ror ll_zp2_hi
     rts
 l_cfb0:
-    sta $fd
+    sta ll_zp2_hi
     jsr l_cfbf
     jsr l_cfbf
     jsr l_cfbf
@@ -113,7 +120,7 @@ l_cfb0:
     rts
 l_cfbf:
     lda #$17
-    lsr $fd
+    lsr ll_zp2_hi
     bcc l_cfc7
     ora #$20
 l_cfc7:
@@ -124,7 +131,7 @@ l_cfc7:
     nop
 l_cfce:
     lda #$07
-    lsr $fd
+    lsr ll_zp2_hi
     bcc l_cfd6
     ora #$20
 l_cfd6:
