@@ -71,9 +71,9 @@ start:
     sta $d011
     lda #$01    // We want an interrupt at the top line
     sta $d012
-    lda #<irq    
+    lda #<irq_intro  
     sta $0314    
-    lda #>irq
+    lda #>irq_intro
     sta $0315
     lda #$36
     sta $01

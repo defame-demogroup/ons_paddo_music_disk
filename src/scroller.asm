@@ -59,42 +59,134 @@ s_scroll:
 
 // Shuffle tiles on the canvas
 s_tile_shuffle:
+    lda s_ts_animation_state
+    bne !busy+
+    /*
+    this part of the state machine
+    delays until it's ready for the next
+    move, at which point it will set up
+    the pointers for the next move.
+    */
     jsr s_ts_tick
     bne !+
     rts
 !:  jsr s_ts_next_move
-    how to animate over the top of tiles? 
-    copy src to buffer
-    copy dest to src location
-    draw src +/- 1 
-    until src buffer at dst indx (commit)
-
-
-s_ts_slide_tile:
+    inc s_ts_animation_state
+    rts
+!busy:
+    cmp #$01
+    bne !run_animation+
+    /* 
+    this part of the state machine 
+    copies the tile to the bg and
+    inits the pointers for it to 
+    run
+    */
+    jsr s_ts_copy_tile
+    inc s_ts_animation_state
+    rts
+!run_animation:    
     lda s_ts_src_tile_direction
-    beq !go_left+
-!go_right:
-    // change the under to be the full suze of 
-    the tiles (40 chars) and just grab columns 
-    as you slid ethe new one over the top
-
-
-//todo - keep going!
-s_ts_copy_tile:
-    ldx s_ts_src_tile_index
-    ldy #$00
+    bne !right+
+    jmp !left+
+    //shift tile right 
+!right:
+    inc s_ts_current_location
+    lda s_ts_current_location
+    clc
+    adc #$07 //width of the tilemap
+    tax
+    tay
+    dey
+    .for(var i=0;i<8;i++){
+        lda s_charmask + (i * 40),x
+        sta s_charbg + (i * 40),x
+        lda s_colormask + (i * 40),x
+        sta s_colorbg + (i * 40),x
+    }
+!:
+    .for(var i=0;i<8;i++){
+        lda s_charmask + (i * 40),y
+        sta s_charmask + (i * 40),x
+        lda s_colormask + (i * 40),y
+        sta s_colormask + (i * 40),x
+    }
+    dey
+    dex
+    cpx s_ts_current_location
+    bne !-
+    .for(var i=0;i<8;i++){
+        lda s_charbg + (i * 40),y
+        sta s_charmask + (i * 40),y
+        lda s_colorbg + (i * 40),y
+        sta s_colormask + (i * 40),y
+    }
+    lda s_ts_current_location
+    cmp s_ts_dst_tile_index
+    beq !+
+    rts
+!:
+    lda #$00
+    sta s_ts_animation_state
+    rts
+    //shift tile left
+!left:
+    dec s_ts_current_location
+    lda s_ts_current_location
+    clc
+    adc #$08 //tile width
+    sta s_ts_modifier //self modifying compare
+    lda s_ts_current_location
+    tax
+    inx
+    tay
+    .for(var i=0;i<8;i++){
+        lda s_charmask + (i * 40),y
+        sta s_charbg + (i * 40),y
+        lda s_colormask + (i * 40),y
+        sta s_colorbg + (i * 40),y
+    }
 !:
     .for(var i=0;i<8;i++){
         lda s_charmask + (i * 40),x
-        sta s_ts_picked_up_char + (i * 8),y
-        sta s_ts_behind_char + (i * 8),y
+        sta s_charmask + (i * 40),y
         lda s_colormask + (i * 40),x
-        sta s_ts_picked_up_color + (i * 8),y
-        sta s_ts_behind_color + (i * 8),y
+        sta s_colormask + (i * 40),y
+    }
+    iny
+    inx
+    cpx s_ts_modifier: #$00
+    bne !-
+    .for(var i=0;i<8;i++){
+        lda s_charbg + (i * 40),x
+        sta s_charmask + (i * 40),x
+        lda s_colorbg + (i * 40),x
+        sta s_colormask + (i * 40),x
+    }
+    lda s_ts_current_location
+    cmp s_ts_dst_tile_index
+    beq !+
+    rts
+!:
+    lda #$00
+    sta s_ts_animation_state
+    rts
+
+/*
+Copy a destination tile into shadow bg of src
+*/
+s_ts_copy_tile:
+    ldx s_ts_src_tile_index
+    ldy s_ts_dst_tile_index
+!:
+    .for(var i=0;i<8;i++){
+        lda s_charmask + (i * 40),y
+        sta s_charbg + (i * 40),x
+        lda s_colormask + (i * 40),y
+        sta s_colorbg + (i * 40),x
     }
     inx
-    iny
-    cpy #$08
+    cpx #$08
     bne !-
     rts
 
@@ -105,6 +197,7 @@ s_ts_next_move:
     asl
     asl
     sta s_ts_src_tile_index
+    sta s_ts_current_location
     inx
     lda s_ts_tile_moves,x
     asl
@@ -123,7 +216,6 @@ s_ts_next_move:
     lda #$00
     sta s_ts_tile_ptr
     rts
-
 
 s_ts_reset:
     lda #$00
@@ -302,19 +394,23 @@ s_ts_dst_tile_index:
 s_ts_src_tile_direction:
     .byte 0
 
-s_ts_picked_up_char:
-    .fill 8 * 8, 0
+s_ts_current_location:
+    .byte 0
 
-s_ts_picked_up_color:
-    .fill 8 * 8, 0
+/*
+states for the tile move state machine:
+$00 normal delay state
+$01 tile copy state
+$02 tile animation state
+*/
+s_ts_animation_state:
+    .byte 0
 
-s_ts_behind_char:
-    .fill 8 * 8, 0
+s_charbg:
+    .fill 5 * 8 * 8, 0
 
-s_ts_behind_color:
-    .fill 8 * 8, 0
-
-
+s_colorbg:
+    .fill 5 * 8 * 8, 0
 
 s_charmask:
 .byte 213,242,219,192,192,219,242,201, 209,215,213,206,205,201,215,209, 078,206,205,206,205,206,205,077, 203,250,224,207,208,224,204,202, 213,242,219,192,192,219,242,201
