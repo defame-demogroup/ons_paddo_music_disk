@@ -10,7 +10,11 @@ Scroller
 .var s_row = 16
 .var s_font_page = $80
 
+/*
+Scroll init
+*/
 s_init:
+    jsr s_ts_reset
     lda #s_font_page
     jsr s_copy_character_rom
 !loop:
@@ -29,8 +33,12 @@ s_init_scrolltext:
     ldx #$00
     rts 
 
+/*
+Scroll IRQ call
+*/
 s_scroll:
     inc $d020
+    jsr s_tile_shuffle
     jsr s_blit
     inc $d020
     lda s_current_char_counter
@@ -49,6 +57,92 @@ s_scroll:
     sta $d020
     rts
 
+// Shuffle tiles on the canvas
+s_tile_shuffle:
+    jsr s_ts_tick
+    bne !+
+    rts
+!:  jsr s_ts_next_move
+    how to animate over the top of tiles? 
+    copy src to buffer
+    copy dest to src location
+    draw src +/- 1 
+    until src buffer at dst indx (commit)
+
+
+s_ts_slide_tile:
+    lda s_ts_src_tile_direction
+    beq !go_left+
+!go_right:
+    // change the under to be the full suze of 
+    the tiles (40 chars) and just grab columns 
+    as you slid ethe new one over the top
+
+
+//todo - keep going!
+s_ts_copy_tile:
+    ldx s_ts_src_tile_index
+    ldy #$00
+!:
+    .for(var i=0;i<8;i++){
+        lda s_charmask + (i * 40),x
+        sta s_ts_picked_up_char + (i * 8),y
+        sta s_ts_behind_char + (i * 8),y
+        lda s_colormask + (i * 40),x
+        sta s_ts_picked_up_color + (i * 8),y
+        sta s_ts_behind_color + (i * 8),y
+    }
+    inx
+    iny
+    cpy #$08
+    bne !-
+    rts
+
+s_ts_next_move:
+    ldx s_ts_tile_ptr
+    lda s_ts_tile_moves,x
+    asl
+    asl
+    asl
+    sta s_ts_src_tile_index
+    inx
+    lda s_ts_tile_moves,x
+    asl
+    asl
+    asl
+    sta s_ts_dst_tile_index
+    inx
+    lda s_ts_tile_moves,x
+    sta s_ts_src_tile_direction
+    inx
+    stx s_ts_tile_ptr
+    lda s_ts_tile_moves,x
+    cmp #$ff
+    beq !+
+    rts    
+    lda #$00
+    sta s_ts_tile_ptr
+    rts
+
+
+s_ts_reset:
+    lda #$00
+    sta s_ts_delay
+    lda #$01
+    sta s_ts_delay + 1
+    rts
+
+s_ts_tick:
+    dec s_ts_delay
+    bne !+
+    dec s_ts_delay + 1
+    bne !+
+    jsr s_ts_reset
+    lda #$01
+    rts
+!:  
+    lda #$00
+    rts
 
 // Scroll char and color ram
 s_blit:
@@ -178,6 +272,50 @@ s_scrolltext:
 s_render_buffer:
 .fill 40 * 8, $00
 
+s_ts_delay:
+    .byte 0, 0
+
+s_ts_tile_ptr:
+    .byte 0
+
+/*
+Tile moves are 
+byte 1: start tile index (* 8 for offset)
+byte 2: destination tile index (* 8 for offset)
+byte 3: move direction - 0: left, 1: right
+*/
+s_ts_tile_moves:
+    .byte 0,1,1
+    .byte 4,0,0
+    .byte 2,3,1
+    .byte 3,0,0
+    .byte 4,1,0
+    .byte 1,4,1
+    .byte $ff
+
+s_ts_src_tile_index:
+    .byte 0
+
+s_ts_dst_tile_index:
+    .byte 0
+
+s_ts_src_tile_direction:
+    .byte 0
+
+s_ts_picked_up_char:
+    .fill 8 * 8, 0
+
+s_ts_picked_up_color:
+    .fill 8 * 8, 0
+
+s_ts_behind_char:
+    .fill 8 * 8, 0
+
+s_ts_behind_color:
+    .fill 8 * 8, 0
+
+
+
 s_charmask:
 .byte 213,242,219,192,192,219,242,201, 209,215,213,206,205,201,215,209, 078,206,205,206,205,206,205,077, 203,250,224,207,208,224,204,202, 213,242,219,192,192,219,242,201
 .byte 168,235,203,213,201,202,243,169, 215,205,206,213,201,205,206,215, 206,205,206,205,206,205,206,205, 207,202,201,194,194,213,203,208, 168,235,203,213,201,202,243,169
@@ -197,6 +335,3 @@ s_colormask:
 .byte 07,03,03,13,13,03,03,07, 03,03,07,07,07,07,03,03, 07,03,03,07,07,03,03,07, 07,03,03,13,13,03,03,07, 07,03,03,13,13,03,03,07
 .byte 07,03,03,13,13,03,03,07, 13,03,03,07,07,03,03,13, 07,13,03,03,03,03,13,07, 03,03,03,13,13,03,03,03, 07,03,03,13,13,03,03,07
 .byte 07,07,07,07,07,07,07,07, 13,13,03,07,07,03,13,13, 07,07,07,07,07,07,07,07, 07,07,07,13,13,07,07,07, 07,07,07,07,07,07,07,07
-
-
-
