@@ -13,6 +13,7 @@ all: build disk1.d64 disk2.d64  ## clean up and make the disk images
 
 autogenerate: ## autogenerate conversion templates
 	bin/convert_c.py
+	bin/convert_c_spinner.py
 	bin/convert_sid.py
 	bin/disk_image.py
 

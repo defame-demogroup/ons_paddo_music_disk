@@ -11,9 +11,11 @@ $C000 - $D000 : Load Buffer
 */
 .import source "petscii_addresses.asm"
 .import source "sid_include.asm"
+.import source "petscii_include.asm"
 
+.segment demo_main [outPrg="demo.prg"]
+*=$0801
 BasicUpstart2(start)
-
 .pc=$0f00 "Music Buffer"
 loader_init:
 .import source "loader_init.asm"
@@ -23,7 +25,7 @@ loader_init:
 .var music_play = $0f04
 
 .pc=$3000 "PETSCII Animation Buffers"
-.fill $2000, $00
+.import source "spinner_include.asm"
 
 .pc=$5000 "Code"
 .pc=* "Exomizer"
@@ -78,6 +80,13 @@ start:
     lda #$36
     sta $01
     cli  
+
+/*
+LOADING SPINNER
+*/
+
+
+
 
 /*
 steps:
@@ -354,5 +363,3 @@ m_play:
 m_shadow:
     .fill $100, $00
 
-.pc=* "Petscii"
-.import source "petscii_include.asm"

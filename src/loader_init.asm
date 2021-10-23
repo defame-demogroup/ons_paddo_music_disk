@@ -29,8 +29,10 @@ i_cc16:
     jsr i_write_byte
     jsr i_close_chn
     jsr i_open_chn
-
-    inc $d020
+    // TODO: Remove this
+    sta $d020
+    lda #$00
+    sta $d020
 
     lda ZPL
     clc

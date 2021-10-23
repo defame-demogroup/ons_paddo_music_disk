@@ -161,3 +161,4 @@ the animation frames for the rle-depacker!
 .var  txt_skullrotate6 = $3510
 .var  col_skullrotate6 = $359f
 
+
