@@ -48,9 +48,6 @@ start:
     lda #$00
     sta $d020
     sta $d021
-    sei
-    jsr loader_init
-    cli
     lda #$00
     sta $d020
     sta $d021
@@ -60,7 +57,6 @@ start:
     lda#$80
     sta $0291
     //have to init scroller after clearing the screen!
- //   jsr s_init
     sei              
     lda #$7f       // Disable CIA
     sta $dc0d
@@ -72,9 +68,9 @@ start:
     sta $d011
     lda #$01    // We want an interrupt at the top line
     sta $d012
-    lda #<irq_intro  
+    lda #<irq_loader 
     sta $0314    
-    lda #>irq_intro
+    lda #>irq_loader
     sta $0315
     lda #$36
     sta $01
@@ -83,6 +79,38 @@ start:
 /*
 LOADING SPINNER
 */
+    inc enable_effect
+
+    jsr loader_init
+
+    load($30,$31,$c000) //01.prg
+    jsr m_disable
+    jsr exo_exo
+    jsr m_reset
+
+    //this is how we load screens
+    load(70,70,$c000) //ff.prg
+    jsr exo_exo
+
+    jsr upk_disable_transparency
+
+    dec enable_effect
+
+    // ldx #<txt_onslogo_only
+    // ldy #>txt_onslogo_only
+    // lda #$04
+    // jsr upk
+    // ldx #<col_onslogo_only
+    // ldy #>col_onslogo_only
+    // lda #$d8
+    // jsr upk
+
+    //dec enable_effect
+    jsr $e544 // clear screen
+
+    jsr s_init
+!:
+    jmp !-
 
 
 
@@ -104,6 +132,7 @@ steps:
     irq: play music, poll keyboard, update player status
 */
 
+/*
     //this is how we load songs!
     load($30,$31,$c000) //00.prg
     jsr m_disable
@@ -242,7 +271,7 @@ anim_start:
 
     jmp anim_start
     rts    
-
+*/
 
 .pc=* "event handlers"
 press_space:
@@ -386,13 +415,13 @@ spinner_reset_col:
 spinner_current:
 .byte $00
 spinner_delay:
-.byte $02
+.byte $04
 
 spinner_run:
     dec spinner_delay
     beq !+
     rts
-!:  lda #$02
+!:  lda #$04
     sta spinner_delay
     lda spinner_current
     cmp #$08
@@ -414,6 +443,8 @@ spinner_run:
     cpx #(40 * 6)
     bne !-
     inc spinner_current
+    inc spinner_col_ptr + 1
+    inc spinner_txt_ptr + 1
     inc spinner_col_ptr + 1
     inc spinner_txt_ptr + 1
     rts

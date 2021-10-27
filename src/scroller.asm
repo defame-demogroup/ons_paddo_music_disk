@@ -318,7 +318,7 @@ s_copy_character_rom:
     sei
     sta zp_4
     lda $01
-    sta s_target + 1
+    sta s_target
     ldx #$04
     lda #$33
     sta $01
@@ -336,8 +336,7 @@ s_copy_character_rom:
     inc zp_4   
     dex        
     bne !loop-  
-s_target:
-    lda #$37   
+    lda s_target: #$37   
     sta $01
     cli
     rts
