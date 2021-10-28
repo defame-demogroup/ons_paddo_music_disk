@@ -27,6 +27,7 @@ src/demo.prg: src/demo.asm ## compile c64 demo
 	kick $<
 	mkdir -p build
 	cd src;exomizer sfx basic -n -B -o ../build/demo.prg demo.prg
+	cd src;exomizer mem -l auto xys.prg -o ../build/ab.prg
 
 build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build dir
 	mkdir -p build
@@ -148,6 +149,7 @@ disk1.d64: ## create c64 disk demo side 1
 	c1541 -format "onslaught,2a" d64 $@
 	c1541 -attach $@ -write build/demo.prg "start" 
 	c1541 -attach $@ -write build/aa.prg "aa"
+	c1541 -attach $@ -write build/ab.prg "ab"
 	c1541 -attach $@ -write build/bb.prg "bb"
 	c1541 -attach $@ -write build/cc.prg "cc"
 	c1541 -attach $@ -write build/dd.prg "dd"

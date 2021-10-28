@@ -13,6 +13,11 @@ $C000 - $D000 : Load Buffer
 .import source "sid_include.asm"
 .import source "petscii_include.asm"
 
+
+.segment xys_routine [outPrg="xys.prg"]
+*=$8000
+.import source "xyswinger.asm"
+
 .segment demo_main [outPrg="demo.prg"]
 *=$0801
 BasicUpstart2(start)
@@ -88,8 +93,12 @@ LOADING SPINNER
     jsr exo_exo
     jsr m_reset
 
-    //this is how we load screens
+    //this is how we load screens - todo - load the data
     load(70,70,$c000) //ff.prg
+    jsr exo_exo
+
+    //this is how we load screens
+    load(64,65,$c000) //ab.prg
     jsr exo_exo
 
     jsr upk_disable_transparency
