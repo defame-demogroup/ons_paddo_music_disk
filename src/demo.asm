@@ -114,10 +114,9 @@ LOADING SPINNER
     // lda #$d8
     // jsr upk
 
-    //dec enable_effect
     jsr $e544 // clear screen
-
     jsr s_init
+    //inc demo_state
 !:
     jmp !-
 
@@ -298,37 +297,120 @@ enable_music:
 enable_effect:
 .byte $00
 
+demo_state:
+.byte $00
+
 /*
 -----------------
 Interrupt Handler
 -----------------
 */
 .pc=* "irq"
+irq_state:
+    lda demo_state
+    cmp current_state: #$00
+    bne !+
+    rts
+    sta current_state
+!:  cmp #$00
+    bne !+
+    // 0 = loader irq
+    lda #$00
+    sta $d012
+    lda #>irq_loader
+    sta $0315
+    lda #<irq_loader
+    sta $0314
+    rts
+
+!:  cmp #$01
+    bne !+
+    // 1 = intro irq a
+    lda #$20
+    sta $d012
+    lda #>irq_intro_a
+    sta $0315
+    lda #<irq_intro_a
+    sta $0314
+    rts
+
+!:  cmp #$02
+    bne !+
+    // 2 = main irq
+    lda #$00
+    sta $d012
+    lda #>irq_a
+    sta $0315
+    lda #<irq_a
+    sta $0314
+    rts
+
+
+
+
+
 //fancy intro IRQ!
 irq_loader:
     lda enable_effect
     beq !+
     jsr spinner_run
 !:
+    lda demo_state
+    cmp #$01
+    bne !+
+    lda #$20
+    sta $d012
+    lda #>irq_intro_a
+    sta $0315
+    lda #<irq_intro_a
+    sta $0314
+!:
     lda #$ff 
     sta $d019
     jmp $ea31  
 
-irq_intro:
-    jsr s_scroll
+irq_intro_a:
+    inc $d020
+    //jsr irq_state
+    lda #$f0
+    sta $d012
+    lda #>irq_intro_b
+    sta $0315
+    lda #<irq_intro_b
+    sta $0314
+    //jsr s_scroll
     lda #$ff 
     sta $d019
     jmp $ea31  
+
+irq_intro_b:
+    dec $d020
+    lda #$20
+    sta $d012
+    lda #>irq_intro_a
+    sta $0315
+    lda #<irq_intro_a
+    sta $0314
+    lda #$ff 
+    sta $d019
+    jmp $ea31  
+
 
 //standard irq
 irq_a:
+    inc $d020
     jsr m_play
+    dec $d020
     /*
     todo:  read data from GoatTrack registers 
     and update the UI here! 
     */
     lda #$c0
     sta $d012
+    lda #>irq_b
+    sta $0315
+    lda #<irq_b
+    sta $0314
     lda #$ff 
     sta $d019
     jmp $ea31  
@@ -338,10 +420,16 @@ irq_b:
     lda music_speed
     cmp #$ff //multispeed flag from SID
     bne !+
+    inc $d020
     jsr m_play
+    dec $d020
 !: 
     lda #$00
     sta $d012
+    lda #>irq_a
+    sta $0315
+    lda #<irq_a
+    sta $0314
     lda #$ff 
     sta $d019
     jmp $ea31  
