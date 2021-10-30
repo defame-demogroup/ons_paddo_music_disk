@@ -14,6 +14,7 @@ all: build disk1.d64 disk2.d64  ## clean up and make the disk images
 autogenerate: ## autogenerate conversion templates
 	bin/convert_c.py
 	bin/convert_c_spinner.py
+	bin/convert_c_biglogo.py
 	bin/convert_sid.py
 	bin/disk_image.py
 
@@ -27,7 +28,9 @@ src/demo.prg: src/demo.asm ## compile c64 demo
 	kick $<
 	mkdir -p build
 	cd src;exomizer sfx basic -n -B -o ../build/demo.prg demo.prg
-	cd src;exomizer mem -l auto xys.prg -o ../build/ab.prg
+	cd src;exomizer mem -l auto ab.prg -o ../build/ab.prg
+	cd src;exomizer mem -l auto ac.prg -o ../build/ac.prg
+	cd src;exomizer mem -l auto ad.prg -o ../build/ad.prg
 
 build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build dir
 	mkdir -p build
@@ -148,8 +151,9 @@ build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build 
 disk1.d64: ## create c64 disk demo side 1
 	c1541 -format "onslaught,2a" d64 $@
 	c1541 -attach $@ -write build/demo.prg "start" 
-	c1541 -attach $@ -write build/aa.prg "aa"
 	c1541 -attach $@ -write build/ab.prg "ab"
+	c1541 -attach $@ -write build/ab.prg "ac"
+	c1541 -attach $@ -write build/aa.prg "aa"
 	c1541 -attach $@ -write build/bb.prg "bb"
 	c1541 -attach $@ -write build/cc.prg "cc"
 	c1541 -attach $@ -write build/dd.prg "dd"
@@ -209,6 +213,19 @@ disk1.d64: ## create c64 disk demo side 1
 
 disk2.d64: ## create c64 disk demo side 2
 	c1541 -format "onslaught,2a" d64 $@
+	c1541 -attach $@ -write build/aa.prg "aa"
+	c1541 -attach $@ -write build/bb.prg "bb"
+	c1541 -attach $@ -write build/cc.prg "cc"
+	c1541 -attach $@ -write build/dd.prg "dd"
+	c1541 -attach $@ -write build/ee.prg "ee"
+	c1541 -attach $@ -write build/ff.prg "ff"
+	c1541 -attach $@ -write build/gg.prg "gg"
+	c1541 -attach $@ -write build/hh.prg "hh"
+	c1541 -attach $@ -write build/ii.prg "ii"
+	c1541 -attach $@ -write build/jj.prg "jj"
+	c1541 -attach $@ -write build/kk.prg "kk"
+	c1541 -attach $@ -write build/ll.prg "ll"
+	c1541 -attach $@ -write build/mm.prg "mm"
 	c1541 -attach $@ -write build/44.prg "44"
 	c1541 -attach $@ -write build/45.prg "45"
 	c1541 -attach $@ -write build/46.prg "46"

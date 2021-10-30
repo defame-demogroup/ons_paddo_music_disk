@@ -6,33 +6,41 @@
 .var xys_logo_width = 100
 .var xys_logo_base = $1000
 
-xys:
-ldx xys_index
-lda xys_x_lo,x
-sta xys_x_scroll_reg
-lda xys_y_lo,x
-sta xys_y_scroll_reg
-lda xys_y_hi,x
-tay
-.for(var i = 0;i < xys_height;i++){
+.var byte_count_in_loop = 7
+
+    xys:
+    ldx xys_index
+    lda xys_x_lo,x
+    sta xys_x_scroll_reg
+    lda xys_y_lo,x
+    sta xys_y_scroll_reg
+    lda xys_y_hi,x
+    tay
     lda xys_rows,y
-    sta xys_blit + 2 + (i * 7)
-    iny
-}
-// ldy #$00
-lda xys_x_hi,x
-tax
-xys_blit:
-.for(var i=0;i<xys_height;i++){
-    .for(var j=0;j<xys_width;j++){
-        // lda (xys_logo_base + (i * $100)),x
-        // sta ($0400 + (i * $28) + (xys_top * $28)),y
-        lda[xys_logo_base + (i * $100) + j],x
-        sta[$0400 + (i * $28) + (xys_top * $28) + j]
+    tay
+    // self modifying code to change the 
+    // lookup offset for big logo
+    .for(var i = 0;i < xys_height;i++){
+        sty xys_blit + 2 + (i * 12)
+        sty xys_blit + 8 + (i * 12)
+        iny
     }
-}
-inc xys_index
-rts
+    ldy #$00
+    lda xys_x_hi,x
+    tax
+    xys_blit:
+    .for(var i=0;i<xys_height;i++){
+        lda xys_logo_base + (i * $100),x   // 3 bytes
+        sta $0400 + (i * $28) + (xys_top * $28),y //3 bytes
+        lda xys_logo_base + (i * $100) + $80,x // 3 bytes
+        sta $d800 + (i * $28) + (xys_top * $28),y //3 bytes
+    }
+    inx
+    iny
+    cpy #$28
+    bne xys_blit
+    inc xys_index
+    rts
 
 
 xys_index:
