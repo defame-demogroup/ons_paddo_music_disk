@@ -67,8 +67,8 @@ xys_rows:
 {
     .var w = xys_logo_width - 40
     .var h = xys_logo_height - 25
-    .eval xys_x_vals.add(round(((w * 8 / 2) + (((w + 1)/2) * 8)*sin(toRadians(i*720/256)))))
-    .eval xys_y_vals.add(round((((h * 8) + (h * 8 * cos(toRadians(i*720/256)))))))
+    .eval xys_x_vals.add(round(((w * 8 / 2) + (((w + 1)/2) * 8)*sin(toRadians(i*1440/256)))))
+    .eval xys_y_vals.add(round((((h * 1.1 * 8) + (h * 1.1 * 8 * cos(toRadians(i*360/256)))))))
 }
 .align $100
 xys_x_hi:
