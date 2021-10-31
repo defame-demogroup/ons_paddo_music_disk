@@ -1,14 +1,12 @@
-.var xys_height = 10
+.var xys_height = 16
 .var xys_width = 40
 .var xys_top = 0
 .var xys_bot = xys_top + xys_height
-.var xys_logo_height = 100
-.var xys_logo_width = 100
-.var xys_logo_base = $1000
+.var xys_logo_height = 25 * 2
+.var xys_logo_width = 40 * 3
+.var xys_logo_base = $8500
 
-.var byte_count_in_loop = 7
-
-    xys:
+xys:
     ldx xys_index
     lda xys_x_lo,x
     sta xys_x_scroll_reg
@@ -38,7 +36,9 @@
     inx
     iny
     cpy #$28
-    bne xys_blit
+    beq !+ 
+    jmp xys_blit
+!:
     inc xys_index
     rts
 
@@ -54,17 +54,21 @@ xys_x_scroll_reg:
 
 
 .align $100
+.pc=* "xys_rows"
 xys_rows:
 .for(var i=0;i<xys_logo_height;i++){
-    .byte (>xys_logo_base + i)
+    .byte (>xys_logo_base) + i
 }
+
 
 .var xys_x_vals = List()
 .var xys_y_vals = List()
 .for(var i=0;i<256;i++)
 {
-    .eval xys_x_vals.add(round((xys_logo_width * 8 / 2) + (xys_logo_width * 8)*sin(toRadians(i*360/256)) * sin(toRadians(i*720/256))*cos(toRadians(i*1440/256))))
-    .eval xys_y_vals.add(round((xys_logo_height * 8 / 2) + (xys_logo_height * 8)*sin(toRadians(i*360/256)) * sin(toRadians(i*720/256))*cos(toRadians(i*1440/256))))
+    .var w = xys_logo_width - 40
+    .var h = xys_logo_height - 25
+    .eval xys_x_vals.add(round(((w * 8 / 2) + (((w + 1)/2) * 8)*sin(toRadians(i*720/256)))))
+    .eval xys_y_vals.add(round((((h * 8) + (h * 8 * cos(toRadians(i*720/256)))))))
 }
 .align $100
 xys_x_hi:

@@ -191,8 +191,6 @@ s_ts_copy_tile:
     rts
 
 s_ts_next_move:
-    ldx s_ts_tile_ptr
-    lda s_ts_tile_moves,x
     asl
     asl
     asl

@@ -8,6 +8,15 @@ $3000 - $5000 : Petscii Buffer
 $5000 - $C000 : Code
 $C000 - $D000 : Load Buffer
 
+
+ZeroPage:
+$50-$5f Keyboard Handler
+$9e-$9f IRQ Load Setup
+$ab-$ae Scroller
+$d0-$ef Exomizer
+$fd-$fe GoatTracker
+$f0-$f3 IRQ Load Runtime
+
 */
 
 /*
@@ -26,17 +35,14 @@ Template Code Modules
 (these get loaded into the template space)
 */
 .segment xys_routine [outPrg="ab.prg"]
-*=$6000
+*=$7000
 .pc=* "XYSwinger Effect"
 .import source "xyswinger.asm"
-
-.segment tile_scroller_routine [outPrg="ac.prg"]
-*=$7000
 .pc = * "Tile Scroller Effect"
 .import source "scroller.asm"
 
 .segment megalogo [outPrg="ad.prg"]
-*=$8000
+*=$8500
 .pc = * "Mega Logo"
 .import source "biglogo_include.asm"
 
@@ -177,10 +183,9 @@ start:
 LOADING SPINNER
 */
     inc enable_effect
-
     jsr loader_init
 
-    load($30,$31,$c000) //01.prg
+    load('0','1',$c000) //01.prg
     jsr m_disable
     jsr exo_exo
     jsr m_reset
@@ -189,12 +194,12 @@ LOADING SPINNER
     // load(70,70,$c000) //ff.prg
     // jsr exo_exo
 
-    //load xyswinger template
-    load(64,65,$c000) //ab.prg
+    //load mega logo template
+    load('A','D',$b800) 
     jsr exo_exo
 
-    //load tile scroller template
-    load(64,66,$c000) //ac.prg
+    //load scroller-xyswinger merged template
+    load('A','B',$b800) 
     jsr exo_exo
 
     //disable spinner
@@ -203,18 +208,19 @@ LOADING SPINNER
     ldy #$00
     jsr fill
     jsr s_init
-
     //transition IRQ to next state
     inc demo_state
 !:
     jmp !-
 
 /*
------------------
-Interrupt Handler
------------------
+--------------------
+Interrupt Management
+--------------------
 */
 .pc=* "irq"
+
+//IRQ state machine
 irq_state:
     lda demo_state
     cmp current_state: #$00
@@ -254,7 +260,7 @@ irq_state:
     sta $0314
     rts
 
-//fancy intro IRQ!
+//Actual IRQs
 irq_loader:
     lda enable_effect
     beq !+
@@ -263,7 +269,8 @@ irq_loader:
     jsr irq_state
     lda #$ff 
     sta $d019
-    jmp $ea31  
+    jmp $ea81  
+
 
 irq_intro_a:
     inc $d020
@@ -274,10 +281,13 @@ irq_intro_a:
     sta $0315
     lda #<irq_intro_b
     sta $0314
-    jsr s_scroll
+    //jsr s_scroll
+    inc $d020
+    jsr xys
+    dec $d020
     lda #$ff 
     sta $d019
-    jmp $ea31  
+    jmp $ea81  
 
 irq_intro_b:
     dec $d020
@@ -289,7 +299,7 @@ irq_intro_b:
     sta $0314
     lda #$ff 
     sta $d019
-    jmp $ea31  
+    jmp $ea81  
 
 
 //standard main irq
@@ -305,7 +315,7 @@ irq_a:
     sta $0314
     lda #$ff 
     sta $d019
-    jmp $ea31  
+    jmp $ea81  
 
 //multispeed irq
 irq_b:
@@ -324,12 +334,12 @@ irq_b:
     sta $0314
     lda #$ff 
     sta $d019
-    jmp $ea31  
+    jmp $ea81  
 
 /*
 Template code that can be overwritten
 */
-.pc=$6000 "Template code that is replaced"
+.pc=$7000 "Template code that is replaced"
 template_base:
 
 

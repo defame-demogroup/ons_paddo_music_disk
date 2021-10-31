@@ -1,7 +1,12 @@
+/*
+Note that the ZP being used here need to
+match the ZP of the pointer used by the 
+IRQ loader
+*/
 exo_exo:
-    lda $fe
+    lda $f0
     sta opbase + 1
-    lda $ff
+    lda $f1
     sta opbase + 2
     jmp exod_decrunch
 
@@ -90,18 +95,18 @@ opbase:
 // -------------------------------------------------------------------
 // zero page addresses used
 // -------------------------------------------------------------------
-.label exod_zp_len_lo = $9e
-.label exod_zp_len_hi = $9f
+.label exod_zp_len_lo = $d0
+.label exod_zp_len_hi = $d1
 
-.label exod_zp_src_lo  = $ae
-.label exod_zp_src_hi  = exod_zp_src_lo + 1
+.label exod_zp_src_lo  = $d2
+.label exod_zp_src_hi  = $d3
 
-.label exod_zp_bits_hi = $a7
+.label exod_zp_bits_hi = $d4
 #if !DONT_REUSE_OFFSET
-.label exod_zp_ro_state = $a8
+.label exod_zp_ro_state = $d5
 #endif
 
-.label exod_zp_bitbuf  = $fd
+.label exod_zp_bitbuf  = $ed
 .label exod_zp_dest_lo = exod_zp_bitbuf + 1      // dest addr lo
 .label exod_zp_dest_hi = exod_zp_bitbuf + 2      // dest addr hi
 

@@ -4,10 +4,10 @@ Disassembled by Zig
 
 */
 
-.var ll_zp1_lo = $fe
-.var ll_zp1_hi = $ff
-.var ll_zp2_lo = $fc
-.var ll_zp2_hi = $fd
+.var ll_zp1_lo = $f0
+.var ll_zp1_hi = $f1
+.var ll_zp2_lo = $f2
+.var ll_zp2_hi = $f3
 
 
 .macro load(filenameA, filenameB, loadAddress){

@@ -29,7 +29,7 @@ src/demo.prg: src/demo.asm ## compile c64 demo
 	mkdir -p build
 	cd src;exomizer sfx basic -n -B -o ../build/demo.prg demo.prg
 	cd src;exomizer mem -l auto ab.prg -o ../build/ab.prg
-	cd src;exomizer mem -l auto ac.prg -o ../build/ac.prg
+	# cd src;exomizer mem -l auto ac.prg -o ../build/ac.prg
 	cd src;exomizer mem -l auto ad.prg -o ../build/ad.prg
 
 build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build dir
@@ -152,7 +152,8 @@ disk1.d64: ## create c64 disk demo side 1
 	c1541 -format "onslaught,2a" d64 $@
 	c1541 -attach $@ -write build/demo.prg "start" 
 	c1541 -attach $@ -write build/ab.prg "ab"
-	c1541 -attach $@ -write build/ab.prg "ac"
+	# c1541 -attach $@ -write build/ac.prg "ac"
+	c1541 -attach $@ -write build/ad.prg "ad"
 	c1541 -attach $@ -write build/aa.prg "aa"
 	c1541 -attach $@ -write build/bb.prg "bb"
 	c1541 -attach $@ -write build/cc.prg "cc"
@@ -291,7 +292,7 @@ main_clean: ## Clean up enough to build main demo code
 	rm -f src/*.sym src/*.prg *.d64 src/.source.txt src/convert_animations.asm src/convert_music.asm *.prg *.sym *.dbg *.vs
 
 test: main_clean src/demo.prg disk1.d64 disk2.d64  ## Rebuild the demo code only
-	x64 disk1.d64
+	# x64 disk1.d64
 	echo "Done"
 
 debug: main_clean src/demo.prg disk1.d64 ## debug
