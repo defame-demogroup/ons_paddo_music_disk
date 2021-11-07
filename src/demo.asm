@@ -284,10 +284,7 @@ irq_intro_a:
     //jsr s_scroll
 
     jsr xys
-lda xys_x_scroll_reg
-sta $d016
-lda xys_y_scroll_reg
-sta $d011
+    jsr s_scroll
 
     lda #$ff 
     sta $d019

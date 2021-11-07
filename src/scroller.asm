@@ -7,14 +7,13 @@ Scroller
 .var zp_4 = $ae
 
 
-.var s_row = 16
+.var s_row = 17
 .var s_font_page = $80
 
 /*
 Scroll init
 */
 s_init:
-    jsr s_ts_reset
     lda #s_font_page
     jsr s_copy_character_rom
 !loop:
@@ -38,7 +37,6 @@ Scroll IRQ call
 */
 s_scroll:
     inc $d020
-    jsr s_tile_shuffle
     jsr s_blit
     inc $d020
     lda s_current_char_counter
@@ -57,193 +55,14 @@ s_scroll:
     sta $d020
     rts
 
-// Shuffle tiles on the canvas
-s_tile_shuffle:
-    lda s_ts_animation_state
-    bne !busy+
-    /*
-    this part of the state machine
-    delays until it's ready for the next
-    move, at which point it will set up
-    the pointers for the next move.
-    */
-    jsr s_ts_tick
-    bne !+
-    rts
-!:  jsr s_ts_next_move
-    inc s_ts_animation_state
-    rts
-!busy:
-    cmp #$01
-    bne !run_animation+
-    /* 
-    this part of the state machine 
-    copies the tile to the bg and
-    inits the pointers for it to 
-    run
-    */
-    jsr s_ts_copy_tile
-    inc s_ts_animation_state
-    rts
-!run_animation:    
-    lda s_ts_src_tile_direction
-    bne !right+
-    jmp !left+
-    //shift tile right 
-!right:
-    inc s_ts_current_location
-    lda s_ts_current_location
-    clc
-    adc #$07 //width of the tilemap
-    tax
-    tay
-    dey
-    .for(var i=0;i<8;i++){
-        lda s_charmask + (i * 40),x
-        sta s_charbg + (i * 40),x
-        lda s_colormask + (i * 40),x
-        sta s_colorbg + (i * 40),x
-    }
-!:
-    .for(var i=0;i<8;i++){
-        lda s_charmask + (i * 40),y
-        sta s_charmask + (i * 40),x
-        lda s_colormask + (i * 40),y
-        sta s_colormask + (i * 40),x
-    }
-    dey
-    dex
-    cpx s_ts_current_location
-    bne !-
-    .for(var i=0;i<8;i++){
-        lda s_charbg + (i * 40),y
-        sta s_charmask + (i * 40),y
-        lda s_colorbg + (i * 40),y
-        sta s_colormask + (i * 40),y
-    }
-    lda s_ts_current_location
-    cmp s_ts_dst_tile_index
-    beq !+
-    rts
-!:
-    lda #$00
-    sta s_ts_animation_state
-    rts
-    //shift tile left
-!left:
-    dec s_ts_current_location
-    lda s_ts_current_location
-    clc
-    adc #$08 //tile width
-    sta s_ts_modifier //self modifying compare
-    lda s_ts_current_location
-    tax
-    inx
-    tay
-    .for(var i=0;i<8;i++){
-        lda s_charmask + (i * 40),y
-        sta s_charbg + (i * 40),y
-        lda s_colormask + (i * 40),y
-        sta s_colorbg + (i * 40),y
-    }
-!:
-    .for(var i=0;i<8;i++){
-        lda s_charmask + (i * 40),x
-        sta s_charmask + (i * 40),y
-        lda s_colormask + (i * 40),x
-        sta s_colormask + (i * 40),y
-    }
-    iny
-    inx
-    cpx s_ts_modifier: #$00
-    bne !-
-    .for(var i=0;i<8;i++){
-        lda s_charbg + (i * 40),x
-        sta s_charmask + (i * 40),x
-        lda s_colorbg + (i * 40),x
-        sta s_colormask + (i * 40),x
-    }
-    lda s_ts_current_location
-    cmp s_ts_dst_tile_index
-    beq !+
-    rts
-!:
-    lda #$00
-    sta s_ts_animation_state
-    rts
-
-/*
-Copy a destination tile into shadow bg of src
-*/
-s_ts_copy_tile:
-    ldx s_ts_src_tile_index
-    ldy s_ts_dst_tile_index
-!:
-    .for(var i=0;i<8;i++){
-        lda s_charmask + (i * 40),y
-        sta s_charbg + (i * 40),x
-        lda s_colormask + (i * 40),y
-        sta s_colorbg + (i * 40),x
-    }
-    inx
-    cpx #$08
-    bne !-
-    rts
-
-s_ts_next_move:
-    asl
-    asl
-    asl
-    sta s_ts_src_tile_index
-    sta s_ts_current_location
-    inx
-    lda s_ts_tile_moves,x
-    asl
-    asl
-    asl
-    sta s_ts_dst_tile_index
-    inx
-    lda s_ts_tile_moves,x
-    sta s_ts_src_tile_direction
-    inx
-    stx s_ts_tile_ptr
-    lda s_ts_tile_moves,x
-    cmp #$ff
-    beq !+
-    rts    
-    lda #$00
-    sta s_ts_tile_ptr
-    rts
-
-s_ts_reset:
-    lda #$00
-    sta s_ts_delay
-    lda #$01
-    sta s_ts_delay + 1
-    rts
-
-s_ts_tick:
-    dec s_ts_delay
-    bne !+
-    dec s_ts_delay + 1
-    bne !+
-    jsr s_ts_reset
-    lda #$01
-    rts
-!:  
-    lda #$00
-    rts
 
 // Scroll char and color ram
 s_blit:
     ldx #$00
 !loop:
     .for(var i=0;i<8;i++){
-        lda (s_colormask + (i * 40)),x 
-        and (s_render_buffer + (i * 40)),x 
+        lda ($d800 + ((i + s_row) * 40) + 1),x 
         sta ($d800 + ((i + s_row) * 40)),x 
-        lda (s_render_buffer + (i * 40) + 1),x 
-        sta (s_render_buffer + (i * 40)),x 
     }
     inx
     cpx #$28
@@ -288,18 +107,17 @@ s_push_char_to_buffer:
 //render slice to the screen and color RAM
 s_render_char_slice:
     ldx s_current_char_counter
-.for (var i=0;i<8;i++){
-    clc
-    asl s_current_char_buffer + i
-    bcs !draw+
-    lda #$ff
-    sta s_render_buffer + $27 + (i * 40)
-    jmp !done+
-!draw:
-    lda #$02
-    sta s_render_buffer + $27 + (i * 40)
-!done:
-}
+    .for (var i=0;i<8;i++){
+        clc
+        asl s_current_char_buffer + i
+        bcs !draw+
+        lda #$ff
+        jmp !done+
+    !draw:
+        lda #$02
+    !done:
+        sta $d800 + $27 + ((i + s_row) * 40)
+    }
     inc s_current_char_counter
     lda s_current_char_counter
     cmp #$08
@@ -365,30 +183,6 @@ s_ts_delay:
     .byte 0, 0
 
 s_ts_tile_ptr:
-    .byte 0
-
-/*
-Tile moves are 
-byte 1: start tile index (* 8 for offset)
-byte 2: destination tile index (* 8 for offset)
-byte 3: move direction - 0: left, 1: right
-*/
-s_ts_tile_moves:
-    .byte 0,1,1
-    .byte 4,0,0
-    .byte 2,3,1
-    .byte 3,0,0
-    .byte 4,1,0
-    .byte 1,4,1
-    .byte $ff
-
-s_ts_src_tile_index:
-    .byte 0
-
-s_ts_dst_tile_index:
-    .byte 0
-
-s_ts_src_tile_direction:
     .byte 0
 
 s_ts_current_location:

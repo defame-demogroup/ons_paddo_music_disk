@@ -37,16 +37,71 @@ xys:
     inc $d020
     inx
     iny
-    cpy #$04
-    bne !+
-    // set illegal gfx mode
-!:
-    cpy #$06
-    bne !+
-    // set illegal gfx mode
-    // invert y scroll 
-!:
 
+    /*
+    Check if you are doing the fourth 'blit' and if it is, disable VIC
+    Did I mention you can't use x or y?
+    */
+    cpy #$04
+    bne !a+
+    lda #$ae
+!raster:
+    cmp $d012
+    bne !raster-
+!raster:
+    cmp $d012
+    beq !raster-
+    lda $d016
+    ora #%00010000
+    sta $d016
+    lda $d011
+    ora #%01100000
+    and #%01111111
+    sta $d011
+
+    jmp !c+
+!a:
+    /*
+    If you're on the 6th blit, re-enable VIC
+    */
+    cpy #$06
+    bne !b+
+    lda $d012
+!raster:
+    cmp $d012
+    beq !raster-
+    lda $d011
+    and #%00000111 //grab current scroll reg
+    sta xys_r_b
+    lda #$07 //7 - current scroll value (invert it)
+    sec
+    sbc xys_r_b: #$00
+    //ora #%01100000 // then also set illegal VIC state
+    sta xys_r_c
+
+    lda $d012
+!raster:
+    cmp $d012
+    beq !raster-
+    lda $d011
+    ora xys_r_c: #$00
+    and #%00011111 // never write bit 7 hi to $d011 unless you want raster somewhere
+    sta $d011
+    lda #$c8
+    sta $d016
+    // lda $d011
+    // and #%00011111
+    // sta $d011
+    jmp !c+
+
+!b:
+    cpy #$25
+    bne !c+
+    lda xys_x_scroll_reg
+    sta $d016
+    lda xys_y_scroll_reg
+    sta $d011
+!c:    
     cpy #$28
     beq !+ 
     jmp xys_blit
@@ -79,9 +134,9 @@ xys_rows:
 .var xys_y_vals = List()
 .for(var i=0;i<256;i++)
 {
-    .var w = xys_logo_width - 20
+    .var w = xys_logo_width - 60
     .var h = xys_height + 1
-    .eval xys_x_vals.add(round(((w * 8 / 2) + (((w + 1)/2) * 8)*sin(toRadians(i*720/256))*cos(toRadians(i*360/256)))))
+    .eval xys_x_vals.add(round((((w * 8) + (w * 8 * sin(toRadians(i*720/256))*cos(toRadians(i*360/256)))))) - (20 * 8))
     .eval xys_y_vals.add(round((((h * 8) + (h * 8 * cos(toRadians(i*360/256)))))))
 }
 
