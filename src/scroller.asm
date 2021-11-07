@@ -7,7 +7,7 @@ Scroller
 .var zp_4 = $ae
 
 
-.var s_row = 17
+.var s_row = 16
 .var s_font_page = $80
 
 /*

@@ -43,7 +43,7 @@ xys:
     Did I mention you can't use x or y?
     */
     cpy #$04
-    bne !a+
+    bne !b+
     lda #$ae
 !raster:
     cmp $d012
@@ -59,13 +59,12 @@ xys:
     and #%01111111
     sta $d011
 
-    jmp !c+
-!a:
-    /*
-    If you're on the 6th blit, re-enable VIC
-    */
-    cpy #$06
-    bne !b+
+    lda $d012
+    clc
+    adc #$03
+!raster:
+    cmp $d012
+    bne !raster-
     lda $d012
 !raster:
     cmp $d012
@@ -76,23 +75,23 @@ xys:
     lda #$07 //7 - current scroll value (invert it)
     sec
     sbc xys_r_b: #$00
-    //ora #%01100000 // then also set illegal VIC state
+    ora #%01100000 // then also set illegal VIC state
     sta xys_r_c
+    lda $d011
+    ora xys_r_c: #$00
+    and #%01110111 // never write bit 7 hi to $d011 unless you want raster somewhere
+    sta $d011
 
     lda $d012
 !raster:
     cmp $d012
     beq !raster-
-    lda $d011
-    ora xys_r_c: #$00
-    and #%00011111 // never write bit 7 hi to $d011 unless you want raster somewhere
-    sta $d011
     lda #$c8
     sta $d016
-    // lda $d011
-    // and #%00011111
-    // sta $d011
-    jmp !c+
+    lda $d011
+    and #%00011111
+    sta $d011
+    jmp xys_blit
 
 !b:
     cpy #$25
@@ -101,6 +100,8 @@ xys:
     sta $d016
     lda xys_y_scroll_reg
     sta $d011
+    jmp xys_blit
+
 !c:    
     cpy #$28
     beq !+ 
