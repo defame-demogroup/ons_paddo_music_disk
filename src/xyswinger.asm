@@ -24,7 +24,6 @@ xys:
         iny
     }
 
-inc $d020
     ldy #$00
     lda xys_x_hi,x
     tax
@@ -35,13 +34,25 @@ inc $d020
         lda xys_logo_base + (i * $100) + $80,x // 3 bytes
         sta $d800 + (i * $28) + (xys_top * $28),y //3 bytes
     }
+    inc $d020
     inx
     iny
+    cpy #$04
+    bne !+
+    // set illegal gfx mode
+!:
+    cpy #$06
+    bne !+
+    // set illegal gfx mode
+    // invert y scroll 
+!:
+
     cpy #$28
     beq !+ 
     jmp xys_blit
 !:
-dec $d020
+lda #$00
+sta $d020
     inc xys_index
     rts
 
@@ -68,9 +79,9 @@ xys_rows:
 .var xys_y_vals = List()
 .for(var i=0;i<256;i++)
 {
-    .var w = xys_logo_width - 40
+    .var w = xys_logo_width - 20
     .var h = xys_height + 1
-    .eval xys_x_vals.add(round(((w * 8 / 2) + (((w + 1)/2) * 8)*sin(toRadians(i*1440/256))*cos(toRadians(i*360/256)))))
+    .eval xys_x_vals.add(round(((w * 8 / 2) + (((w + 1)/2) * 8)*sin(toRadians(i*720/256))*cos(toRadians(i*360/256)))))
     .eval xys_y_vals.add(round((((h * 8) + (h * 8 * cos(toRadians(i*360/256)))))))
 }
 
@@ -84,7 +95,7 @@ xys_x_hi:
 xys_x_lo:
 .for(var i=0;i<256;i++)
 {
-    .byte (xys_x_vals.get(i) & %00000111)
+    .byte 7 - (xys_x_vals.get(i) & %00000111) + $c0
 }
 
 .align $100
@@ -98,6 +109,6 @@ xys_y_hi:
 xys_y_lo:
 .for(var i=0;i<256;i++)
 {
-    .byte (xys_y_vals.get(i) & %00000111)
+    .byte 7 - (xys_y_vals.get(i) & %00000111) + $10
 }
 
