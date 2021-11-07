@@ -273,13 +273,13 @@ irq_loader:
 
 
 irq_intro_a:
-    inc $d020
+    //inc $d020
     jsr irq_state
-    lda #$f0
+    lda #$b1
     sta $d012
-    lda #>irq_intro_b
+    lda #>irq_intro_a
     sta $0315
-    lda #<irq_intro_b
+    lda #<irq_intro_a
     sta $0314
     //jsr s_scroll
     inc $d020

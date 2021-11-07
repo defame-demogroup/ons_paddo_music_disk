@@ -23,6 +23,8 @@ xys:
         sty xys_blit + 8 + (i * 12)
         iny
     }
+
+inc $d020
     ldy #$00
     lda xys_x_hi,x
     tax
@@ -39,6 +41,7 @@ xys:
     beq !+ 
     jmp xys_blit
 !:
+dec $d020
     inc xys_index
     rts
 
@@ -66,10 +69,11 @@ xys_rows:
 .for(var i=0;i<256;i++)
 {
     .var w = xys_logo_width - 40
-    .var h = xys_logo_height - 25
-    .eval xys_x_vals.add(round(((w * 8 / 2) + (((w + 1)/2) * 8)*sin(toRadians(i*1440/256)))))
-    .eval xys_y_vals.add(round((((h * 1.1 * 8) + (h * 1.1 * 8 * cos(toRadians(i*360/256)))))))
+    .var h = xys_height + 1
+    .eval xys_x_vals.add(round(((w * 8 / 2) + (((w + 1)/2) * 8)*sin(toRadians(i*1440/256))*cos(toRadians(i*360/256)))))
+    .eval xys_y_vals.add(round((((h * 8) + (h * 8 * cos(toRadians(i*360/256)))))))
 }
+
 .align $100
 xys_x_hi:
 .for(var i=0;i<256;i++)
