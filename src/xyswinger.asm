@@ -34,7 +34,7 @@ xys:
         lda xys_logo_base + (i * $100) + $80,x // 3 bytes
         sta $d800 + (i * $28) + (xys_top * $28),y //3 bytes
     }
-    inc $d020
+    // inc $d020
     inx
     iny
 
@@ -43,32 +43,9 @@ xys:
     Did I mention you can't use x or y?
     */
     cpy #$04
-    bne !b+
-    lda #$ae
-!raster:
-    cmp $d012
-    bne !raster-
-!raster:
-    cmp $d012
-    beq !raster-
-    lda $d016
-    ora #%00010000
-    sta $d016
-    lda $d011
-    ora #%01100000
-    and #%01111111
-    sta $d011
-
-    lda $d012
-    clc
-    adc #$03
-!raster:
-    cmp $d012
-    bne !raster-
-    lda $d012
-!raster:
-    cmp $d012
-    beq !raster-
+    beq !+
+    jmp !b+
+!:
     lda $d011
     and #%00000111 //grab current scroll reg
     sta xys_r_b
@@ -79,18 +56,13 @@ xys:
     sta xys_r_c
     lda $d011
     ora xys_r_c: #$00
-    and #%01110111 // never write bit 7 hi to $d011 unless you want raster somewhere
+    and #%00010111 // never write bit 7 hi to $d011 unless you want raster somewhere
     sta $d011
-
-    lda $d012
-!raster:
-    cmp $d012
-    beq !raster-
     lda #$c8
     sta $d016
-    lda $d011
-    and #%00011111
-    sta $d011
+
+    lda #$0b
+    sta $d021
     jmp xys_blit
 
 !b:
@@ -100,6 +72,8 @@ xys:
     sta $d016
     lda xys_y_scroll_reg
     sta $d011
+    lda #$00
+    sta $d021
     jmp xys_blit
 
 !c:    
@@ -107,9 +81,14 @@ xys:
     beq !+ 
     jmp xys_blit
 !:
-lda #$00
-sta $d020
+// lda #$00
+// sta $d020
+    lda xys_index_timer
+    eor #$01
+    sta xys_index_timer
+    beq !+
     inc xys_index
+!:
     rts
 
 
@@ -122,6 +101,8 @@ xys_y_scroll_reg:
 xys_x_scroll_reg:
     .byte $00
 
+xys_index_timer:
+    .byte $00
 
 .align $100
 .pc=* "xys_rows"
@@ -135,9 +116,9 @@ xys_rows:
 .var xys_y_vals = List()
 .for(var i=0;i<256;i++)
 {
-    .var w = xys_logo_width - 60
+    .var w = xys_logo_width - 70
     .var h = xys_height + 1
-    .eval xys_x_vals.add(round((((w * 8) + (w * 8 * sin(toRadians(i*720/256))*cos(toRadians(i*360/256)))))) - (20 * 8))
+    .eval xys_x_vals.add(round((((w * 8) + (w * 8 * sin(toRadians(i*720/256))*cos(toRadians(i*360/256)))))) - (8 * 8))
     .eval xys_y_vals.add(round((((h * 8) + (h * 8 * cos(toRadians(i*360/256)))))))
 }
 

@@ -20,6 +20,12 @@ $f0-$f3 IRQ Load Runtime
 */
 
 /*
+Macros
+*/
+.import source "const.asm"
+.import source "macro.asm"
+
+/*
 Memory management
 */
 .import source "petscii_addresses.asm"
@@ -73,6 +79,18 @@ demo_state:
 /*
 Buffers:
 */
+
+/*
+Sprite
+*/
+.pc=$0a00
+.for(var i=0;i<8;i++){
+    .byte $ff, $ff, $ff
+}
+.for(var i=0;i<13;i++){
+    .byte $00, $00, $00
+}
+
 
 // $0f00 - $3000 is reserved for music
 .pc=$0f00 "Music Buffer (and temporary irq loader drivecode)"
@@ -224,11 +242,13 @@ Interrupt Management
 irq_state:
     lda demo_state
     cmp current_state: #$00
-    bne !+
+    bne !zero+
     rts
     sta current_state
-!:  cmp #$00
-    bne !+
+
+!zero:  
+    cmp #$00
+    bne !one+
     // 0 = loader irq
     lda #$00
     sta $d012
@@ -238,8 +258,11 @@ irq_state:
     sta $0314
     rts
 
-!:  cmp #$01
-    bne !+
+!one:  
+    cmp #$01
+    beq !+
+    jmp !two+
+!:
     // 1 = intro irq a
     lda #$20
     sta $d012
@@ -247,10 +270,29 @@ irq_state:
     sta $0315
     lda #<irq_intro_a
     sta $0314
+    ldaStaMany($28,$07f8,$08,$01) //sprite ptr
+    ldaStaMany($ae,$d001,$10,$02) // set y
+    ldaStaMany($00,$d027,$08,$01) //fg color
+    .var base=0
+    .for(var i=0;i<8;i++){
+        lda #<(base + (i*3*8*2))
+        sta $d000 + (i*2)
+    }
+    lda #%11000000
+    sta $d010
+    lda #$00
+    sta $d01c
+    sta $d017
+    sta $d01b
+    lda #$ff
+    sta $d015
+    sta $d01d
     rts
 
-!:  cmp #$02
-    bne !+
+
+!two:  
+    cmp #$02
+    bne !nope+
     // 2 = main irq
     lda #$00
     sta $d012
@@ -258,6 +300,7 @@ irq_state:
     sta $0315
     lda #<irq_a
     sta $0314
+!nope:
     rts
 
 //Actual IRQs
