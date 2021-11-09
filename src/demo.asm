@@ -16,8 +16,10 @@ $ab-$ae Scroller
 $d0-$ef Exomizer
 $fd-$fe GoatTracker
 $f0-$f3 IRQ Load Runtime
-
+$60/$61 General demo controller
 */
+.var dzp_lo = $60
+.var dzp_hi = $61
 
 /*
 Macros
@@ -203,7 +205,24 @@ LOADING SPINNER
     inc enable_effect
     jsr loader_init
 
-    load('0','1',$c000) //01.prg
+    //fast ram clear for logo
+    lda #$85
+    sta dzp_hi
+    tax
+    lda #$00
+    sta dzp_lo
+    ldy #$00
+    lda #$20
+!:
+    sta (dzp_lo),y
+    inc dzp_lo
+    bne !-
+    inc dzp_hi
+    inx
+    cpx #$b8
+    bne !- 
+
+    load('0','7',$c000) //01.prg
     jsr m_disable
     jsr exo_exo
     jsr m_reset
@@ -212,13 +231,12 @@ LOADING SPINNER
     // load(70,70,$c000) //ff.prg
     // jsr exo_exo
 
-    //load mega logo template
-    load('A','D',$b800) 
-    jsr exo_exo
-
     //load scroller-xyswinger merged template
     load('A','B',$b800) 
     jsr exo_exo
+
+    //load mega logo template
+    load('A','D',$b800) 
 
     //disable spinner
     dec enable_effect
@@ -228,6 +246,12 @@ LOADING SPINNER
     jsr s_init
     //transition IRQ to next state
     inc demo_state
+    //decompress mega logo template
+    jsr exo_exo
+
+    jsr press_space
+
+    inc $d020
 !:
     jmp !-
 
@@ -328,7 +352,9 @@ irq_intro_a:
 
     jsr xys
     jsr s_scroll
-
+    inc $d020
+    jsr m_play
+    dec $d020
     lda #$ff 
     sta $d019
     jmp $ea81  

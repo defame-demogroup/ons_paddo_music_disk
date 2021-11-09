@@ -169,8 +169,7 @@ s_off_color:
 .byte $00
 
 s_scrolltext:
-.text "Well hello there... This is a test of the scroller. It started out as a simple text scroller but basically it sucked once it had the beautiful petscii art scrolling - so I made it stay still instead and made the scroller overlay on top. I think it looks nice!            "
-.text "...The example you have seen is running the scroller, loading animations and a music, decompressing and then running them all"
+.text "                                        Onslaught in the house motherfuckers. Welcome to Paddo's Music Disk! 100 songs of dick-hardening goodness from an Aussie legend! Production by Jazzcat, Graphics by Lobo, Code by Ziggy... Greets to Aussie scene legends"
 .byte $00, $00
 
 s_render_buffer:
@@ -211,11 +210,11 @@ s_charmask:
 .byte 202,241,219,192,192,219,241,203, 209,215,202,205,206,203,215,209, 077,205,206,205,206,205,206,078, 201,208,224,204,250,224,207,213, 202,241,219,192,192,219,241,203
 
 s_colormask:
-.byte $0f,$0f,$0f,$0f,$0f,$0f,$0f,$0f
-.byte $07,$07,$07,$07,$07,$07,$07,$07
-.byte $03,$03,$07,$07,$07,$03,$03,$03
-.byte $0d,$03,$03,$03,$03,$03,$03,$0d
-.byte $0d,$0d,$03,$03,$03,$0d,$0d,$0d
-.byte $0d,$0d,$0d,$0d,$0d,$0d,$0d,$0d
-.byte $03,$03,$03,$03,$03,$03,$03,$03
-.byte $07,$07,$07,$07,$07,$07,$07,$07
+.byte $0f,$07,$03,$0d,$0f,$07,$03,$0d
+.byte $07,$03,$0d,$0f,$07,$03,$0d,$0f
+.byte $03,$0d,$0f,$07,$03,$0d,$0f,$07
+.byte $0d,$0f,$07,$03,$0d,$0f,$07,$03
+.byte $0f,$07,$03,$0d,$0f,$07,$03,$0d
+.byte $07,$03,$0d,$0f,$07,$03,$0d,$0f
+.byte $03,$0d,$0f,$07,$03,$0d,$0f,$07
+.byte $0d,$0f,$07,$03,$0d,$0f,$07,$03
