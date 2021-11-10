@@ -545,3 +545,13 @@ txt_60:
 col_60: 
 .import c64 "rsrc/col_skullrotate6.prg"
 
+
+.segment turn_disk [outPrg="../rsrc/nn.prg"]
+.pc=petscii_base
+//z_turndisk : txt_z_turndisk + col_z_turndisk
+.pc=* "txt_z_turndisk"
+txt_61:
+.import c64 "rsrc/txt_z_turndisk.prg"
+.pc=* "col_z_turndisk"
+col_61: 
+.import c64 "rsrc/col_z_turndisk.prg"

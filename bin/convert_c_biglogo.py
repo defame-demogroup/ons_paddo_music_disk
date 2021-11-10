@@ -18,8 +18,8 @@ def load_buffers(filename: str):
                     colormem.append(data)
             count += 1
     print(filename)
-    print(len(colormem))
-    print(len(charmem))
+    # print(len(colormem))
+    # print(len(charmem))
     return charmem,colormem
 
 

@@ -47,6 +47,7 @@ build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build 
 	cd rsrc;exomizer mem -l auto kk.prg -o ../build/kk.prg
 	cd rsrc;exomizer mem -l auto ll.prg -o ../build/ll.prg
 	cd rsrc;exomizer mem -l auto mm.prg -o ../build/mm.prg
+	cd rsrc;exomizer mem -l auto nn.prg -o ../build/nn.prg
 	cd rsrc;exomizer mem -l auto 00.prg -o ../build/00.prg
 	cd rsrc;exomizer mem -l auto 01.prg -o ../build/01.prg
 	cd rsrc;exomizer mem -l auto 02.prg -o ../build/02.prg
@@ -167,6 +168,7 @@ disk1.d64: ## create c64 disk demo side 1
 	c1541 -attach $@ -write build/kk.prg "kk"
 	c1541 -attach $@ -write build/ll.prg "ll"
 	c1541 -attach $@ -write build/mm.prg "mm"
+	c1541 -attach $@ -write build/nn.prg "nn"
 	c1541 -attach $@ -write build/00.prg "00"
 	c1541 -attach $@ -write build/01.prg "01"
 	c1541 -attach $@ -write build/02.prg "02"
@@ -227,6 +229,7 @@ disk2.d64: ## create c64 disk demo side 2
 	c1541 -attach $@ -write build/kk.prg "kk"
 	c1541 -attach $@ -write build/ll.prg "ll"
 	c1541 -attach $@ -write build/mm.prg "mm"
+	c1541 -attach $@ -write build/nn.prg "nn"
 	c1541 -attach $@ -write build/44.prg "44"
 	c1541 -attach $@ -write build/45.prg "45"
 	c1541 -attach $@ -write build/46.prg "46"

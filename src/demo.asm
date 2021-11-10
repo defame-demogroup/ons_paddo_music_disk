@@ -246,12 +246,21 @@ LOADING SPINNER
     jsr s_init
     //transition IRQ to next state
     inc demo_state
+    inc enable_effect
     //decompress mega logo template
     jsr exo_exo
 
     jsr press_space
 
-    inc $d020
+    dec enable_effect
+    ldx #$20
+    ldy #$00
+    jsr fill
+    //transition IRQ to next state
+    inc demo_state
+    inc enable_effect
+
+
 !:
     jmp !-
 
@@ -350,23 +359,12 @@ irq_intro_a:
     sta $0314
     //jsr s_scroll
 
+    lda enable_effect
+    beq !+
     jsr xys
     jsr s_scroll
-    inc $d020
     jsr m_play
-    dec $d020
-    lda #$ff 
-    sta $d019
-    jmp $ea81  
-
-irq_intro_b:
-    dec $d020
-    lda #$20
-    sta $d012
-    lda #>irq_intro_a
-    sta $0315
-    lda #<irq_intro_a
-    sta $0314
+!:
     lda #$ff 
     sta $d019
     jmp $ea81  
