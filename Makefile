@@ -28,9 +28,10 @@ src/demo.prg: src/demo.asm ## compile c64 demo
 	kick $<
 	mkdir -p build
 	cd src;exomizer sfx basic -n -B -o ../build/demo.prg demo.prg
-	cd src;exomizer mem -l auto ab.prg -o ../build/ab.prg
-	# cd src;exomizer mem -l auto ac.prg -o ../build/ac.prg
-	cd src;exomizer mem -l auto ad.prg -o ../build/ad.prg
+	cd src;exomizer mem -l auto ab.prg -o ../build/ab.prg #intro code
+	cd src;exomizer mem -l auto ac.prg -o ../build/ac.prg #megalogo
+	cd src;exomizer mem -l auto ad.prg -o ../build/ad.prg #intro code
+	cd src;exomizer mem -l auto ba.prg -o ../build/ba.prg #songtitles
 
 build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build dir
 	mkdir -p build
@@ -152,9 +153,10 @@ build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build 
 disk1.d64: ## create c64 disk demo side 1
 	c1541 -format "onslaught,2a" d64 $@
 	c1541 -attach $@ -write build/demo.prg "start" 
-	c1541 -attach $@ -write build/ab.prg "ab"
-	# c1541 -attach $@ -write build/ac.prg "ac"
-	c1541 -attach $@ -write build/ad.prg "ad"
+	c1541 -attach $@ -write build/ab.prg "ab" #intro code
+	c1541 -attach $@ -write build/ac.prg "ac" #megalogo
+	c1541 -attach $@ -write build/ad.prg "ad" #intro code
+	c1541 -attach $@ -write build/ad.prg "ba" #songtitles
 	c1541 -attach $@ -write build/aa.prg "aa"
 	c1541 -attach $@ -write build/bb.prg "bb"
 	c1541 -attach $@ -write build/cc.prg "cc"

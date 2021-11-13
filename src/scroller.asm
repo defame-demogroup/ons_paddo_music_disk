@@ -47,7 +47,21 @@ s_scroll:
 !load_char:
     jsr s_push_char_to_buffer
 !scroll_char:
-    jsr s_render_char_slice
+    jsr s_setting_scroll_routine: s_render_char_slice
+    rts
+
+s_switch_alt:
+    lda #<s_render_char_slice_alt
+    sta s_setting_scroll_routine
+    lda #>s_render_char_slice_alt
+    sta s_setting_scroll_routine + 1
+    rts
+
+s_switch_main:
+    lda #<s_render_char_slice
+    sta s_setting_scroll_routine
+    lda #>s_render_char_slice
+    sta s_setting_scroll_routine + 1
     rts
 
 
@@ -101,8 +115,6 @@ s_push_char_to_buffer:
 
 //render slice to the screen and color RAM
 s_render_char_slice:
-    // .var colorList = List()
-    // .eval colorList.add(7,3,3,13,13,3,3,7)
     ldx s_current_char_counter
     .for (var i=0;i<8;i++){
         clc
@@ -117,7 +129,30 @@ s_render_char_slice:
     }
     inc s_current_char_counter
     lda s_current_char_counter
-    cmp #$08
+    cmp #$07
+    bne !skip+
+    lda #$00
+    sta s_current_char_counter
+!skip:
+    rts
+
+//render slice to the screen and color RAM
+s_render_char_slice_alt:
+    ldx s_current_char_counter
+    .for (var i=0;i<8;i++){
+        clc
+        asl s_current_char_buffer + i
+        bcs !draw+
+        lda s_colormask_alt +  i
+        jmp !done+
+    !draw:
+        lda #$00
+    !done:
+        sta $d800 + $27 + ((i + s_row) * 40)
+    }
+    inc s_current_char_counter
+    lda s_current_char_counter
+    cmp #$07
     bne !skip+
     lda #$00
     sta s_current_char_counter
@@ -168,37 +203,7 @@ s_off_char:
 s_off_color:
 .byte $00
 
-s_scrolltext:
-.text "                                        Onslaught in the house motherfuckers. Welcome to Paddo's Music Disk! 100 songs of dick-hardening goodness from an Aussie legend! Production by Jazzcat, Graphics by Lobo, Code by Ziggy... Greets to Aussie scene legends"
-.byte $00, $00
-
-s_render_buffer:
-.fill 40 * 8, $00
-
-s_ts_delay:
-    .byte 0, 0
-
-s_ts_tile_ptr:
-    .byte 0
-
-s_ts_current_location:
-    .byte 0
-
-/*
-states for the tile move state machine:
-$00 normal delay state
-$01 tile copy state
-$02 tile animation state
-*/
-s_ts_animation_state:
-    .byte 0
-
-s_charbg:
-    .fill 5 * 8 * 8, 0
-
-s_colorbg:
-    .fill 5 * 8 * 8, 0
-
+.align $100
 s_charmask:
 .byte 213,242,219,192,192,219,242,201, 209,215,213,206,205,201,215,209, 078,206,205,206,205,206,205,077, 203,250,224,207,208,224,204,202, 213,242,219,192,192,219,242,201
 .byte 168,235,203,213,201,202,243,169, 215,205,206,213,201,205,206,215, 206,205,206,205,206,205,206,205, 207,202,201,194,194,213,203,208, 168,235,203,213,201,202,243,169
@@ -210,11 +215,79 @@ s_charmask:
 .byte 202,241,219,192,192,219,241,203, 209,215,202,205,206,203,215,209, 077,205,206,205,206,205,206,078, 201,208,224,204,250,224,207,213, 202,241,219,192,192,219,241,203
 
 s_colormask:
-.byte $0f,$07,$03,$0d,$0f,$07,$03,$0d
-.byte $07,$03,$0d,$0f,$07,$03,$0d,$0f
-.byte $03,$0d,$0f,$07,$03,$0d,$0f,$07
-.byte $0d,$0f,$07,$03,$0d,$0f,$07,$03
-.byte $0f,$07,$03,$0d,$0f,$07,$03,$0d
-.byte $07,$03,$0d,$0f,$07,$03,$0d,$0f
-.byte $03,$0d,$0f,$07,$03,$0d,$0f,$07
-.byte $0d,$0f,$07,$03,$0d,$0f,$07,$03
+
+.byte 07,07,15,15,03,03,13,13
+.byte 13,07,07,15,15,03,03,13
+.byte 13,13,07,07,15,15,03,03
+.byte 03,13,13,07,07,15,15,03
+.byte 03,03,13,13,07,07,15,15
+.byte 15,03,03,13,13,07,07,15
+.byte 15,15,03,03,13,13,07,07
+.byte 07,15,15,03,03,13,13,07
+
+
+
+
+
+
+s_colormask_alt:
+.byte 0,0,0,0,0,0,0,0
+
+/*
+Variations of the scroller tile to test
+*/
+// .byte $0f,$07,$03,$0d,$0f,$07,$03,$0d
+// .byte $07,$03,$0d,$0f,$07,$03,$0d,$0f
+// .byte $03,$0d,$0f,$07,$03,$0d,$0f,$07
+// .byte $0d,$0f,$07,$03,$0d,$0f,$07,$03
+// .byte $0f,$07,$03,$0d,$0f,$07,$03,$0d
+// .byte $07,$03,$0d,$0f,$07,$03,$0d,$0f
+// .byte $03,$0d,$0f,$07,$03,$0d,$0f,$07
+// .byte $0d,$0f,$07,$03,$0d,$0f,$07,$03
+
+// .byte 15,15,15,15,15,15,15,15   
+// .byte 03,13,13,03,03,13,13,03   
+// .byte 03,13,03,07,07,03,13,03   
+// .byte 13,03,07,13,13,07,03,13   
+// .byte 13,03,07,13,13,07,03,13   
+// .byte 03,13,03,07,07,03,13,03   
+// .byte 03,13,13,03,03,13,13,03   
+// .byte 15,15,15,15,15,15,15,15   
+
+// .byte 15,15,15,15,15,15,15,15
+// .byte 07,03,03,07,07,13,13,07
+// .byte 03,03,03,03,03,13,13,03
+// .byte 07,03,03,07,07,13,13,07
+// .byte 07,03,03,07,07,13,13,07
+// .byte 13,03,03,13,13,13,13,13
+// .byte 07,03,03,07,07,13,13,07
+// .byte 15,15,15,15,15,15,15,15
+
+// .byte 15,15,15,15,15,15,15,15
+// .byte 07,03,07,07,13,03,13,07
+// .byte 07,13,07,13,03,07,03,13
+// .byte 13,03,13,03,07,13,07,03
+// .byte 13,03,13,03,07,13,07,03
+// .byte 07,13,07,13,03,07,03,13
+// .byte 07,03,07,07,13,03,13,07
+// .byte 15,15,15,15,15,15,15,15
+
+// .byte 15,15,15,15,15,15,15,15
+// .byte 07,03,03,13,13,03,03,07
+// .byte 03,07,03,13,13,03,07,03
+// .byte 13,13,13,03,03,13,13,13
+// .byte 13,13,13,03,03,13,13,13
+// .byte 03,07,03,13,13,03,07,03
+// .byte 07,03,03,13,13,03,03,07
+// .byte 15,15,15,15,15,15,15,15
+
+
+s_scrolltext:
+.text "                                                           Welcome to Patto's music collection...  An absolutely insane pack featuring 100 sid covers, remixes and arcade quality conversions for your commodore 64."
+.text " Listen to tracks from Sonic the Hedgehog, Double Dragon, Strider, Golden Axe, Midnight Resistance and loads more. Enjoy the collection and do check out sidamp.com for the latest releases... and don't forget to vote!"
+.text " All music by Patto. Code by Ziggy. Graphics and disk cover by Lobo. Production and sexual favours by Jazzcat."
+.text " Greetings fly out to the organisers of SYNTAX, you guys always bring a great weekend of retro computing, modern-day coding, chip music, pixel graphics and diy electronics projects, keeping the aussie scene alive! "
+.text " We also salute those in 64ever, Abyss, Algotech, Angels, Arise, Army Of Darkness, Arsenic, Artline Designs, Atlantis, Beyond Force, Bonzai, Booze Design, Camelot, Censor, Chorus, Christopherjam, Chrome, Cosine, Crest, Cydonia, Cygnus Oz, Datadoor, Defame, Dekadence, Digital Access, Disaster Area, Elysium, Excess, Exclusive On, Extend, Fairlight, Finnish Gold, Focus, Genesis Project, Hack N' Trade, Hoaxers, Hokuto Force, Icon64, Laxity, Lepsi De, Level 64, Lft, Mahoney, Maniacs Of Noise, Mayday!, Mdg, Megastyle, Multistyle Labs, Nah-Kolor, No Name, Noice, Nostalgia, Offence, Origo, Oxyron, Padua, Panda Design, Plush, Priorart, Prosonix, Protovision, Psytronik, Pvm, Resource, Rgcd, Role, Samar, Shape, Singular, Starz, Success & TRC, Svenonacid, The Dreams, The Solution, Triad, Trsi, Udi, Unkle K, Vibrants, Vision, WoW, X-Ample And Xenon."
+.text " Make sure to get a carrier detect at one of our boards dzbbs.hopto.org, antidote.triad.se, reflections.servebbs.com (port 64128) or to check our other fine releases at onslaught.c64.org "
+.text " The collection awaits, Press SPACE and follow me down the PETSCII rabbithole...   "
+.byte $00, $00

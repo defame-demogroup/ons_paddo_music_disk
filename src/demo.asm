@@ -49,10 +49,20 @@ Template Code Modules
 .pc = * "Tile Scroller Effect"
 .import source "scroller.asm"
 
-.segment megalogo [outPrg="ad.prg"]
+.segment megalogo [outPrg="ac.prg"]
 *=$8500
 .pc = * "Mega Logo"
 .import source "biglogo_include.asm"
+
+.segment xys_fadeout [outPrg="ad.prg"]
+*=$3000
+.pc = * "XYSwinger Effect Fadeout"
+.import source "xyswinger_fadeout.asm"
+
+.segment menu_items [outPrg="ba.prg"]
+*=$a500
+.pc = * "Song Titles"
+.import source "menu_items.asm"
 
 
 /*
@@ -141,6 +151,13 @@ press_space:
     rts
 
 .pc=* "Utilities"
+
+/*
+Fill: 
+x = fill char
+y = fill color
+
+*/
 fill:
     //note: trying to balance size and speed with this, 
     //and can't use kernel as this whacks zeropage...
@@ -161,6 +178,22 @@ fill:
     beq !+
     jmp !loop-
 !:
+    rts
+
+/*
+Pause:
+y = number of iterations to pause
+*/
+pause:
+    stx tmpx
+    ldx #$00
+!:
+    nop
+    dex
+    bne !-
+    dey
+    bne !-
+    ldx tmpx: #$00
     rts
 
 
@@ -198,76 +231,13 @@ start:
     lda #$36
     sta $01
     cli  
+    jmp timeline
 
 /*
-LOADING SPINNER
-*/
-    inc enable_effect
-    jsr loader_init
-
-    //fast ram clear for logo
-    lda #$85
-    sta dzp_hi
-    tax
-    lda #$00
-    sta dzp_lo
-    ldy #$00
-    lda #$20
-!:
-    sta (dzp_lo),y
-    inc dzp_lo
-    bne !-
-    inc dzp_hi
-    inx
-    cpx #$b8
-    bne !- 
-
-    load('0','7',$c000) //01.prg
-    jsr m_disable
-    jsr exo_exo
-    jsr m_reset
-
-    // //this is how we load screens - todo - load the data
-    // load(70,70,$c000) //ff.prg
-    // jsr exo_exo
-
-    //load scroller-xyswinger merged template
-    load('A','B',$b800) 
-    jsr exo_exo
-
-    //load mega logo template
-    load('A','D',$b800) 
-
-    //disable spinner
-    dec enable_effect
-    ldx #$20
-    ldy #$00
-    jsr fill
-    jsr s_init
-    //transition IRQ to next state
-    inc demo_state
-    inc enable_effect
-    //decompress mega logo template
-    jsr exo_exo
-
-    jsr press_space
-
-    dec enable_effect
-    ldx #$20
-    ldy #$00
-    jsr fill
-    //transition IRQ to next state
-    inc demo_state
-    inc enable_effect
-
-
-!:
-    jmp !-
-
-/*
---------------------
+----------------------------------------
 Interrupt Management
---------------------
+----------------------------------------
+
 */
 .pc=* "irq"
 
@@ -277,11 +247,12 @@ irq_state:
     cmp current_state: #$00
     bne !zero+
     rts
-    sta current_state
 
 !zero:  
+    sta current_state
     cmp #$00
     bne !one+
+
     // 0 = loader irq
     lda #$00
     sta $d012
@@ -350,43 +321,43 @@ irq_loader:
 
 irq_intro_a:
     //inc $d020
-    jsr irq_state
-    lda #$91
+    lda #$99
     sta $d012
-    lda #>irq_intro_a
-    sta $0315
-    lda #<irq_intro_a
-    sta $0314
-    //jsr s_scroll
-
     lda enable_effect
     beq !+
     jsr xys
     jsr s_scroll
     jsr m_play
 !:
+    jsr irq_state
     lda #$ff 
     sta $d019
     jmp $ea81  
 
-
 //standard main irq
 irq_a:
+    lda enable_effect
+    beq !+
     inc $d020
     jsr m_play
     dec $d020
+!:
     lda #$c0
     sta $d012
     lda #>irq_b
     sta $0315
     lda #<irq_b
     sta $0314
+
+    jsr irq_state
     lda #$ff 
     sta $d019
     jmp $ea81  
 
 //multispeed irq
 irq_b:
+    lda enable_effect
+    beq !+
     lda music_speed
     cmp #$ff //multispeed flag from SID
     bne !+
@@ -403,6 +374,183 @@ irq_b:
     lda #$ff 
     sta $d019
     jmp $ea81  
+
+
+/* 
+----------------------------------------
+timeline:
+----------------------------------------
+*/
+timeline:
+    inc enable_effect
+    jsr loader_init
+
+    //fast ram clear for logo
+    lda #$85
+    sta dzp_hi
+    tax
+    lda #$00
+    sta dzp_lo
+    ldy #$00
+    lda #$20
+!:
+    sta (dzp_lo),y
+    inc dzp_lo
+    bne !-
+    inc dzp_hi
+    inx
+    cpx #$b8
+    bne !- 
+
+    load('0','7',$c000) //01.prg
+    jsr m_disable
+    jsr exo_exo
+    jsr m_reset
+
+    // //this is how we load screens - todo - load the data
+    // load(70,70,$c000) //ff.prg
+    // jsr exo_exo
+
+    //load scroller-xyswinger merged template
+    load('A','B',$b800) 
+    jsr exo_exo
+
+    //load scroller-xyswinger merged template
+    load('A','D',$b800) 
+    jsr exo_exo
+
+    //load mega logo template
+    load('A','C',$b800) 
+
+    //disable spinner
+    lda #$00
+    sta enable_effect
+    // clear screen
+    ldx #$20
+    ldy #$00
+    jsr fill
+    //init scroller
+    jsr s_init
+    // set up color for startup
+    jsr s_switch_alt
+    lda #$00
+    sta intro_scroller_bg
+    //transition IRQ to next state 
+    //and enable effects in the IRQ
+    inc demo_state
+    inc enable_effect
+    //fade in scroller
+    ldy #$40
+    jsr pause
+    lda #$0b
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$0b
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$0c
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$03
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$0f
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$01
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$0f
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$03
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$0c
+    sta intro_scroller_bg
+    ldy #$02
+    jsr pause
+    lda #$0b
+    sta intro_scroller_bg
+    // switch to color in scroller
+    ldy #$10
+    jsr pause
+    jsr s_switch_main
+    //decompress logo as a buildup
+    jsr exo_exo
+    //switch to colorful scroller
+
+    jsr press_space
+
+    /*
+    Fade out music and logo
+    */
+    lda #$0c
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    lda #$0f
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    lda #$03
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    lda #$01
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    lda #$03
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    lda #$0f
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    lda #$0c
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    lda #$0b
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    lda #$00
+    sta intro_scroller_bg
+    ldy #$04
+    jsr pause
+    jsr s_switch_alt
+    jsr xys_fadeout
+
+    // disable effects
+    lda #$00
+    sta enable_effect 
+    //switch to spinner IRQ
+    lda #$00
+    sta demo_state
+    // clear screen
+    ldx #$20
+    ldy #$00
+    jsr fill
+    //enable spinner
+    inc enable_effect
+    //load song titles
+    load('A','D',$c000) 
+    jsr exo_exo
+
+!:
+    jmp !-
+
 
 /*
 Template code that can be overwritten

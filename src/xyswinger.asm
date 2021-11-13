@@ -61,7 +61,10 @@ xys:
     lda #$c8
     sta $d016
 
-    lda #$0b
+/*
+This is the BG for the scroller effect!
+*/
+    lda intro_scroller_bg: #$0b
     sta $d021
     jmp xys_blit
 
@@ -90,6 +93,7 @@ xys:
     inc xys_index
 !:
     rts
+
 
 
 xys_index:
