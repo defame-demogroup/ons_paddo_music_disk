@@ -36,6 +36,7 @@ $0f04/$0f05 lo/hi byte of the music play JSR
 .var sid_name = List()
 .var sid_disk = List()
     """)
+    max_length: int = 0
     count: int  = 0
     disk: int = 0
     for filename in os.listdir(music_source):
@@ -51,4 +52,7 @@ $0f04/$0f05 lo/hi byte of the music play JSR
 .eval sid_name.add("{name}")
 .eval sid_disk.add({disk})
             """)
+            if len(name) > max_length:
+                max_length = len(name)
             count += 1
+    print(f"Max length {str(max_length)}")
