@@ -50,13 +50,13 @@ menu_redraw:
     tay
 !redraw:
     !loop:
-        lda #$0b
+        lda #$00
         cpy menu_selected_item
         bne !skip+
         lda #$01
     !skip:
         sta menu_item_color_addr
-        lda #$00 //TODO: update when idle, reset when moved
+        lda #$05 //TODO: update when idle, reset when moved
         jsr menu_draw_item
         inx
         iny

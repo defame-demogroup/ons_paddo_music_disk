@@ -239,8 +239,8 @@ See MACROS at the end of this to use the animation frames!
     .if(use_transparency){
         lda #color_transparent_value
         jsr upk_enable_transparency
-    }else{
-        jsr upk_disable_transparency
+    // }else{
+    //     jsr upk_disable_transparency
     }
     ldx #<col
     ldy #>col
