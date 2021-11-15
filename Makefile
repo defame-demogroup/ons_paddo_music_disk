@@ -31,8 +31,10 @@ src/demo.prg: src/demo.asm ## compile c64 demo
 	cd src;exomizer mem -l auto ab.prg -o ../build/ab.prg #intro code
 	cd src;exomizer mem -l auto ac.prg -o ../build/ac.prg #megalogo
 	cd src;exomizer mem -l auto ad.prg -o ../build/ad.prg #intro code
-	cd src;exomizer mem -l auto ba.prg -o ../build/ba.prg #songtitles
-	cd src;exomizer mem -l auto bc.prg -o ../build/bc.prg #menu core
+	cd src;exomizer mem -l auto ba.prg -o ../build/ba.prg #menu and songtitles
+	cd src;exomizer mem -l auto t1.prg -o ../build/t1.prg #timeline
+	cd src;exomizer mem -l auto t2.prg -o ../build/t2.prg #timeline
+	cd rsrc;exomizer mem -l auto sx.prg -o ../build/sx.prg #sfx
 
 build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build dir
 	mkdir -p build
@@ -157,8 +159,10 @@ disk1.d64: ## create c64 disk demo side 1
 	c1541 -attach $@ -write build/ab.prg "ab" #intro code
 	c1541 -attach $@ -write build/ac.prg "ac" #megalogo
 	c1541 -attach $@ -write build/ad.prg "ad" #intro code
-	c1541 -attach $@ -write build/ba.prg "ba" #songtitles
-	c1541 -attach $@ -write build/bc.prg "bc" #menu core
+	c1541 -attach $@ -write build/ba.prg "ba" #menu and titles
+	c1541 -attach $@ -write build/t1.prg "t1" #timeline
+	c1541 -attach $@ -write build/t2.prg "t2" #timeline
+	c1541 -attach $@ -write build/sx.prg "sx" #sfx
 	c1541 -attach $@ -write build/aa.prg "aa"
 	c1541 -attach $@ -write build/bb.prg "bb"
 	c1541 -attach $@ -write build/cc.prg "cc"

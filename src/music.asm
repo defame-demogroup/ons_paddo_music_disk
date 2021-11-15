@@ -3,6 +3,11 @@
 -------------
 Music Handler
 -------------
+.var music_song = $0f00
+.var music_speed = $0f01
+.var music_init = $0f02
+.var music_play = $0f04
+
 */
 m_disable:
     // todo: fade? at least kill $d418 and stop playing

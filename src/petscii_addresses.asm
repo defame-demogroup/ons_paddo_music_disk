@@ -200,28 +200,29 @@ See MACROS at the end of this to use the animation frames!
     jsr exo_exo
 }
 
-.macro petscii_animate_loop(sequence, use_transparency, text_transparent_value, color_transparent_value){
-    .for(var i=0;i<sequence.size();i++){
+.macro petscii_animate(sequence, use_transparency, text_transparent_value, color_transparent_value, interframe_delay){
+    .for(var i=0;i<sequence.size()/2;i++){
        petscii_render_frame(sequence, i, use_transparency, text_transparent_value, color_transparent_value) 
+       .if(interframe_delay > 0){
+        ldy #interframe_delay
+        jsr pause
+       }
     }
 }
 
-.macro petscii_animate_ping_pong(sequence, use_transparency, text_transparent_value, color_transparent_value){
-    .for(var i=0;i<sequence.size();i++){
+.macro petscii_animate_reverse(sequence, use_transparency, text_transparent_value, color_transparent_value, interframe_delay){
+    .for(var i=(sequence.size()/2)-1;i>=0;i--){
        petscii_render_frame(sequence, i, use_transparency, text_transparent_value, color_transparent_value) 
-    }
-    .for(var i=sequence.size()-1;i>=0;i--){
-       petscii_render_frame(sequence, i, use_transparency, text_transparent_value, color_transparent_value) 
-    }
-}
-
-.macro petscii_animate_reverse(sequence, use_transparency, text_transparent_value, color_transparent_value){
-    .for(var i=sequence.size()-1;i>=0;i--){
-       petscii_render_frame(sequence, i, use_transparency, text_transparent_value, color_transparent_value) 
+       .if(interframe_delay > 0){
+        ldy #interframe_delay
+        jsr pause
+       }
     }
 }
 
 .macro petscii_render_frame(sequence, frame, use_transparency, text_transparent_value, color_transparent_value){
+    // .printnow(sequence.size())
+    // .printnow(frame)
     .var idx = (frame * 2)
     .var txt = sequence.get(idx)
     .var col = sequence.get(idx+1)

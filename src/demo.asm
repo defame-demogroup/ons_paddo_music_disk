@@ -72,19 +72,15 @@ Template Code Modules
 /*
 Main memory map:
 $7000
-$a400 - $c000: Menu items
+$a000 - $c000: Menu lib and items
 */
-
-.segment menu_items [outPrg="ba.prg"]
+.segment menu_core [outPrg="ba.prg"]
 *=$a400
 .pc = * "Song Titles"
 .import source "menu_items.asm"
-
-.segment menu_core [outPrg="bc.prg"]
-*=$7000
+*=$a000
 .pc = * "Menu Core"
 .import source "menu.asm"
-
 
 /*
 ----------------------------------------
@@ -223,6 +219,7 @@ pause:
     ldx #$00
 !:
     nop
+mini_pause:
     dex
     bne !-
     dey
@@ -379,21 +376,19 @@ irq_a:
     inc $d020
     jsr menu_redraw
     dec $d020
+!:
     lda enable_music
     beq !+
     inc $d020
     jsr m_play
     dec $d020
 !:
-
-
     lda #$a0
     sta $d012
     lda #>irq_b
     sta $0315
     lda #<irq_b
     sta $0314
-
     jsr irq_state
     lda #$ff 
     sta $d019
@@ -412,21 +407,6 @@ irq_b:
     jsr m_play
     dec $d020
 !: 
-
-
-inc $d020
-lda $d012
-!:
-cmp $d012
-beq !-
-
-lda $d012
-!:
-cmp $d012
-beq !-
-dec $d020
-
-
     lda #$ec
     sta $d012
     lda #>irq_a
@@ -436,7 +416,6 @@ dec $d020
     lda #$ff 
     sta $d019
     jmp $ea81  
-
 
 /* 
 ----------------------------------------
@@ -448,7 +427,8 @@ timeline:
     inc enable_effect
     jsr loader_init
 
-//jmp debug_skip_intro
+jmp debug_skip_intro
+
 /*
 START INTRO
 */
@@ -598,6 +578,8 @@ START INTRO
     jsr pause
     jsr s_switch_alt
     jsr xys_fadeout
+    jsr m_disable
+
 /*
 END INTRO
 */
@@ -615,44 +597,26 @@ debug_skip_intro:
     jsr fill
     lda #$00
     sta $d015
+    //disable music
+    sta enable_music
     //enable spinner
     inc enable_effect
-
-    //player bg
-    load('I','I',$c000) 
-    jsr exo_exo
-
-    //load song titles
+    //preload menu core ($a000-$c000)
     load('B','A',$c000) 
     jsr exo_exo
-
-    //load menu core
-    load('B','C',$c000) 
+    //load timeline 1
+    load('T','1',$c000) 
     jsr exo_exo
+    //timeline 1
+    jsr $7000
+    //timeline 2 (player)
+    load('T','2',$c000) 
+    jsr exo_exo
+    jsr $7000
 
-    // disable effects
-    lda #$00
-    sta enable_effect 
-    sta enable_music
-
-    //switch to main IRQ
-    lda #$02
-    sta demo_state
-    // clear screen
-    ldx #$20
-    ldy #$00
-    jsr fill
-
-    lda #$06
-    sta $d021
-    petscii_render_frame(ii, 1, false, $00, $00)
-
-    //enable main irq effect
-    inc enable_effect
 
 !:
     jmp !-
-
 
 /*
 ----------------------------------------
@@ -664,4 +628,18 @@ template_base:
 
 
 
+
+
+/*
+Timeline templates
+*/
+.segment timeline1 [outPrg="t1.prg"]
+*=$7000
+.pc = * "Timeline 1"
+.import source "timeline1.asm"
+
+.segment timeline2 [outPrg="t2.prg"]
+*=$7000
+.pc = * "Timeline 2"
+.import source "timeline2.asm"
 
