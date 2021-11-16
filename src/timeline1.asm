@@ -17,7 +17,7 @@ TODO: load sound effect in here
     lda #$02
     sta demo_state
     // clear screen
-    ldx #$20
+    ldx #$a0
     ldy #$00
     jsr fill
 
@@ -34,17 +34,12 @@ TODO: load sound effect in here
     sta enable_music
     lda #$06
     sta $d021
-    petscii_animate(gg, false, $00, $00, interframe_delay)
+    petscii_animate(gg, false, $00, $00, $01)
     jsr exo_exo
-    ldy #$20
-    jsr pause
-    petscii_animate(hh, false, $00, $00, interframe_delay)
     petscii_animate(hh, false, $00, $00, interframe_delay)
     petscii_animate(hh, false, $00, $00, interframe_delay)
     load('B','B',$c000) 
     jsr exo_exo
-    ldy #$20
-    jsr pause
     petscii_animate(bb, false, $00, $00, interframe_delay)
     lda #$00
     sta enable_music

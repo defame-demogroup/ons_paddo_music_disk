@@ -374,7 +374,7 @@ irq_a:
     lda enable_effect
     beq !+
     inc $d020
-    jsr menu_redraw
+    jsr menu_irq_handler
     dec $d020
 !:
     lda enable_music
@@ -427,7 +427,7 @@ timeline:
     inc enable_effect
     jsr loader_init
 
-jmp debug_skip_intro
+//jmp debug_skip_intro
 
 /*
 START INTRO
