@@ -427,7 +427,7 @@ timeline:
     inc enable_effect
     jsr loader_init
 
-//jmp debug_skip_intro
+jmp debug_skip_intro
 
 /*
 START INTRO

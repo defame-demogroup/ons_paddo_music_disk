@@ -13,13 +13,9 @@ sid_name.size()
 .var keyboard_scanning_delay_frames = 3
 .var title_scroll_delay_frames = 5
 .var title_scroll_delay_frames_major = 30
-.var idle_countdown_for_scrolling_titles = 5
 
 m_key_scan_delay:
 .byte $00
-
-m_title_idle_counter:
-.byte idle_countdown_for_scrolling_titles
 
 m_title_scroll_delay_counter:
 .byte $00
@@ -72,16 +68,11 @@ menu_scroll_title:
     lda #title_scroll_delay_frames_major
     sta m_title_scroll_delay_counter
 !:    
-    // cpx #42 //for scroll-off
-    cpx #32 // for ping pong
+    ldy menu_selected_item
+    lda menu_title_length,y
+    sta m_st_cmp
+    cpx m_st_cmp: #32 // for ping pong
     bne !+
-    //remove this to re-enable ping-ping mode
-    // ldx #$01
-    // lda #$00
-    // sta m_title_scroll_direction
-    // lda #title_scroll_delay_frames_major
-    // sta m_title_scroll_delay_counter
-    //ping-pong mode
     lda #$01
     sta m_title_scroll_direction
     lda #title_scroll_delay_frames_major
@@ -99,12 +90,11 @@ menu_input:
     sta m_key_scan_delay
     jsr keyboard
     bcc !valid_input+
-    dec m_title_idle_counter
+    lda m_title_scroll_enabled
     bne !+
-    lda #idle_countdown_for_scrolling_titles
-    sta m_title_idle_counter
     lda #$01
     sta m_title_scroll_enabled
+    sta m_title_scroll_direction
     lda #title_scroll_delay_frames
     sta m_title_scroll_delay_counter
 !:
@@ -112,9 +102,8 @@ menu_input:
 !valid_input:
     lda #$00
     sta m_title_scroll_enabled
+    lda #title_scroll_delay_frames
     sta m_title_scroll_delay_counter
-    lda idle_countdown_for_scrolling_titles
-    sta m_title_idle_counter
     lda #$05 //default location
     sta m_title_scroll_position
     tya 

@@ -16,6 +16,20 @@ menu_screen_hi:
     .byte >($0400 + (menu_y * $28) + menu_x + (i * $28))
 }
 
+menu_title_length:
+.pc=* "menu_title_length"
+.for(var i=0;i<sid_name.size();i++){
+    .var title = sid_name.get(i)
+    .var index = title.size() - 1
+    .while((title.charAt(index) == ' ') && (index > 0)){
+        .eval index--
+    }
+    .if(index < menu_w + 3){
+        .eval index = menu_w + 3
+    }
+    .byte index - menu_w + 2
+}
+
 .align $100
 .pc=* "menu_indexes_lo"
 menu_indexes_lo:
