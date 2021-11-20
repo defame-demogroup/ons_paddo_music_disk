@@ -71,15 +71,31 @@ poll_for_song_change:
     bne !+
     rts
 !:
-    lda #$00
-    sta menu_next_song_ready_flag
+    jsr menu_modal
     ldx menu_next_song_filename_a
     ldy menu_next_song_filename_b
-    lda fhi:  #$c0
+    lda #$c0
     sta ll_zp1_hi
-    lda flo:  #$00
+    lda #$00
     sta ll_zp1_lo
     jsr loader_load
+
+    lda ll_zp1_hi
+    cmp #$c0
+    bne !+
+    lda ll_zp1_lo
+    cmp #$00
+    bne !+
+    //load did not work... try asking to flip the disk! nn.prg
+    jsr blit_save
+    petscii_load_sequence('N','N')
+    petscii_render_frame(nn, 0, true, 224, 0)
+!loop:
+    lda m_modal_ack
+    beq !loop-
+    jsr blit_load
+    jmp !-
+!:
     lda #$00
     sta enable_music
     jsr m_disable
@@ -89,4 +105,9 @@ poll_for_song_change:
     jsr tt_render_title
     lda #$01
     sta enable_music
+    lda #$00
+    sta menu_next_song_ready_flag
+    jsr menu_no_modal
     rts
+
+.import source "blit.asm"

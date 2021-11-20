@@ -29,6 +29,12 @@ m_title_scroll_position:
 m_title_scroll_direction:
 .byte $00
 
+m_modal_context:
+.byte $00
+
+m_modal_ack:
+.byte $00
+
 menu_init:
     lda #$00
     sta menu_selected_item
@@ -39,6 +45,23 @@ menu_irq_handler:
     jsr menu_redraw
     jsr menu_input
     rts
+
+menu_modal:
+    lda #$00
+    sta m_modal_ack
+    lda #$01
+    sta m_modal_context
+    rts
+
+menu_no_modal:
+    lda #$00
+    sta m_modal_context
+    lda #$00
+    sta m_modal_ack
+    rts
+
+//-----------------------
+//internal functions
 
 menu_scroll_title:
 //     lda m_title_scroll_enabled
@@ -103,7 +126,22 @@ menu_input:
 !:
     rts
 !valid_input:
-    .pc=* "DEBUG BREAKPOINT"
+    sta menu_is_space
+    lda m_modal_context
+beq !+
+    lda menu_is_space: #$00
+    cmp #$20
+    beq !modal_ack+
+    cpx #$00
+    bne !modal_ack+
+    cpy #$00
+    bne !modal_ack+
+    rts
+!modal_ack:
+    lda #$01
+    sta m_modal_ack
+    rts
+!:
     lda #$00
     sta m_title_scroll_enabled
     lda #title_scroll_delay_frames

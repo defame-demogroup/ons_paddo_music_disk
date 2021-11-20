@@ -70,7 +70,7 @@ $8500-$c000     mega logo data
 .import source "biglogo_include.asm"
 
 .segment xys_fadeout [outPrg="ad.prg"]
-*=$3000
+*=$3d00
 .pc = * "XYSwinger Effect Fadeout"
 .import source "xyswinger_fadeout.asm"
 
@@ -485,6 +485,12 @@ START INTRO
 
     //load mega logo template
     load('A','C',$b800) 
+    jsr exo_exo
+
+    jsr xys_copy
+/*
+Todo: copy color map to phantom space and clear
+*/
 
     //disable spinner
     lda #$00
@@ -548,10 +554,8 @@ START INTRO
     ldy #$10
     jsr pause
     jsr s_switch_main
-    //decompress logo as a buildup
-    jsr exo_exo
     //switch to colorful scroller
-
+    jsr xys_fadein
     jsr press_space
 
     /*

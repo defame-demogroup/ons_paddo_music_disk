@@ -1,3 +1,4 @@
+.var xys_map_buf = $1800
 
 xys_fadeout:
     ldx #$00
@@ -20,7 +21,7 @@ xys_fadeout:
         sta xys_logo_base + (i * $100) + $82,x
 
         lda xys_logo_base + (i * $100) + $83,x
-        adc #$00
+        //adc #$00
         tay 
         lda xys_clut,y
         sta xys_logo_base + (i * $100) + $83,x
@@ -70,3 +71,62 @@ xys_clut:
 .for(var i=0;i<$10;i++){
     .byte (colorSubs.get(i)).lowColor
 }
+
+xys_copy:
+    ldx #$00
+    clc
+!loop:
+    .for(var i = 0;i < xys_logo_height;i++){
+        lda xys_logo_base + (i * $100) + $80,x
+        sta xys_map_buf + (i * $80),x
+        lda #$00
+        sta xys_logo_base + (i * $100) + $80,x
+    }
+    inx
+    cpx #xys_logo_width
+    beq !+
+    jmp !loop-
+!:  rts
+
+xys_fadein:
+    ldy #$20
+    jsr pause
+    ldx #$00
+    clc
+!loop:
+    .for(var i = 0;i < xys_logo_height;i++){
+        lda xys_map_buf + (i * $80),x
+        sta xys_logo_base + (i * $100) + $80,x
+
+        lda xys_map_buf + (i * $80) + 1,x
+        //adc #$00
+        tay 
+        lda xys_clut,y
+        sta xys_logo_base + (i * $100) + $81,x
+
+        lda xys_map_buf + (i * $80) + 2,x
+        adc #$10
+        tay 
+        lda xys_clut,y
+        sta xys_logo_base + (i * $100) + $82,x
+
+        lda xys_map_buf + (i * $80) + 3,x
+        adc #$20
+        tay 
+        lda xys_clut,y
+        sta xys_logo_base + (i * $100) + $83,x
+    }
+    inx
+    cpx #xys_logo_width + 4
+    beq !+
+!pause:
+    iny
+    nop
+    bne !pause-
+!pause:
+    iny
+    nop
+    bne !pause-
+    jmp !loop-
+!:  rts
+
