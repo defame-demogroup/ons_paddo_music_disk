@@ -13,9 +13,11 @@ TODO: load sound effect in here
     lda #$00
     sta enable_effect 
     sta enable_music
-    //reset top/bottom borders
+    //reset borders
     lda #$1b
     sta $d011
+    lda #$c8
+    sta $d016 
     //switch to main IRQ
     lda #$02
     sta demo_state

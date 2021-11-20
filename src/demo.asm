@@ -385,15 +385,15 @@ irq_intro_a:
 irq_a:
     lda enable_effect
     beq !+
-    inc $d020
+    //inc $d020
     jsr menu_irq_handler
-    dec $d020
+    //dec $d020
 !:
     lda enable_music
     beq !+
-    dec $d020
+    //dec $d020
     jsr m_play
-    inc $d020
+    //inc $d020
 !:
     lda #$a0
     sta $d012
@@ -413,16 +413,16 @@ irq_b:
     lda music_speed
     cmp #$ff //multispeed flag from SID
     bne !+
-    dec $d020
+    //dec $d020
     jsr m_play
-    inc $d020
+    //inc $d020
 !: 
     lda enable_effect
     beq !+
-    inc $d020
+    //inc $d020
     jsr tt_run
     jsr cc_colorcycle
-    dec $d020
+    //dec $d020
 !:
     lda #$ec
     sta $d012
