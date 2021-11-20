@@ -35,16 +35,16 @@ menu_init:
     rts
 
 menu_irq_handler:
-    jsr menu_input
     jsr menu_scroll_title
     jsr menu_redraw
+    jsr menu_input
     rts
 
 menu_scroll_title:
-    lda m_title_scroll_enabled
-    bne !+
-    rts
-!:
+//     lda m_title_scroll_enabled
+//     bne !+
+//     rts
+// !:
     dec m_title_scroll_delay_counter
     beq !+
     rts
@@ -88,6 +88,7 @@ menu_input:
 !:
     lda #keyboard_scanning_delay_frames
     sta m_key_scan_delay
+    clc
     jsr keyboard
     bcc !valid_input+
     lda m_title_scroll_enabled
@@ -95,11 +96,14 @@ menu_input:
     lda #$01
     sta m_title_scroll_enabled
     sta m_title_scroll_direction
+    lda #$05 //default location
+    sta m_title_scroll_position
     lda #title_scroll_delay_frames
     sta m_title_scroll_delay_counter
 !:
     rts
 !valid_input:
+    .pc=* "DEBUG BREAKPOINT"
     lda #$00
     sta m_title_scroll_enabled
     lda #title_scroll_delay_frames
@@ -114,11 +118,15 @@ menu_input:
     sta menu_selected_item
     rts
 !:
+    /*
+    Todo: add some easter eggs in here!
+    */
     txa
     and #%00000010
     beq !+ //not return key pressed
 !return:
     lda menu_selected_item
+    sta menu_chosen_song
     tay
     lda menu_indexes_lo,y
     sta menu_song_ptr
@@ -255,6 +263,9 @@ A = scroll offset (of selected item)
 menu_active_draw_item:
     stx menu_tmp_xa
     sty menu_tmp_ya
+    lda menu_row_sprite_y_locations,x
+    sta $d007
+    sta $d009
     lda menu_screen_lo,x
     sta menu_screen_addra
     sta menu_color_addra
@@ -284,12 +295,10 @@ menu_active_draw_item:
     ldy menu_tmp_ya: #$00
     rts
 
-
-
-menu_selected_item:
+menu_chosen_song:
     .byte $00
 
-menu_idle_state:
+menu_selected_item:
     .byte $00
 
 menu_next_song_filename_a:
@@ -303,3 +312,9 @@ menu_next_song_disk:
 
 menu_next_song_ready_flag:
     .byte $00
+
+menu_row_sprite_y_locations:
+.pc=* "menu_row_sprite_y_locations"
+.for(var i=0;i<menu_h;i++){
+    .byte <($32 + (menu_y * $08) + (i*8))
+}

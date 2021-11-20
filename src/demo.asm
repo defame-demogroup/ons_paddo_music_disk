@@ -6,10 +6,8 @@ Memory map:
 $0800         : BASIC start
 $0ff0 - $3000 : Music Buffer
 $3000 - $5000 : Petscii Buffer
-$5000 - $C000 : Code
+$5000 - $7000 : Demo core
 $C000 - $D000 : Load Buffer
-
-
 ----------------------------------------
 ZeroPage:
 $50-$5f Keyboard Handler
@@ -52,6 +50,13 @@ Template Code Modules
 (these get loaded into the template space)
 ----------------------------------------
 */
+
+/*
+Intro memory map (overlay on core memory map):
+$3000-$5000     temporarily use pescii buffer for logo fadeout effect
+$7000-$8500     logo and scroller code
+$8500-$c000     mega logo data
+*/
 .segment xys_routine [outPrg="ab.prg"]
 *=$7000
 .pc=* "XYSwinger Effect"
@@ -70,18 +75,21 @@ Template Code Modules
 .import source "xyswinger_fadeout.asm"
 
 /*
-Main memory map:
-$7000
-$a000 - $c000: Menu lib and items
+Main memory map (overlay on core memory map):
+$7000-$9800:    Effect Timelines
+$9800-$c000:    Player core UI
 */
 .segment menu_core [outPrg="ba.prg"]
 *=$a400
 .pc = * "Song Titles"
 .import source "menu_items.asm"
-*=$a000
+*=$9800
 .pc = * "Menu Core"
 .import source "menu.asm"
-
+.pc = * "Player Status"
+.import source "title.asm"
+.pc = * "Sprite Colorcycler"
+.import source "colorcycle_sprites.asm"
 /*
 ----------------------------------------
 Common Utils
@@ -122,6 +130,10 @@ Sprite
 }
 .for(var i=0;i<13;i++){
     .byte $00, $00, $00
+}
+.pc=$0a40
+.for(var i=0;i<21;i++){
+    .byte $ff, $ff, $ff
 }
 
 /*
@@ -379,9 +391,9 @@ irq_a:
 !:
     lda enable_music
     beq !+
-    inc $d020
-    jsr m_play
     dec $d020
+    jsr m_play
+    inc $d020
 !:
     lda #$a0
     sta $d012
@@ -396,17 +408,22 @@ irq_a:
 
 //multispeed irq
 irq_b:
-    lda enable_effect
-    beq !+
     lda enable_music
     beq !+
     lda music_speed
     cmp #$ff //multispeed flag from SID
     bne !+
-    inc $d020
-    jsr m_play
     dec $d020
+    jsr m_play
+    inc $d020
 !: 
+    lda enable_effect
+    beq !+
+    inc $d020
+    jsr tt_run
+    jsr cc_colorcycle
+    dec $d020
+!:
     lda #$ec
     sta $d012
     lda #>irq_a
@@ -427,7 +444,7 @@ timeline:
     inc enable_effect
     jsr loader_init
 
-jmp debug_skip_intro
+//jmp debug_skip_intro
 
 /*
 START INTRO

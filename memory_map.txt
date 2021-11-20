@@ -11,18 +11,3 @@ $3000 - $5000 : Petscii Buffer
 $5000 - $C000 : Code
 $C000 - $D000 : Load Buffer
 
-Music to be relocated:
-SID 56 ($4000)
-SID_03 ($4000)
-SID_13 ($4000)
-SID_28 ($4000)
-SID_30 ($4000)
-SID_43 ($4000)
-SID_45 ($4000)
-SID_46 ($4000)
-SID_55 ($4000)
-SID_56 ($4000)
-SID_67 ($4000)
-SID_83 ($4000)
-SID_92 ($4000)
-
