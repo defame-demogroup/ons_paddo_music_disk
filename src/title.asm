@@ -27,6 +27,7 @@ tt_hours:
 .var tt_title_start = $0400 + ($28 * tt_title_y) + tt_title_x
 .var tt_title_second = $0400 + ($28 * (tt_title_y + 1)) + tt_title_x + 4
 .var tt_title_third = $0400 + ($28 * (tt_title_y + 2)) + tt_title_x + 4
+.var tt_title_fourth = $0400 + ($28 * (tt_title_y + 3)) + tt_title_x + 4
 .var tt_box_w = 16 + 1 + 1
 .var tt_sub_w = tt_box_w - 4 // column indent
 
@@ -187,6 +188,24 @@ tt_render_title:
 !skip:
     sty tt_wrap3
 
+    tya
+    clc
+    adc #tt_sub_w
+    tay
+!loop:
+    dey
+    cpy tt_wrap3
+    beq !reset_wrap+
+    jsr !read_title+ 
+    cmp #' ' //space - I can guarantee I always have at least one space before I hit $ff so this will never infinite loop!
+    bne !loop-
+    jmp !skip+
+!reset_wrap:
+    ldy #tt_sub_w
+!skip:
+    sty tt_wrap4
+
+
 
     ldy #$01
     ldx #$00
@@ -237,11 +256,31 @@ tt_render_title:
     iny
     cpy tt_wrap3: #00
     bne !loop-
+    iny
+    lda #' ' + $80
+!fill:
+    cpx #tt_sub_w - 2
+    bcs !done+
+    sta tt_title_third,x
+    inx
+    jmp !fill-
+!done:
+    ldx #$00
+
+!loop:
+    jsr !read_title+
+    clc
+    adc #$80
+    sta tt_title_fourth,x
+    inx
+    iny
+    cpy tt_wrap4: #00
+    bne !loop-
     lda #' ' + $80
 !fill:
     cpx #tt_sub_w - 2
     bcs !skip+
-    sta tt_title_third,x
+    sta tt_title_fourth,x
     inx
     jmp !fill-
 !skip:
