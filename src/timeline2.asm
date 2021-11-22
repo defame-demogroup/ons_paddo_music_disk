@@ -63,10 +63,15 @@
 
 !:
     jsr poll_aa
+    jsr poll_for_song_change
     jsr poll_cc
+    jsr poll_for_song_change
     jsr poll_ee
+    jsr poll_for_song_change
     jsr poll_ll
+    jsr poll_for_song_change
     jsr poll_mm
+    jsr poll_for_song_change
     jmp!-
 
 
