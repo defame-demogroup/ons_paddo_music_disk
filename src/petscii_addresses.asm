@@ -15,185 +15,256 @@ the animation frames for the rle-depacker!
 
 See MACROS at the end of this to use the animation frames!
 */
-//aa
-.var txt_drummer1 = $3000
-.var col_drummer1 = $30c2
-.var txt_drummer2 = $3161
-.var col_drummer2 = $321a
-.var txt_drummer3 = $32b8
-.var col_drummer3 = $3361
-.var txt_drummer4 = $33ed
-.var col_drummer4 = $3494
-.var aa = List();
-.eval aa.add($3000,$30c2,$3161,$321a,$32b8,$3361,$33ed,$3494)
 
-//bb
-.var  txt_final1 = $3000
-.var  col_final1 = $3346
-.var  txt_final2 = $35ab
-.var  col_final2 = $38f1
+
+/*
+drummer-segment: aa.prg
+  $3000-$30e6 txt_player_doo
+  $30e7-$31a3 col_player_doo
+  $31a4-$329c txt_player_dooropen1
+  $329d-$3379 col_player_dooropen1
+  $337a-$3442 txt_player_dooropen2
+  $3443-$34fc col_player_dooropen2
+  $34fd-$3595 txt_player_dooropen3
+  $3596-$361f col_player_dooropen3
+  $3620-$3705 txt_drummer1
+  $3706-$37e6 col_drummer1
+  $37e7-$38d0 txt_drummer2
+  $38d1-$39b5 col_drummer2
+  $39b6-$3a90 txt_drummer3
+  $3a91-$3b69 col_drummer3
+  $3b6a-$3c52 txt_drummer4
+  $3c53-$3d39 col_drummer4
+
+*/
+.var aa = List();
+.eval aa.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$3706,$37e7,$38d1,$39b6,$3a91,$3b6a,$3c53)
+
+
+/*
+final-segment: bb.prg
+  $3000-$3345 txt_final1
+  $3346-$35aa col_final1
+  $35ab-$38f0 txt_final2
+  $38f1-$3b55 col_final2
+*/
 .var bb = List()
 .eval bb.add($3000,$3346,$35ab,$38f1)
 
-//cc
-.var  txt_irclefx1 = $3000
-.var  col_irclefx1 = $3061
-.var  txt_irclefx2 = $306a
-.var  col_irclefx2 = $30d3
-.var  txt_irclefx3 = $30dc
-.var  col_irclefx3 = $3167
-.var  txt_irclefx4 = $3170
-.var  col_irclefx4 = $3201
-.var  txt_irclefx5 = $320a
-.var  col_irclefx5 = $32b3
-.var  txt_irclefx6 = $32bc
-.var  col_irclefx6 = $3375
+
+/*
+circle-segment: cc.prg
+  $3000-$30e6 txt_player_doo
+  $30e7-$31a3 col_player_doo
+  $31a4-$329c txt_player_dooropen1
+  $329d-$3379 col_player_dooropen1
+  $337a-$3442 txt_player_dooropen2
+  $3443-$34fc col_player_dooropen2
+  $34fd-$3595 txt_player_dooropen3
+  $3596-$361f col_player_dooropen3
+  $3620-$36e0 txt_irclefx1
+  $36e1-$378e col_irclefx1
+  $378f-$384f txt_irclefx2
+  $3850-$38f5 col_irclefx2
+  $38f6-$39d0 txt_irclefx3
+  $39d1-$3a88 col_irclefx3
+  $3a89-$3b71 txt_irclefx4
+  $3b72-$3c3f col_irclefx4
+  $3c40-$3d24 txt_irclefx5
+  $3d25-$3df6 col_irclefx5
+  $3df7-$3ecb txt_irclefx6
+  $3ecc-$3f8d col_irclefx6
+*/
 .var cc = List()
-.eval cc.add($3000,$3061,$306a,$30d3,$30dc,$3167,$3170,$3201,$320a,$32b3,$32bc,$3375)
+.eval cc.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$36e1,$378f,$3850,$38f6,$39d1,$3a89,$3b72,$3c40,$3d25,$3df7,$3ecc)
 
-//dd
-.var  txt_lose1 = $3000
-.var  col_lose1 = $338c
-.var  txt_lose2 = $35e4
-.var  col_lose2 = $394d
-.var  txt_lose3 = $3c0b
-.var  col_lose3 = $3f8c
-.var  txt_lose4 = $4290
-.var  col_lose4 = $4615
-.var dd = List()
-.eval dd.add($3000,$338c,$35e4,$394d,$3c0b,$3f8c,$4290,$4615)
 
-//ee
-.var  txt_moreskulls1 = $3000
-.var  col_moreskulls1 = $30e9
-.var  txt_moreskulls2 = $31ba
-.var  col_moreskulls2 = $32a4
-.var  txt_moreskulls3 = $3377
-.var  col_moreskulls3 = $3460
-.var  txt_moreskulls4 = $3536
-.var  col_moreskulls4 = $3620
-.var  txt_moreskulls5 = $36f1
-.var  col_moreskulls5 = $37da
-.var  txt_moreskulls6 = $38af
-.var  col_moreskulls6 = $3998
-.var  txt_moreskulls7 = $3a6e
-.var  col_moreskulls7 = $3b58
+/*
+moreskullz-segment: ee.prg
+  $3000-$30e6 txt_player_doo
+  $30e7-$31a3 col_player_doo
+  $31a4-$329c txt_player_dooropen1
+  $329d-$3379 col_player_dooropen1
+  $337a-$3442 txt_player_dooropen2
+  $3443-$34fc col_player_dooropen2
+  $34fd-$3595 txt_player_dooropen3
+  $3596-$361f col_player_dooropen3
+  $3620-$3718 txt_moreskulls1
+  $3719-$37f4 col_moreskulls1
+  $37f5-$38ed txt_moreskulls2
+  $38ee-$39c9 col_moreskulls2
+  $39ca-$3ac2 txt_moreskulls3
+  $3ac3-$3ba5 col_moreskulls3
+  $3ba6-$3c9e txt_moreskulls4
+  $3c9f-$3d7c col_moreskulls4
+  $3d7d-$3e75 txt_moreskulls5
+  $3e76-$3f52 col_moreskulls5
+  $3f53-$404b txt_moreskulls6
+  $404c-$412a col_moreskulls6
+  $412b-$4220 txt_moreskulls7
+  $4221-$4303 col_moreskulls7
+
+*/
 .var ee = List()
-.eval ee.add($3000,$30e9,$31ba,$32a4,$3377,$3460,$3536,$3620,$36f1,$37da,$38af,$3998,$3a6e,$3b58)
+.eval ee.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$3719,$37f5,$38ee,$39ca,$3ac3,$3ba6,$3c9f,$3d7d,$3e76,$3f53,$404c,$412b,$4221)
 
-//ff
-.var  txt_onslogo_only = $3000
-.var  col_onslogo_only = $313d
+
+/*
+logo_ons-segment: ff.prg
+  $3000-$313c txt_onslogo_only
+  $313d-$3213 col_onslogo_only
+*/
 .var ff = List()
 .eval ff.add($3000,$313d)
 
-//gg
-.var  txt_open1 = $3000
-.var  col_open1 = $3025
-.var  txt_open2 = $3038
-.var  col_open2 = $306a
-.var  txt_open3 = $3088
-.var  col_open3 = $30d8
-.var  txt_open4 = $3103
-.var  col_open4 = $3171
-.var  txt_open5 = $31b4
-.var  col_open5 = $3257
-.var  txt_open6 = $32bf
-.var  col_open6 = $33af
-.var  txt_open7 = $345b
-.var  col_open7 = $35ae
-.var  txt_open8 = $369f
-.var  col_open8 = $387b
-.var  txt_open9 = $3a06
-.var  col_open9 = $3bc3
+
+/*
+open-segment: gg.prg
+  $3000-$3024 txt_open1
+  $3025-$3037 col_open1
+  $3038-$3069 txt_open2
+  $306a-$3087 col_open2
+  $3088-$30d7 txt_open3
+  $30d8-$3102 col_open3
+  $3103-$3170 txt_open4
+  $3171-$31b3 col_open4
+  $31b4-$3256 txt_open5
+  $3257-$32be col_open5
+  $32bf-$33ae txt_open6
+  $33af-$345a col_open6
+  $345b-$35ad txt_open7
+  $35ae-$369e col_open7
+  $369f-$387a txt_open8
+  $387b-$3a05 col_open8
+  $3a06-$3bc2 txt_open9
+  $3bc3-$3d32 col_open9
+*/
 .var gg = List()
 .eval gg.add($3000,$3025,$3038,$306a,$3088,$30d8,$3103,$3171,$31b4,$3257,$32bf,$33af,$345b,$35ae,$369f,$387b,$3a06,$3bc3)
 
-//hh
-.var  txt_openloop1 = $3000
-.var  col_openloop1 = $333f
-.var  txt_openloop2 = $34ca
-.var  col_openloop2 = $37c2
-.var  txt_openloop3 = $3932
-.var  col_openloop3 = $3c5e
-.var  txt_openloop4 = $3de9
-.var  col_openloop4 = $40af
+/*
+open_loop-segment: hh.prg
+  $3000-$333e txt_openloop1
+  $333f-$34c9 col_openloop1
+  $34ca-$37c1 txt_openloop2
+  $37c2-$3931 col_openloop2
+  $3932-$3c5d txt_openloop3
+  $3c5e-$3de8 col_openloop3
+  $3de9-$40ae txt_openloop4
+  $40af-$421e col_openloop4
+*/
 .var hh = List()
 .eval hh.add($3000,$333f,$34ca,$37c2,$3932,$3c5e,$3de9,$40af)
 
-//ii
-.var  txt_playe = $3000
-.var  col_playe = $325d
-.var  txt_player_doo = $3422
-.var  col_player_doo = $3711
+/* 
+playerbase-segment: ii.prg
+  $3000-$325c txt_playe
+  $325d-$3421 col_playe
+  $3422-$3508 txt_player_doo
+  $3509-$35c5 col_player_doo
+*/
 .var ii = List()
-.eval ii.add($3000,$325d,$3422,$3711)
+.eval ii.add($3000,$325d,$3422,$3509)
 
-//jj
-.var  txt_player_dooropen1 = $3000
-.var  col_player_dooropen1 = $3301
-.var  txt_player_dooropen2 = $3549
-.var  col_player_dooropen2 = $381a
-.var  txt_player_dooropen3 = $3a3f
-.var  col_player_dooropen3 = $3ce0
-.var jj = List()
-.eval jj.add($3000,$3301,$3549,$381a,$3a3f,$3ce0)
-
-//kk
-.var  txt_redits = $3000
-.var  col_redits = $3254
+/*
+credits-segment: kk.prg
+  $3000-$3253 txt_redits
+  $3254-$334f col_redits
+*/
 .var kk = List()
 .eval kk.add($3000,$3254)
 
-//ll
-.var  txt_sk1 = $3000
-.var  col_sk1 = $3296
-.var  txt_sk2 = $32ab
-.var  col_sk2 = $3357
-.var  txt_sk3 = $3394
-.var  col_sk3 = $3463
-.var  txt_sk4 = $34ca
-.var  col_sk4 = $35ad
-.var  txt_sk5 = $3636
-.var  col_sk5 = $3722
-.var  txt_sk6 = $37bc
-.var  col_sk6 = $38a7
-.var  txt_sk7 = $393b
-.var  col_sk7 = $3a1c
-.var  txt_sk8 = $3aa3
-.var  col_sk8 = $3b8a
-.var  txt_sk9 = $3bf6
-.var  col_sk9 = $3ce1
-.var  txt_sk10 = $3d55
-.var  col_sk10 = $3e3f
-.var  txt_sk11 = $3e97
-.var  col_sk11 = $3f6e
-.var  txt_sk12 = $3fab
-.var  col_sk12 = $406a
+/*
+sk-segment: ll.prg
+  $3000-$30e6 txt_player_doo
+  $30e7-$31a3 col_player_doo
+  $31a4-$329c txt_player_dooropen1
+  $329d-$3379 col_player_dooropen1
+  $337a-$3442 txt_player_dooropen2
+  $3443-$34fc col_player_dooropen2
+  $34fd-$3595 txt_player_dooropen3
+  $3596-$361f col_player_dooropen3
+  $3620-$369b txt_sk1
+  $369c-$3718 col_sk1
+  $3719-$37ba txt_sk2
+  $37bb-$385b col_sk2
+  $385c-$392a txt_sk3
+  $392b-$39fa col_sk3
+  $39fb-$3ad1 txt_sk4
+  $3ad2-$3ba3 col_sk4
+  $3ba4-$3c8f txt_sk5
+  $3c90-$3d63 col_sk5
+  $3d64-$3e4c txt_sk6
+  $3e4d-$3f24 col_sk6
+  $3f25-$4004 txt_sk7
+  $4005-$40d6 col_sk7
+  $40d7-$41a5 txt_sk8
+  $41a6-$4267 col_sk8
+  $4268-$4350 txt_sk9
+  $4351-$442b col_sk9
+  $442c-$44f7 txt_sk10
+  $44f8-$45b5 col_sk10
+  $45b6-$467b txt_sk11
+  $467c-$4738 col_sk11
+  $4739-$47eb txt_sk12
+  $47ec-$489b col_sk12
+*/
 .var ll = List()
-.eval ll.add($3000,$3296,$32ab,$3357,$3394,$3463,$34ca,$35ad,$3636,$3722,$37bc,$38a7,$393b,$3a1c,$3aa3,$3b8a,$3bf6,$3ce1,$3d55,$3e3f,$3e97,$3f6e,$3fab,$406a)
+.eval ll.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$369c,$3719,$37bb,$385c,$392b,$39fb,$3ad2,$3ba4,$3c90,$3d64,$3e4d,$3f25,$4005,$40d7,$41a6,$4268,$4351,$442c,$44f8,$45b6,$467c,$4739,$47ec)
 
-//mm
-.var  txt_skullrotate1 = $3000
-.var  col_skullrotate1 = $30ad
-.var  txt_skullrotate2 = $3130
-.var  col_skullrotate2 = $31bf
-.var  txt_skullrotate3 = $3232
-.var  col_skullrotate3 = $32c0
-.var  txt_skullrotate4 = $3320
-.var  col_skullrotate4 = $33bf
-.var  txt_skullrotate5 = $3422
-.var  col_skullrotate5 = $34b0
-.var  txt_skullrotate6 = $3510
-.var  col_skullrotate6 = $359f
+
+/*
+skull_rotate-segment: mm.prg
+  $3000-$30e6 txt_player_doo
+  $30e7-$31a3 col_player_doo
+  $31a4-$329c txt_player_dooropen1
+  $329d-$3379 col_player_dooropen1
+  $337a-$3442 txt_player_dooropen2
+  $3443-$34fc col_player_dooropen2
+  $34fd-$3595 txt_player_dooropen3
+  $3596-$361f col_player_dooropen3
+  $3620-$36ed txt_skullrotate1
+  $36ee-$37b3 col_skullrotate1
+  $37b4-$387a txt_skullrotate2
+  $387b-$393c col_skullrotate2
+  $393d-$39fb txt_skullrotate3
+  $39fc-$3aba col_skullrotate3
+  $3abb-$3b78 txt_skullrotate4
+  $3b79-$3c2c col_skullrotate4
+  $3c2d-$3ce5 txt_skullrotate5
+  $3ce6-$3d9e col_skullrotate5
+  $3d9f-$3e63 txt_skullrotate6
+  $3e64-$3f23 col_skullrotate6
+*/
 .var mm = List()
-.eval mm.add($3000,$30ad,$3130,$31bf,$3232,$32c0,$3320,$33bf,$3422,$34b0,$3510,$359f)
+.eval mm.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$36ee,$37b4,$387b,$393d,$39fc,$3abb,$3b79,$3c2d,$3ce6,$3d9f,$3e64)
 
-//nn
-.var txt_turndisk = $3000
-.var col_turndisk = $3042
+
+/*
+turn_disk-segment: nn.prg
+  $3000-$30e6 txt_player_doo
+  $30e7-$31a3 col_player_doo
+  $31a4-$329c txt_player_dooropen1
+  $329d-$3379 col_player_dooropen1
+  $337a-$3442 txt_player_dooropen2
+  $3443-$34fc col_player_dooropen2
+  $34fd-$3595 txt_player_dooropen3
+  $3596-$361f col_player_dooropen3
+  $3620-$3688 txt_z_turndisk_bottom
+  $3689-$36f2 col_z_turndisk_bottom
+  $36f3-$37d0 txt_z_turndisk_top
+  $37d1-$3884 col_z_turndisk_top
+*/
 .var nn = List()
-.eval nn.add($3000,$3042)
+.eval nn.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$3689,$36f3,$37d1)
+
+
+
+/*
+----------------------------------------------------------------------------------------
+Macros
+----------------------------------------------------------------------------------------
+*/
 
 .macro petscii_load_sequence(filenameA, filenameB){
     load(filenameA,filenameB,$c000) 

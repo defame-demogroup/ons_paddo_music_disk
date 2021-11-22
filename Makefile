@@ -41,13 +41,11 @@ build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build 
 	cd rsrc;exomizer mem -l auto aa.prg -o ../build/aa.prg
 	cd rsrc;exomizer mem -l auto bb.prg -o ../build/bb.prg
 	cd rsrc;exomizer mem -l auto cc.prg -o ../build/cc.prg
-	cd rsrc;exomizer mem -l auto dd.prg -o ../build/dd.prg
 	cd rsrc;exomizer mem -l auto ee.prg -o ../build/ee.prg
 	cd rsrc;exomizer mem -l auto ff.prg -o ../build/ff.prg
 	cd rsrc;exomizer mem -l auto gg.prg -o ../build/gg.prg
 	cd rsrc;exomizer mem -l auto hh.prg -o ../build/hh.prg
 	cd rsrc;exomizer mem -l auto ii.prg -o ../build/ii.prg
-	cd rsrc;exomizer mem -l auto jj.prg -o ../build/jj.prg
 	cd rsrc;exomizer mem -l auto kk.prg -o ../build/kk.prg
 	cd rsrc;exomizer mem -l auto ll.prg -o ../build/ll.prg
 	cd rsrc;exomizer mem -l auto mm.prg -o ../build/mm.prg
@@ -166,13 +164,11 @@ disk1.d64: ## create c64 disk demo side 1
 	c1541 -attach $@ -write build/aa.prg "aa"
 	c1541 -attach $@ -write build/bb.prg "bb"
 	c1541 -attach $@ -write build/cc.prg "cc"
-	c1541 -attach $@ -write build/dd.prg "dd"
 	c1541 -attach $@ -write build/ee.prg "ee"
 	c1541 -attach $@ -write build/ff.prg "ff"
 	c1541 -attach $@ -write build/gg.prg "gg"
 	c1541 -attach $@ -write build/hh.prg "hh"
 	c1541 -attach $@ -write build/ii.prg "ii"
-	c1541 -attach $@ -write build/jj.prg "jj"
 	c1541 -attach $@ -write build/kk.prg "kk"
 	c1541 -attach $@ -write build/ll.prg "ll"
 	c1541 -attach $@ -write build/mm.prg "mm"
@@ -227,13 +223,11 @@ disk2.d64: ## create c64 disk demo side 2
 	c1541 -attach $@ -write build/aa.prg "aa"
 	c1541 -attach $@ -write build/bb.prg "bb"
 	c1541 -attach $@ -write build/cc.prg "cc"
-	c1541 -attach $@ -write build/dd.prg "dd"
 	c1541 -attach $@ -write build/ee.prg "ee"
 	c1541 -attach $@ -write build/ff.prg "ff"
 	c1541 -attach $@ -write build/gg.prg "gg"
 	c1541 -attach $@ -write build/hh.prg "hh"
 	c1541 -attach $@ -write build/ii.prg "ii"
-	c1541 -attach $@ -write build/jj.prg "jj"
 	c1541 -attach $@ -write build/kk.prg "kk"
 	c1541 -attach $@ -write build/ll.prg "ll"
 	c1541 -attach $@ -write build/mm.prg "mm"

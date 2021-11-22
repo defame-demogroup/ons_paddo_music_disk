@@ -34,10 +34,8 @@ with open(output, mode="w") as o:
             o.write(f"""
 //{raw_name} : {txt_name} + {col_name}
 .pc=* "{txt_name}"
-txt_{ptr}:
 .import c64 "rsrc/{txt_filename}"
 .pc=* "{col_name}"
-col_{ptr}: 
 .import c64 "rsrc/{col_filename}"
 """
             )
