@@ -467,11 +467,11 @@
 .import c64 "rsrc/txt_player_dooropen3.prg"
 .pc=* "col_player_dooropen3"
 .import c64 "rsrc/col_player_dooropen3.prg"
-//z_turndisk bottom: txt_z_turndisk + col_z_turndisk
-.pc=* "txt_z_turndisk_bottom"
-.import c64 "rsrc/txt_z_turndisk_bottom.prg"
-.pc=* "col_z_turndisk_bottom"
-.import c64 "rsrc/col_z_turndisk_bottom.prg"
+// //z_turndisk bottom: txt_z_turndisk + col_z_turndisk
+// .pc=* "txt_z_turndisk_bottom"
+// .import c64 "rsrc/txt_z_turndisk_bottom.prg"
+// .pc=* "col_z_turndisk_bottom"
+// .import c64 "rsrc/col_z_turndisk_bottom.prg"
 //z_turndisk top : txt_z_turndisk + col_z_turndisk
 .pc=* "txt_z_turndisk_top"
 .import c64 "rsrc/txt_z_turndisk_top.prg"

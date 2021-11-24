@@ -18,7 +18,7 @@ m_key_scan_delay:
 .byte $00
 
 m_title_scroll_delay_counter:
-.byte $00
+.byte $10
 
 m_title_scroll_enabled:
 .byte $00

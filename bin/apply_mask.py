@@ -39,11 +39,14 @@ for filename in os.listdir(graphics_source):
             items = row.split(",")
             row_output: list = list()
             for item in items:
-                if item.isnumeric():
+                if item.strip().isnumeric():
                     if (y > 5 and y < 18 and x > 17 and x < 34) or (y > 30 and y < 43 and x > 17 and x < 34):
                         row_output.append(item.rjust(3,"0"))
                     else:
-                        row_output.append("254")
+                        if item.endswith("\n"):
+                            row_output.append("254\n")
+                        else:
+                            row_output.append("254")
                     x += 1
                 else:
                     row_output.append(item)

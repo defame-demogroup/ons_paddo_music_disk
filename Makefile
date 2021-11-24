@@ -11,6 +11,11 @@ help: ## This help
 
 all: build disk1.d64 disk2.d64  ## clean up and make the disk images
 
+apply_mask: ## process animation frames with mask
+	cp -r assets/pre-masked/*.c assets/graphics/
+	bin/apply_mask.py
+	echo "You now need to RLE pack the frames and adjust all the start addresses in petscii_addresses.asm"
+
 autogenerate: ## autogenerate conversion templates
 	bin/convert_c.py
 	bin/convert_c_spinner.py

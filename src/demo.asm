@@ -135,6 +135,14 @@ Sprite
 .for(var i=0;i<21;i++){
     .byte $ff, $ff, $ff
 }
+.pc=$0a80
+.for(var i=0;i<12;i++){
+    .byte $ff, $ff, $ff
+}
+.for(var i=0;i<09;i++){
+    .byte $00, $00, $00
+}
+
 
 /*
 ----------------------------------------
@@ -383,19 +391,25 @@ irq_intro_a:
 
 //standard main irq
 irq_a:
+    lda #$4a
+    sta $d001
+    sta $d003
+    sta $d005
+    lda #$00
+    sta $d027
+    sta $d028
+    sta $d029
+
     lda enable_effect
     beq !+
-    //inc $d020
     jsr menu_irq_handler
-    //dec $d020
 !:
     lda enable_music
     beq !+
-    //dec $d020
     jsr m_play
-    //inc $d020
 !:
-    lda #$a0
+
+    lda #$60
     sta $d012
     lda #>irq_b
     sta $0315
@@ -406,23 +420,81 @@ irq_a:
     sta $d019
     jmp $ea81  
 
-//multispeed irq
+
 irq_b:
+    lda #$74
+    sta $d001
+    sta $d003
+    sta $d005
+    lda #$9b
+    sta $d012
+    lda #>irq_c
+    sta $0315
+    lda #<irq_c
+    sta $0314
+    lda #$ff 
+    sta $d019
+    jmp $ea81  
+
+irq_c:
+    lda #$9e
+    sta $d001
+    sta $d003
+    sta $d005
+
+    lda $d012
+!:
+    cmp $d012
+    beq !-
+    lda $d012
+!:
+    cmp $d012
+    beq !-
+    lda #$00
+    sta $d017
+    lda #$2a
+    sta $07f8
+    sta $07f9
+    sta $07fa
+    lda #$b5
+    sta $d012
+    lda #>irq_d
+    sta $0315
+    lda #<irq_d
+    sta $0314
+    lda #$ff 
+    sta $d019
+    jmp $ea81  
+
+//multispeed irq
+irq_d:
+    lda #$c2
+    sta $d001
+    sta $d003
+    sta $d005
+    lda cc_current_player_color
+    sta $d027
+    sta $d028
+    sta $d029
+    lda #$07
+    sta $d017
+    lda #$29
+    sta $07f8
+    sta $07f9
+    sta $07fa
+
+
     lda enable_music
     beq !+
     lda music_speed
     cmp #$ff //multispeed flag from SID
     bne !+
-    //dec $d020
     jsr m_play
-    //inc $d020
 !: 
     lda enable_effect
     beq !+
-    //inc $d020
     jsr tt_run
     jsr cc_colorcycle
-    //dec $d020
 !:
     lda #$ec
     sta $d012
@@ -433,6 +505,11 @@ irq_b:
     lda #$ff 
     sta $d019
     jmp $ea81  
+
+
+
+
+
 
 /* 
 ----------------------------------------

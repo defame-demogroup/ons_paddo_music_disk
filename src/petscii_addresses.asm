@@ -17,28 +17,32 @@ See MACROS at the end of this to use the animation frames!
 */
 
 
+
+
+
+
 /*
 drummer-segment: aa.prg
   $3000-$30e6 txt_player_doo
-  $30e7-$31a3 col_player_doo
-  $31a4-$329c txt_player_dooropen1
-  $329d-$3379 col_player_dooropen1
-  $337a-$3442 txt_player_dooropen2
-  $3443-$34fc col_player_dooropen2
-  $34fd-$3595 txt_player_dooropen3
-  $3596-$361f col_player_dooropen3
-  $3620-$3705 txt_drummer1
-  $3706-$37e6 col_drummer1
-  $37e7-$38d0 txt_drummer2
-  $38d1-$39b5 col_drummer2
-  $39b6-$3a90 txt_drummer3
-  $3a91-$3b69 col_drummer3
-  $3b6a-$3c52 txt_drummer4
-  $3c53-$3d39 col_drummer4
+  $30e7-$31a2 col_player_doo
+  $31a3-$329b txt_player_dooropen1
+  $329c-$3377 col_player_dooropen1
+  $3378-$3440 txt_player_dooropen2
+  $3441-$34f9 col_player_dooropen2
+  $34fa-$3592 txt_player_dooropen3
+  $3593-$361b col_player_dooropen3
+  $361c-$3701 txt_drummer1
+  $3702-$37e1 col_drummer1
+  $37e2-$38cb txt_drummer2
+  $38cc-$39af col_drummer2
+  $39b0-$3a8a txt_drummer3
+  $3a8b-$3b62 col_drummer3
+  $3b63-$3c4b txt_drummer4
+  $3c4c-$3d31 col_drummer4
 
 */
 .var aa = List();
-.eval aa.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$3706,$37e7,$38d1,$39b6,$3a91,$3b6a,$3c53)
+.eval aa.add($3000,$30e7,$31a3,$329c,$3378,$3441,$34fa,$3593,$361c,$3702,$37e2,$38cc,$39b0,$3a8b,$3b63,$3c4c)
 
 
 /*
@@ -55,58 +59,59 @@ final-segment: bb.prg
 /*
 circle-segment: cc.prg
   $3000-$30e6 txt_player_doo
-  $30e7-$31a3 col_player_doo
-  $31a4-$329c txt_player_dooropen1
-  $329d-$3379 col_player_dooropen1
-  $337a-$3442 txt_player_dooropen2
-  $3443-$34fc col_player_dooropen2
-  $34fd-$3595 txt_player_dooropen3
-  $3596-$361f col_player_dooropen3
-  $3620-$36e0 txt_irclefx1
-  $36e1-$378e col_irclefx1
-  $378f-$384f txt_irclefx2
-  $3850-$38f5 col_irclefx2
-  $38f6-$39d0 txt_irclefx3
-  $39d1-$3a88 col_irclefx3
-  $3a89-$3b71 txt_irclefx4
-  $3b72-$3c3f col_irclefx4
-  $3c40-$3d24 txt_irclefx5
-  $3d25-$3df6 col_irclefx5
-  $3df7-$3ecb txt_irclefx6
-  $3ecc-$3f8d col_irclefx6
+  $30e7-$31a2 col_player_doo
+  $31a3-$329b txt_player_dooropen1
+  $329c-$3377 col_player_dooropen1
+  $3378-$3440 txt_player_dooropen2
+  $3441-$34f9 col_player_dooropen2
+  $34fa-$3592 txt_player_dooropen3
+  $3593-$361b col_player_dooropen3
+  $361c-$36dc txt_irclefx1
+  $36dd-$3789 col_irclefx1
+  $378a-$384a txt_irclefx2
+  $384b-$38ef col_irclefx2
+  $38f0-$39ca txt_irclefx3
+  $39cb-$3a81 col_irclefx3
+  $3a82-$3b6a txt_irclefx4
+  $3b6b-$3c37 col_irclefx4
+  $3c38-$3d1c txt_irclefx5
+  $3d1d-$3ded col_irclefx5
+  $3dee-$3ec2 txt_irclefx6
+  $3ec3-$3f83 col_irclefx6
+
 */
 .var cc = List()
-.eval cc.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$36e1,$378f,$3850,$38f6,$39d1,$3a89,$3b72,$3c40,$3d25,$3df7,$3ecc)
+.eval cc.add($3000,$30e7,$31a3,$329c,$3378,$3441,$34fa,$3593,$361c,$36dd,$378a,$384b,$38f0,$39cb,$3a82,$3b6b,$3c38,$3d1d,$3dee,$3ec3)
 
 
 /*
 moreskullz-segment: ee.prg
   $3000-$30e6 txt_player_doo
-  $30e7-$31a3 col_player_doo
-  $31a4-$329c txt_player_dooropen1
-  $329d-$3379 col_player_dooropen1
-  $337a-$3442 txt_player_dooropen2
-  $3443-$34fc col_player_dooropen2
-  $34fd-$3595 txt_player_dooropen3
-  $3596-$361f col_player_dooropen3
-  $3620-$3718 txt_moreskulls1
-  $3719-$37f4 col_moreskulls1
-  $37f5-$38ed txt_moreskulls2
-  $38ee-$39c9 col_moreskulls2
-  $39ca-$3ac2 txt_moreskulls3
-  $3ac3-$3ba5 col_moreskulls3
-  $3ba6-$3c9e txt_moreskulls4
-  $3c9f-$3d7c col_moreskulls4
-  $3d7d-$3e75 txt_moreskulls5
-  $3e76-$3f52 col_moreskulls5
-  $3f53-$404b txt_moreskulls6
-  $404c-$412a col_moreskulls6
-  $412b-$4220 txt_moreskulls7
-  $4221-$4303 col_moreskulls7
+  $30e7-$31a2 col_player_doo
+  $31a3-$329b txt_player_dooropen1
+  $329c-$3377 col_player_dooropen1
+  $3378-$3440 txt_player_dooropen2
+  $3441-$34f9 col_player_dooropen2
+  $34fa-$3592 txt_player_dooropen3
+  $3593-$361b col_player_dooropen3
+  $361c-$3714 txt_moreskulls1
+  $3715-$37ef col_moreskulls1
+  $37f0-$38e8 txt_moreskulls2
+  $38e9-$39c3 col_moreskulls2
+  $39c4-$3abc txt_moreskulls3
+  $3abd-$3b9e col_moreskulls3
+  $3b9f-$3c97 txt_moreskulls4
+  $3c98-$3d74 col_moreskulls4
+  $3d75-$3e6d txt_moreskulls5
+  $3e6e-$3f49 col_moreskulls5
+  $3f4a-$4042 txt_moreskulls6
+  $4043-$4120 col_moreskulls6
+  $4121-$4216 txt_moreskulls7
+  $4217-$42f8 col_moreskulls7
 
 */
 .var ee = List()
-.eval ee.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$3719,$37f5,$38ee,$39ca,$3ac3,$3ba6,$3c9f,$3d7d,$3e76,$3f53,$404c,$412b,$4221)
+.eval ee.add($3000,$30e7,$31a3,$329c,$3378,$3441,$34fa,$3593,$361c,$3715,$37f0,$38e9,$39c4,$3abd,$3b9f,$3c98,$3d75,$3e6e,$3f4a,$4043,$4121,$4217)
 
 
 /*
@@ -166,6 +171,8 @@ playerbase-segment: ii.prg
 .var ii = List()
 .eval ii.add($3000,$325d,$3422,$3509)
 
+
+
 /*
 credits-segment: kk.prg
   $3000-$3253 txt_redits
@@ -177,86 +184,95 @@ credits-segment: kk.prg
 /*
 sk-segment: ll.prg
   $3000-$30e6 txt_player_doo
-  $30e7-$31a3 col_player_doo
-  $31a4-$329c txt_player_dooropen1
-  $329d-$3379 col_player_dooropen1
-  $337a-$3442 txt_player_dooropen2
-  $3443-$34fc col_player_dooropen2
-  $34fd-$3595 txt_player_dooropen3
-  $3596-$361f col_player_dooropen3
-  $3620-$369b txt_sk1
-  $369c-$3718 col_sk1
-  $3719-$37ba txt_sk2
-  $37bb-$385b col_sk2
-  $385c-$392a txt_sk3
-  $392b-$39fa col_sk3
-  $39fb-$3ad1 txt_sk4
-  $3ad2-$3ba3 col_sk4
-  $3ba4-$3c8f txt_sk5
-  $3c90-$3d63 col_sk5
-  $3d64-$3e4c txt_sk6
-  $3e4d-$3f24 col_sk6
-  $3f25-$4004 txt_sk7
-  $4005-$40d6 col_sk7
-  $40d7-$41a5 txt_sk8
-  $41a6-$4267 col_sk8
-  $4268-$4350 txt_sk9
-  $4351-$442b col_sk9
-  $442c-$44f7 txt_sk10
-  $44f8-$45b5 col_sk10
-  $45b6-$467b txt_sk11
-  $467c-$4738 col_sk11
-  $4739-$47eb txt_sk12
-  $47ec-$489b col_sk12
+  $30e7-$31a2 col_player_doo
+  $31a3-$329b txt_player_dooropen1
+  $329c-$3377 col_player_dooropen1
+  $3378-$3440 txt_player_dooropen2
+  $3441-$34f9 col_player_dooropen2
+  $34fa-$3592 txt_player_dooropen3
+  $3593-$361b col_player_dooropen3
+  $361c-$3697 txt_sk1
+  $3698-$3713 col_sk1
+  $3714-$37b5 txt_sk2
+  $37b6-$3855 col_sk2
+  $3856-$3924 txt_sk3
+  $3925-$39f3 col_sk3
+  $39f4-$3aca txt_sk4
+  $3acb-$3b9b col_sk4
+  $3b9c-$3c87 txt_sk5
+  $3c88-$3d5a col_sk5
+  $3d5b-$3e43 txt_sk6
+  $3e44-$3f1a col_sk6
+  $3f1b-$3ffa txt_sk7
+  $3ffb-$40cb col_sk7
+  $40cc-$419a txt_sk8
+  $419b-$425b col_sk8
+  $425c-$4344 txt_sk9
+  $4345-$441e col_sk9
+  $441f-$44ea txt_sk10
+  $44eb-$45a7 col_sk10
+  $45a8-$466d txt_sk11
+  $466e-$4729 col_sk11
+  $472a-$47dc txt_sk12
+  $47dd-$488b col_sk12
 */
 .var ll = List()
-.eval ll.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$369c,$3719,$37bb,$385c,$392b,$39fb,$3ad2,$3ba4,$3c90,$3d64,$3e4d,$3f25,$4005,$40d7,$41a6,$4268,$4351,$442c,$44f8,$45b6,$467c,$4739,$47ec)
+.eval ll.add($3000,$30e7,$31a3,$329c,$3378,$3441,$34fa,$3593,$361c,$3698,$3714,$37b6,$3856,$3925,$39f4,$3acb,$3b9c,$3c88,$3d5b,$3e44,$3f1b,$3ffb,$40cc,$419b,$425c,$4345,$441f,$44eb,$45a8,$466e,$472a,$47dd)
 
 
 /*
 skull_rotate-segment: mm.prg
   $3000-$30e6 txt_player_doo
-  $30e7-$31a3 col_player_doo
-  $31a4-$329c txt_player_dooropen1
-  $329d-$3379 col_player_dooropen1
-  $337a-$3442 txt_player_dooropen2
-  $3443-$34fc col_player_dooropen2
-  $34fd-$3595 txt_player_dooropen3
-  $3596-$361f col_player_dooropen3
-  $3620-$36ed txt_skullrotate1
-  $36ee-$37b3 col_skullrotate1
-  $37b4-$387a txt_skullrotate2
-  $387b-$393c col_skullrotate2
-  $393d-$39fb txt_skullrotate3
-  $39fc-$3aba col_skullrotate3
-  $3abb-$3b78 txt_skullrotate4
-  $3b79-$3c2c col_skullrotate4
-  $3c2d-$3ce5 txt_skullrotate5
-  $3ce6-$3d9e col_skullrotate5
-  $3d9f-$3e63 txt_skullrotate6
-  $3e64-$3f23 col_skullrotate6
+  $30e7-$31a2 col_player_doo
+  $31a3-$329b txt_player_dooropen1
+  $329c-$3377 col_player_dooropen1
+  $3378-$3440 txt_player_dooropen2
+  $3441-$34f9 col_player_dooropen2
+  $34fa-$3592 txt_player_dooropen3
+  $3593-$361b col_player_dooropen3
+  $361c-$36e9 txt_skullrotate1
+  $36ea-$37ae col_skullrotate1
+  $37af-$3875 txt_skullrotate2
+  $3876-$3936 col_skullrotate2
+  $3937-$39f5 txt_skullrotate3
+  $39f6-$3ab3 col_skullrotate3
+  $3ab4-$3b71 txt_skullrotate4
+  $3b72-$3c24 col_skullrotate4
+  $3c25-$3cdd txt_skullrotate5
+  $3cde-$3d95 col_skullrotate5
+  $3d96-$3e5a txt_skullrotate6
+  $3e5b-$3f19 col_skullrotate6
 */
 .var mm = List()
-.eval mm.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$36ee,$37b4,$387b,$393d,$39fc,$3abb,$3b79,$3c2d,$3ce6,$3d9f,$3e64)
+.eval mm.add($3000,$30e7,$31a3,$329c,$3378,$3441,$34fa,$3593,$361c,$36ea,$37af,$3876,$3937,$39f6,$3ab4,$3b72,$3c25,$3cde,$3d96,$3e5b)
 
 
 /*
 turn_disk-segment: nn.prg
   $3000-$30e6 txt_player_doo
-  $30e7-$31a3 col_player_doo
-  $31a4-$329c txt_player_dooropen1
-  $329d-$3379 col_player_dooropen1
-  $337a-$3442 txt_player_dooropen2
-  $3443-$34fc col_player_dooropen2
-  $34fd-$3595 txt_player_dooropen3
-  $3596-$361f col_player_dooropen3
-  $3620-$3688 txt_z_turndisk_bottom
-  $3689-$36f2 col_z_turndisk_bottom
-  $36f3-$37d0 txt_z_turndisk_top
-  $37d1-$3884 col_z_turndisk_top
+  $30e7-$31a2 col_player_doo
+  $31a3-$329b txt_player_dooropen1
+  $329c-$3377 col_player_dooropen1
+  $3378-$3440 txt_player_dooropen2
+  $3441-$34f9 col_player_dooropen2
+  $34fa-$3592 txt_player_dooropen3
+  $3593-$361b col_player_dooropen3
+  $361c-$36f9 txt_z_turndisk_top
+  $36fa-$37ac col_z_turndisk_top
 */
 .var nn = List()
-.eval nn.add($3000,$30e7,$31a4,$329d,$337a,$3443,$34fd,$3596,$3620,$3689,$36f3,$37d1)
+.eval nn.add($3000,$30e7,$31a3,$329c,$3378,$3441,$34fa,$3593,$361c,$36fa)
+
+
+
+
+
+
+
+
+
+
+
 
 
 

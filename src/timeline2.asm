@@ -55,22 +55,32 @@
     sta $d01d
 
     //enable main irq effect
+    jsr tt_reset
+    jsr tt_render_title
     lda #$01
     sta enable_effect
     sta enable_music
-    jsr tt_reset
-    jsr tt_render_title
 
 !:
     jsr poll_aa
     jsr poll_for_song_change
+    jsr random_delay
+    jsr poll_for_song_change
     jsr poll_cc
+    jsr poll_for_song_change
+    jsr random_delay
     jsr poll_for_song_change
     jsr poll_ee
     jsr poll_for_song_change
+    jsr random_delay
+    jsr poll_for_song_change
     jsr poll_ll
     jsr poll_for_song_change
+    jsr random_delay
+    jsr poll_for_song_change
     jsr poll_mm
+    jsr poll_for_song_change
+    jsr random_delay
     jsr poll_for_song_change
     jmp!-
 
@@ -88,23 +98,29 @@ poll_for_song_change:
     lda #$00
     sta ll_zp1_lo
     jsr loader_load
-
     lda ll_zp1_hi
     cmp #$c0
-    bne !+
+    bne !no_flip+
     lda ll_zp1_lo
     cmp #$00
-    bne !+
+    bne !no_flip+
+    jmp !flip+
+!no_flip:
+    jmp !load_complete+
+!flip:
     //load did not work... try asking to flip the disk! nn.prg
     jsr blit_save
     petscii_load_sequence('N','N')
-    petscii_render_frame(nn, 0, true, 224, 0)
+    petscii_animate(nn, true, 254, 254, 0)
 !loop:
     lda m_modal_ack
     beq !loop-
+    lda #$00
+    sta m_modal_ack
+    animate_close(nn)
     jsr blit_load
     jmp !-
-!:
+!load_complete:
     lda #$00
     sta enable_music
     jsr m_disable
@@ -119,7 +135,29 @@ poll_for_song_change:
     jsr menu_no_modal
     rts
 
-.import source "blit.asm"
+delay_countdown:
+.byte $00
+random_delay:
+    lda $d41b
+    asl
+    adc $d41b
+    sta delay_countdown
+!loop:
+    lda menu_next_song_ready_flag
+    bne !end+
+    ldx #$00
+    ldy #$08
+!:
+    dex
+    bne !-
+    lda menu_next_song_ready_flag
+    bne !end+
+    dey
+    bne !-
+    dec delay_countdown
+    bne !loop-
+!end:
+    rts
 
 
 open_mm:
@@ -325,3 +363,4 @@ I have taken the guts of the macro from the Petscii include, but I need to have 
     }
 }
 
+.import source "blit.asm"
