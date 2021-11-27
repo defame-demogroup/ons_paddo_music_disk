@@ -4,7 +4,7 @@
 .var xys_bot = xys_top + xys_height
 .var xys_logo_height = 25 * 2
 .var xys_logo_width = 40 * 3
-.var xys_logo_base = $8500
+.var xys_logo_base = $4500
 
 xys:
     ldx xys_index
@@ -12,6 +12,7 @@ xys:
     sta xys_x_scroll_reg
     lda xys_y_lo,x
     sta xys_y_scroll_reg
+    dex
     lda xys_y_hi,x
     tay
     lda xys_rows,y

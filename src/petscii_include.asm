@@ -1,4 +1,122 @@
-.var petscii_base=$3000
+.var petscii_base=$a000
+
+/*
+Timeline 1 Assets (Note non-standard start addresses are super important!)
+*/
+
+
+.segment open [outPrg="../rsrc/gg.prg"]
+.pc=$1800
+//open1 : txt_open1 + col_open1
+.pc=* "txt_open1"
+.import c64 "rsrc/txt_open1.prg"
+.pc=* "col_open1"
+.import c64 "rsrc/col_open1.prg"
+//open2 : txt_open2 + col_open2
+.pc=* "txt_open2"
+.import c64 "rsrc/txt_open2.prg"
+.pc=* "col_open2"
+.import c64 "rsrc/col_open2.prg"
+//open3 : txt_open3 + col_open3
+.pc=* "txt_open3"
+.import c64 "rsrc/txt_open3.prg"
+.pc=* "col_open3"
+.import c64 "rsrc/col_open3.prg"
+//open4 : txt_open4 + col_open4
+.pc=* "txt_open4"
+.import c64 "rsrc/txt_open4.prg"
+.pc=* "col_open4"
+.import c64 "rsrc/col_open4.prg"
+//open5 : txt_open5 + col_open5
+.pc=* "txt_open5"
+.import c64 "rsrc/txt_open5.prg"
+.pc=* "col_open5"
+.import c64 "rsrc/col_open5.prg"
+//open6 : txt_open6 + col_open6
+.pc=* "txt_open6"
+.import c64 "rsrc/txt_open6.prg"
+.pc=* "col_open6"
+.import c64 "rsrc/col_open6.prg"
+//open7 : txt_open7 + col_open7
+.pc=* "txt_open7"
+.import c64 "rsrc/txt_open7.prg"
+.pc=* "col_open7"
+.import c64 "rsrc/col_open7.prg"
+//open8 : txt_open8 + col_open8
+.pc=* "txt_open8"
+.import c64 "rsrc/txt_open8.prg"
+.pc=* "col_open8"
+.import c64 "rsrc/col_open8.prg"
+//open9 : txt_open9 + col_open9
+.pc=* "txt_open9"
+.import c64 "rsrc/txt_open9.prg"
+.pc=* "col_open9"
+.import c64 "rsrc/col_open9.prg"
+
+.segment open_loop [outPrg="../rsrc/hh.prg"]
+.pc=$2600
+//openloop1 : txt_openloop1 + col_openloop1
+.pc=* "txt_openloop1"
+.import c64 "rsrc/txt_openloop1.prg"
+.pc=* "col_openloop1"
+.import c64 "rsrc/col_openloop1.prg"
+//openloop2 : txt_openloop2 + col_openloop2
+.pc=* "txt_openloop2"
+.import c64 "rsrc/txt_openloop2.prg"
+.pc=* "col_openloop2"
+.import c64 "rsrc/col_openloop2.prg"
+//openloop3 : txt_openloop3 + col_openloop3
+.pc=* "txt_openloop3"
+.import c64 "rsrc/txt_openloop3.prg"
+.pc=* "col_openloop3"
+.import c64 "rsrc/col_openloop3.prg"
+//openloop4 : txt_openloop4 + col_openloop4
+.pc=* "txt_openloop4"
+.import c64 "rsrc/txt_openloop4.prg"
+.pc=* "col_openloop4"
+.import c64 "rsrc/col_openloop4.prg"
+
+.segment close [outPrg="../rsrc/jj.prg"]
+.pc=$3900
+//lose1 : txt_lose1 + col_lose1
+.pc=* "txt_lose1"
+.import c64 "rsrc/txt_lose1.prg"
+.pc=* "col_lose1"
+.import c64 "rsrc/col_lose1.prg"
+//lose2 : txt_lose2 + col_lose2
+.pc=* "txt_lose2"
+.import c64 "rsrc/txt_lose2.prg"
+.pc=* "col_lose2"
+.import c64 "rsrc/col_lose2.prg"
+//lose3 : txt_lose3 + col_lose3
+.pc=* "txt_lose3"
+.import c64 "rsrc/txt_lose3.prg"
+.pc=* "col_lose3"
+.import c64 "rsrc/col_lose3.prg"
+//lose4 : txt_lose4 + col_lose4
+.pc=* "txt_lose4"
+.import c64 "rsrc/txt_lose4.prg"
+.pc=* "col_lose4"
+.import c64 "rsrc/col_lose4.prg"
+
+
+.segment final [outPrg="../rsrc/bb.prg"]
+.pc=petscii_base
+//final1 : txt_final1 + col_final1
+.pc=* "txt_final1"
+.import c64 "rsrc/txt_final1.prg"
+.pc=* "col_final1"
+.import c64 "rsrc/col_final1.prg"
+//final2 : txt_final2 + col_final2
+.pc=* "txt_final2"
+.import c64 "rsrc/txt_final2.prg"
+.pc=* "col_final2"
+.import c64 "rsrc/col_final2.prg"
+
+
+/*
+Timeline 2 Assets
+*/
 
 .segment drummer [outPrg="../rsrc/aa.prg"]
 .pc=petscii_base
@@ -41,77 +159,6 @@
 .import c64 "rsrc/txt_drummer4.prg"
 .pc=* "col_drummer4"
 .import c64 "rsrc/col_drummer4.prg"
-
-
-
-
-.segment final [outPrg="../rsrc/bb.prg"]
-.pc=petscii_base
-//final1 : txt_final1 + col_final1
-.pc=* "txt_final1"
-.import c64 "rsrc/txt_final1.prg"
-.pc=* "col_final1"
-.import c64 "rsrc/col_final1.prg"
-//final2 : txt_final2 + col_final2
-.pc=* "txt_final2"
-.import c64 "rsrc/txt_final2.prg"
-.pc=* "col_final2"
-.import c64 "rsrc/col_final2.prg"
-
-
-
-
-.segment circle [outPrg="../rsrc/cc.prg"]
-.pc=petscii_base
-//player_dooropen1 : txt_player_dooropen1 + col_player_dooropen1
-.pc=* "txt_player_doo"
-.import c64 "rsrc/txt_player_door.prg"
-.pc=* "col_player_doo"
-.import c64 "rsrc/col_player_door.prg"
-.pc=* "txt_player_dooropen1"
-.import c64 "rsrc/txt_player_dooropen1.prg"
-.pc=* "col_player_dooropen1"
-.import c64 "rsrc/col_player_dooropen1.prg"
-//player_dooropen2 : txt_player_dooropen2 + col_player_dooropen2
-.pc=* "txt_player_dooropen2"
-.import c64 "rsrc/txt_player_dooropen2.prg"
-.pc=* "col_player_dooropen2"
-.import c64 "rsrc/col_player_dooropen2.prg"
-//player_dooropen3 : txt_player_dooropen3 + col_player_dooropen3
-.pc=* "txt_player_dooropen3"
-.import c64 "rsrc/txt_player_dooropen3.prg"
-.pc=* "col_player_dooropen3"
-.import c64 "rsrc/col_player_dooropen3.prg"
-//irclefx1 : txt_irclefx1 + col_irclefx1
-.pc=* "txt_irclefx1"
-.import c64 "rsrc/txt_irclefx1.prg"
-.pc=* "col_irclefx1"
-.import c64 "rsrc/col_irclefx1.prg"
-//irclefx2 : txt_irclefx2 + col_irclefx2
-.pc=* "txt_irclefx2"
-.import c64 "rsrc/txt_irclefx2.prg"
-.pc=* "col_irclefx2"
-.import c64 "rsrc/col_irclefx2.prg"
-//irclefx3 : txt_irclefx3 + col_irclefx3
-.pc=* "txt_irclefx3"
-.import c64 "rsrc/txt_irclefx3.prg"
-.pc=* "col_irclefx3"
-.import c64 "rsrc/col_irclefx3.prg"
-//irclefx4 : txt_irclefx4 + col_irclefx4
-.pc=* "txt_irclefx4"
-.import c64 "rsrc/txt_irclefx4.prg"
-.pc=* "col_irclefx4"
-.import c64 "rsrc/col_irclefx4.prg"
-//irclefx5 : txt_irclefx5 + col_irclefx5
-.pc=* "txt_irclefx5"
-.import c64 "rsrc/txt_irclefx5.prg"
-.pc=* "col_irclefx5"
-.import c64 "rsrc/col_irclefx5.prg"
-//irclefx6 : txt_irclefx6 + col_irclefx6
-.pc=* "txt_irclefx6"
-.import c64 "rsrc/txt_irclefx6.prg"
-.pc=* "col_irclefx6"
-.import c64 "rsrc/col_irclefx6.prg"
 
 
 .segment moreskullz [outPrg="../rsrc/ee.prg"]
@@ -180,83 +227,6 @@
 .import c64 "rsrc/txt_onslogo_only.prg"
 .pc=* "col_onslogo_only"
 .import c64 "rsrc/col_onslogo_only.prg"
-
-
-.segment open [outPrg="../rsrc/gg.prg"]
-.pc=petscii_base
-//open1 : txt_open1 + col_open1
-.pc=* "txt_open1"
-.import c64 "rsrc/txt_open1.prg"
-.pc=* "col_open1"
-.import c64 "rsrc/col_open1.prg"
-//open2 : txt_open2 + col_open2
-.pc=* "txt_open2"
-.import c64 "rsrc/txt_open2.prg"
-.pc=* "col_open2"
-.import c64 "rsrc/col_open2.prg"
-//open3 : txt_open3 + col_open3
-.pc=* "txt_open3"
-.import c64 "rsrc/txt_open3.prg"
-.pc=* "col_open3"
-.import c64 "rsrc/col_open3.prg"
-//open4 : txt_open4 + col_open4
-.pc=* "txt_open4"
-.import c64 "rsrc/txt_open4.prg"
-.pc=* "col_open4"
-.import c64 "rsrc/col_open4.prg"
-//open5 : txt_open5 + col_open5
-.pc=* "txt_open5"
-.import c64 "rsrc/txt_open5.prg"
-.pc=* "col_open5"
-.import c64 "rsrc/col_open5.prg"
-//open6 : txt_open6 + col_open6
-.pc=* "txt_open6"
-.import c64 "rsrc/txt_open6.prg"
-.pc=* "col_open6"
-.import c64 "rsrc/col_open6.prg"
-//open7 : txt_open7 + col_open7
-.pc=* "txt_open7"
-.import c64 "rsrc/txt_open7.prg"
-.pc=* "col_open7"
-.import c64 "rsrc/col_open7.prg"
-//open8 : txt_open8 + col_open8
-.pc=* "txt_open8"
-.import c64 "rsrc/txt_open8.prg"
-.pc=* "col_open8"
-.import c64 "rsrc/col_open8.prg"
-//open9 : txt_open9 + col_open9
-.pc=* "txt_open9"
-.import c64 "rsrc/txt_open9.prg"
-.pc=* "col_open9"
-.import c64 "rsrc/col_open9.prg"
-
-
-
-
-.segment open_loop [outPrg="../rsrc/hh.prg"]
-.pc=petscii_base
-//openloop1 : txt_openloop1 + col_openloop1
-.pc=* "txt_openloop1"
-.import c64 "rsrc/txt_openloop1.prg"
-.pc=* "col_openloop1"
-.import c64 "rsrc/col_openloop1.prg"
-//openloop2 : txt_openloop2 + col_openloop2
-.pc=* "txt_openloop2"
-.import c64 "rsrc/txt_openloop2.prg"
-.pc=* "col_openloop2"
-.import c64 "rsrc/col_openloop2.prg"
-//openloop3 : txt_openloop3 + col_openloop3
-.pc=* "txt_openloop3"
-.import c64 "rsrc/txt_openloop3.prg"
-.pc=* "col_openloop3"
-.import c64 "rsrc/col_openloop3.prg"
-//openloop4 : txt_openloop4 + col_openloop4
-.pc=* "txt_openloop4"
-.import c64 "rsrc/txt_openloop4.prg"
-.pc=* "col_openloop4"
-.import c64 "rsrc/col_openloop4.prg"
-
-
 
 .segment playerbase [outPrg="../rsrc/ii.prg"]
 .pc=petscii_base
@@ -477,3 +447,112 @@
 .import c64 "rsrc/txt_z_turndisk_top.prg"
 .pc=* "col_z_turndisk_top"
 .import c64 "rsrc/col_z_turndisk_top.prg"
+
+
+.segment circle [outPrg="../rsrc/cc.prg"]
+.pc=petscii_base
+//player_dooropen1 : txt_player_dooropen1 + col_player_dooropen1
+.pc=* "txt_player_doo"
+.import c64 "rsrc/txt_player_door.prg"
+.pc=* "col_player_doo"
+.import c64 "rsrc/col_player_door.prg"
+.pc=* "txt_player_dooropen1"
+.import c64 "rsrc/txt_player_dooropen1.prg"
+.pc=* "col_player_dooropen1"
+.import c64 "rsrc/col_player_dooropen1.prg"
+//player_dooropen2 : txt_player_dooropen2 + col_player_dooropen2
+.pc=* "txt_player_dooropen2"
+.import c64 "rsrc/txt_player_dooropen2.prg"
+.pc=* "col_player_dooropen2"
+.import c64 "rsrc/col_player_dooropen2.prg"
+//player_dooropen3 : txt_player_dooropen3 + col_player_dooropen3
+.pc=* "txt_player_dooropen3"
+.import c64 "rsrc/txt_player_dooropen3.prg"
+.pc=* "col_player_dooropen3"
+.import c64 "rsrc/col_player_dooropen3.prg"
+//zz_ls7 : txt_zz_ls7 + col_zz_ls7
+.pc=* "txt_zz_ls7"
+.import c64 "rsrc/txt_zz_ls7.prg"
+.pc=* "col_zz_ls7"
+.import c64 "rsrc/col_zz_ls7.prg"
+//zz_ls9 : txt_zz_ls9 + col_zz_ls9
+.pc=* "txt_zz_ls9"
+.import c64 "rsrc/txt_zz_ls9.prg"
+.pc=* "col_zz_ls9"
+.import c64 "rsrc/col_zz_ls9.prg"
+//zz_ls11 : txt_zz_ls11 + col_zz_ls11
+.pc=* "txt_zz_ls11"
+.import c64 "rsrc/txt_zz_ls11.prg"
+.pc=* "col_zz_ls11"
+.import c64 "rsrc/col_zz_ls11.prg"
+//zz_ls13 : txt_zz_ls13 + col_zz_ls13
+.pc=* "txt_zz_ls13"
+.import c64 "rsrc/txt_zz_ls13.prg"
+.pc=* "col_zz_ls13"
+.import c64 "rsrc/col_zz_ls13.prg"
+//zz_ls15 : txt_zz_ls15 + col_zz_ls15
+.pc=* "txt_zz_ls15"
+.import c64 "rsrc/txt_zz_ls15.prg"
+.pc=* "col_zz_ls15"
+.import c64 "rsrc/col_zz_ls15.prg"
+//zz_ls17 : txt_zz_ls17 + col_zz_ls17
+.pc=* "txt_zz_ls17"
+.import c64 "rsrc/txt_zz_ls17.prg"
+.pc=* "col_zz_ls17"
+.import c64 "rsrc/col_zz_ls17.prg"
+//zz_ls19 : txt_zz_ls19 + col_zz_ls19
+.pc=* "txt_zz_ls19"
+.import c64 "rsrc/txt_zz_ls19.prg"
+.pc=* "col_zz_ls19"
+.import c64 "rsrc/col_zz_ls19.prg"
+//zz_ls21 : txt_zz_ls21 + col_zz_ls21
+.pc=* "txt_zz_ls21"
+.import c64 "rsrc/txt_zz_ls21.prg"
+.pc=* "col_zz_ls21"
+.import c64 "rsrc/col_zz_ls21.prg"
+//zz_ls23 : txt_zz_ls23 + col_zz_ls23
+.pc=* "txt_zz_ls23"
+.import c64 "rsrc/txt_zz_ls23.prg"
+.pc=* "col_zz_ls23"
+.import c64 "rsrc/col_zz_ls23.prg"
+//zz_ls25 : txt_zz_ls25 + col_zz_ls25
+.pc=* "txt_zz_ls25"
+.import c64 "rsrc/txt_zz_ls25.prg"
+.pc=* "col_zz_ls25"
+.import c64 "rsrc/col_zz_ls25.prg"
+//zz_ls27 : txt_zz_ls27 + col_zz_ls27
+.pc=* "txt_zz_ls27"
+.import c64 "rsrc/txt_zz_ls27.prg"
+.pc=* "col_zz_ls27"
+.import c64 "rsrc/col_zz_ls27.prg"
+//zz_ls29 : txt_zz_ls29 + col_zz_ls29
+.pc=* "txt_zz_ls29"
+.import c64 "rsrc/txt_zz_ls29.prg"
+.pc=* "col_zz_ls29"
+.import c64 "rsrc/col_zz_ls29.prg"
+//zz_ls31 : txt_zz_ls31 + col_zz_ls31
+.pc=* "txt_zz_ls31"
+.import c64 "rsrc/txt_zz_ls31.prg"
+.pc=* "col_zz_ls31"
+.import c64 "rsrc/col_zz_ls31.prg"
+//zz_ls33 : txt_zz_ls33 + col_zz_ls33
+.pc=* "txt_zz_ls33"
+.import c64 "rsrc/txt_zz_ls33.prg"
+.pc=* "col_zz_ls33"
+.import c64 "rsrc/col_zz_ls33.prg"
+//zz_ls35 : txt_zz_ls35 + col_zz_ls35
+.pc=* "txt_zz_ls35"
+.import c64 "rsrc/txt_zz_ls35.prg"
+.pc=* "col_zz_ls35"
+.import c64 "rsrc/col_zz_ls35.prg"
+//zz_ls37 : txt_zz_ls37 + col_zz_ls37
+.pc=* "txt_zz_ls37"
+.import c64 "rsrc/txt_zz_ls37.prg"
+.pc=* "col_zz_ls37"
+.import c64 "rsrc/col_zz_ls37.prg"
+//zz_ls39 : txt_zz_ls39 + col_zz_ls39
+.pc=* "txt_zz_ls39"
+.import c64 "rsrc/txt_zz_ls39.prg"
+.pc=* "col_zz_ls39"
+.import c64 "rsrc/col_zz_ls39.prg"
+

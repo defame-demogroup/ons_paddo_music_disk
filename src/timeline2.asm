@@ -93,13 +93,13 @@ poll_for_song_change:
     jsr menu_modal
     ldx menu_next_song_filename_a
     ldy menu_next_song_filename_b
-    lda #$c0
+    lda #$b8
     sta ll_zp1_hi
     lda #$00
     sta ll_zp1_lo
     jsr loader_load
     lda ll_zp1_hi
-    cmp #$c0
+    cmp #$b8
     bne !no_flip+
     lda ll_zp1_lo
     cmp #$00
@@ -281,20 +281,10 @@ jsr open_cc
 lda menu_next_song_ready_flag
 bne !+
 jsr run_cc
-lda menu_next_song_ready_flag
-bne !+
-jsr run_cc
-lda menu_next_song_ready_flag
-bne !+
-jsr run_cc
-lda menu_next_song_ready_flag
-bne !+
-jsr run_cc
-lda menu_next_song_ready_flag
-bne !+
 !:
 jsr close_cc
 rts
+
 
 open_aa:
 petscii_load_sequence('A','A')

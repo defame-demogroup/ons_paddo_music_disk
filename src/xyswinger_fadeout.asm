@@ -1,4 +1,4 @@
-.var xys_map_buf = $1800
+.var xys_map_buf = $a000
 
 xys_fadeout:
     ldx #$00

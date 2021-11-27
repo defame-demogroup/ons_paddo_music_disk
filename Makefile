@@ -51,6 +51,7 @@ build: clean autogenerate rsrc src/demo.prg ## Exomize all resources into build 
 	cd rsrc;exomizer mem -l auto gg.prg -o ../build/gg.prg
 	cd rsrc;exomizer mem -l auto hh.prg -o ../build/hh.prg
 	cd rsrc;exomizer mem -l auto ii.prg -o ../build/ii.prg
+	cd rsrc;exomizer mem -l auto jj.prg -o ../build/jj.prg
 	cd rsrc;exomizer mem -l auto kk.prg -o ../build/kk.prg
 	cd rsrc;exomizer mem -l auto ll.prg -o ../build/ll.prg
 	cd rsrc;exomizer mem -l auto mm.prg -o ../build/mm.prg
@@ -174,6 +175,7 @@ disk1.d64: ## create c64 disk demo side 1
 	c1541 -attach $@ -write build/gg.prg "gg"
 	c1541 -attach $@ -write build/hh.prg "hh"
 	c1541 -attach $@ -write build/ii.prg "ii"
+	c1541 -attach $@ -write build/jj.prg "jj"
 	c1541 -attach $@ -write build/kk.prg "kk"
 	c1541 -attach $@ -write build/ll.prg "ll"
 	c1541 -attach $@ -write build/mm.prg "mm"
@@ -225,6 +227,14 @@ disk1.d64: ## create c64 disk demo side 1
 
 disk2.d64: ## create c64 disk demo side 2
 	c1541 -format "onslaught,2a" d64 $@
+	c1541 -attach $@ -write build/demo.prg "start" 
+	c1541 -attach $@ -write build/ab.prg "ab" #intro code
+	c1541 -attach $@ -write build/ac.prg "ac" #megalogo
+	c1541 -attach $@ -write build/ad.prg "ad" #intro code
+	c1541 -attach $@ -write build/ba.prg "ba" #menu and titles
+	c1541 -attach $@ -write build/t1.prg "t1" #timeline
+	c1541 -attach $@ -write build/t2.prg "t2" #timeline
+	c1541 -attach $@ -write build/sx.prg "sx" #sfx
 	c1541 -attach $@ -write build/aa.prg "aa"
 	c1541 -attach $@ -write build/bb.prg "bb"
 	c1541 -attach $@ -write build/cc.prg "cc"
@@ -233,6 +243,7 @@ disk2.d64: ## create c64 disk demo side 2
 	c1541 -attach $@ -write build/gg.prg "gg"
 	c1541 -attach $@ -write build/hh.prg "hh"
 	c1541 -attach $@ -write build/ii.prg "ii"
+	c1541 -attach $@ -write build/jj.prg "jj"
 	c1541 -attach $@ -write build/kk.prg "kk"
 	c1541 -attach $@ -write build/ll.prg "ll"
 	c1541 -attach $@ -write build/mm.prg "mm"

@@ -1,13 +1,245 @@
 This document contains filesizes for the compressed files so I can 
 identify the buffer size for the Exomized files we load from disk.
 
-Max compressed animation filesize: $2000 -> $2A1B [$1000]
-Uncompressed animation filesize: $2000 -> $3900 [$1900]
+Memory Map
+----------
+drummer-segment:
+  $a000-$a0e6 txt_player_doo
+  $a0e7-$a1a2 col_player_doo
+  $a1a3-$a29b txt_player_dooropen1
+  $a29c-$a377 col_player_dooropen1
+  $a378-$a440 txt_player_dooropen2
+  $a441-$a4f9 col_player_dooropen2
+  $a4fa-$a592 txt_player_dooropen3
+  $a593-$a61b col_player_dooropen3
+  $a61c-$a701 txt_drummer1
+  $a702-$a7e1 col_drummer1
+  $a7e2-$a8cb txt_drummer2
+  $a8cc-$a9af col_drummer2
+  $a9b0-$aa8a txt_drummer3
+  $aa8b-$ab62 col_drummer3
+  $ab63-$ac4b txt_drummer4
+  $ac4c-$ad31 col_drummer4
 
-Memory map:
-$0800         : BASIC start
-$0ff0 - $3000 : Music Buffer
-$3000 - $5000 : Petscii Buffer
-$5000 - $C000 : Code
-$C000 - $D000 : Load Buffer
+final-segment:
+  $a000-$a345 txt_final1
+  $a346-$a5aa col_final1
+  $a5ab-$a8f0 txt_final2
+  $a8f1-$ab55 col_final2
+
+circle-segment:
+  $a000-$a0e6 txt_player_doo
+  $a0e7-$a1a2 col_player_doo
+  $a1a3-$a29b txt_player_dooropen1
+  $a29c-$a377 col_player_dooropen1
+  $a378-$a440 txt_player_dooropen2
+  $a441-$a4f9 col_player_dooropen2
+  $a4fa-$a592 txt_player_dooropen3
+  $a593-$a61b col_player_dooropen3
+  $a61c-$a6dc txt_irclefx1
+  $a6dd-$a789 col_irclefx1
+  $a78a-$a84a txt_irclefx2
+  $a84b-$a8ef col_irclefx2
+  $a8f0-$a9ca txt_irclefx3
+  $a9cb-$aa81 col_irclefx3
+  $aa82-$ab6a txt_irclefx4
+  $ab6b-$ac37 col_irclefx4
+  $ac38-$ad1c txt_irclefx5
+  $ad1d-$aded col_irclefx5
+  $adee-$aec2 txt_irclefx6
+  $aec3-$af83 col_irclefx6
+
+moreskullz-segment:
+  $a000-$a0e6 txt_player_doo
+  $a0e7-$a1a2 col_player_doo
+  $a1a3-$a29b txt_player_dooropen1
+  $a29c-$a377 col_player_dooropen1
+  $a378-$a440 txt_player_dooropen2
+  $a441-$a4f9 col_player_dooropen2
+  $a4fa-$a592 txt_player_dooropen3
+  $a593-$a61b col_player_dooropen3
+  $a61c-$a714 txt_moreskulls1
+  $a715-$a7ef col_moreskulls1
+  $a7f0-$a8e8 txt_moreskulls2
+  $a8e9-$a9c3 col_moreskulls2
+  $a9c4-$aabc txt_moreskulls3
+  $aabd-$ab9e col_moreskulls3
+  $ab9f-$ac97 txt_moreskulls4
+  $ac98-$ad74 col_moreskulls4
+  $ad75-$ae6d txt_moreskulls5
+  $ae6e-$af49 col_moreskulls5
+  $af4a-$b042 txt_moreskulls6
+  $b043-$b120 col_moreskulls6
+  $b121-$b216 txt_moreskulls7
+  $b217-$b2f8 col_moreskulls7
+
+logo_ons-segment:
+  $a000-$a13c txt_onslogo_only
+  $a13d-$a213 col_onslogo_only
+
+open-segment:
+  $a000-$a024 txt_open1
+  $a025-$a037 col_open1
+  $a038-$a069 txt_open2
+  $a06a-$a087 col_open2
+  $a088-$a0d7 txt_open3
+  $a0d8-$a102 col_open3
+  $a103-$a170 txt_open4
+  $a171-$a1b3 col_open4
+  $a1b4-$a256 txt_open5
+  $a257-$a2be col_open5
+  $a2bf-$a3ae txt_open6
+  $a3af-$a45a col_open6
+  $a45b-$a5ad txt_open7
+  $a5ae-$a69e col_open7
+  $a69f-$a87a txt_open8
+  $a87b-$aa05 col_open8
+  $aa06-$abc2 txt_open9
+  $abc3-$ad32 col_open9
+
+open_loop-segment:
+  $a000-$a33e txt_openloop1
+  $a33f-$a4c9 col_openloop1
+  $a4ca-$a7c1 txt_openloop2
+  $a7c2-$a931 col_openloop2
+  $a932-$ac5d txt_openloop3
+  $ac5e-$ade8 col_openloop3
+  $ade9-$b0ae txt_openloop4
+  $b0af-$b21e col_openloop4
+
+playerbase-segment:
+  $a000-$a25c txt_playe
+  $a25d-$a421 col_playe
+  $a422-$a508 txt_player_doo
+  $a509-$a5c4 col_player_doo
+
+credits-segment:
+  $a000-$a253 txt_redits
+  $a254-$a34f col_redits
+
+sk-segment:
+  $a000-$a0e6 txt_player_doo
+  $a0e7-$a1a2 col_player_doo
+  $a1a3-$a29b txt_player_dooropen1
+  $a29c-$a377 col_player_dooropen1
+  $a378-$a440 txt_player_dooropen2
+  $a441-$a4f9 col_player_dooropen2
+  $a4fa-$a592 txt_player_dooropen3
+  $a593-$a61b col_player_dooropen3
+  $a61c-$a697 txt_sk1
+  $a698-$a713 col_sk1
+  $a714-$a7b5 txt_sk2
+  $a7b6-$a855 col_sk2
+  $a856-$a924 txt_sk3
+  $a925-$a9f3 col_sk3
+  $a9f4-$aaca txt_sk4
+  $aacb-$ab9b col_sk4
+  $ab9c-$ac87 txt_sk5
+  $ac88-$ad5a col_sk5
+  $ad5b-$ae43 txt_sk6
+  $ae44-$af1a col_sk6
+  $af1b-$affa txt_sk7
+  $affb-$b0cb col_sk7
+  $b0cc-$b19a txt_sk8
+  $b19b-$b25b col_sk8
+  $b25c-$b344 txt_sk9
+  $b345-$b41e col_sk9
+  $b41f-$b4ea txt_sk10
+  $b4eb-$b5a7 col_sk10
+  $b5a8-$b66d txt_sk11
+  $b66e-$b729 col_sk11
+  $b72a-$b7dc txt_sk12
+  $b7dd-$b88b col_sk12
+
+skull_rotate-segment:
+  $a000-$a0e6 txt_player_doo
+  $a0e7-$a1a2 col_player_doo
+  $a1a3-$a29b txt_player_dooropen1
+  $a29c-$a377 col_player_dooropen1
+  $a378-$a440 txt_player_dooropen2
+  $a441-$a4f9 col_player_dooropen2
+  $a4fa-$a592 txt_player_dooropen3
+  $a593-$a61b col_player_dooropen3
+  $a61c-$a6e9 txt_skullrotate1
+  $a6ea-$a7ae col_skullrotate1
+  $a7af-$a875 txt_skullrotate2
+  $a876-$a936 col_skullrotate2
+  $a937-$a9f5 txt_skullrotate3
+  $a9f6-$aab3 col_skullrotate3
+  $aab4-$ab71 txt_skullrotate4
+  $ab72-$ac24 col_skullrotate4
+  $ac25-$acdd txt_skullrotate5
+  $acde-$ad95 col_skullrotate5
+  $ad96-$ae5a txt_skullrotate6
+  $ae5b-$af19 col_skullrotate6
+
+turn_disk-segment:
+  $a000-$a0e6 txt_player_doo
+  $a0e7-$a1a2 col_player_doo
+  $a1a3-$a29b txt_player_dooropen1
+  $a29c-$a377 col_player_dooropen1
+  $a378-$a440 txt_player_dooropen2
+  $a441-$a4f9 col_player_dooropen2
+  $a4fa-$a592 txt_player_dooropen3
+  $a593-$a61b col_player_dooropen3
+  $a61c-$a6f9 txt_z_turndisk_top
+  $a6fa-$a7ac col_z_turndisk_top
+
+xys_routine-segment:
+  $2000-$21ff XYSwinger Effect
+  $2200-$26ff xys_rows
+  $2700-$32d7 Tile Scroller Effect
+
+megalogo-segment:
+  $4500-$76ff Mega Logo
+
+xys_fadeout-segment:
+  $3300-$44fa XYSwinger Effect Fadeout
+
+menu_core-segment:
+  $5800-$59fa Menu Core
+  $59fb-$5a0e menu_row_sprite_y_locations
+  $5a0f-$5bcb Player Status
+  $5bcc-$5df1 Sprite Colorcycler
+  $6400-$63ff Song Titles
+  $6400-$63ff Unnamed
+  $6400-$6413 menu_screen_lo
+  $6414-$6427 menu_screen_hi
+  $6428-$64ff menu_title_length
+  $6500-$657f menu_indexes_lo
+  $6580-$65ff menu_indexes_hi
+  $6600-$7f3f menu_items
+
+demo_main-segment:
+  $0801-$080d Basic
+  $080e-$0810 Basic End
+>>>Sprites<<<
+  $0a00-$0a3e Unnamed
+  $0a40-$0a7e Unnamed
+  $0a80-$0abe Unnamed
+>>>Music Buffer<<<
+  $0f00-$115a Music Buffer (and temporary irq loader drivecode)
+>>>Core<<<
+  $8000-$81dd Exomizer
+  $81de-$827e RLE Depacker
+  $827f-$837f IRQ Loader
+  $8380-$9439 spinner
+  $943a-$9439 keyboard handler
+  $943a-$9640 Keyboard Scan Routine
+  $9641-$9678 Music Functions
+  $9679-$9685 Input Handlers
+  $9686-$973f Utilities
+  $9740-$978d Main DEMO
+  $978e-$9992 irq
+  $9993-$9b50 Internal timeline
+
+timeline1-segment:
+  $4000-$4243 Timeline 1
+
+SFX-segment:
+  $0f00-$0f05 Music Params
+  $1000-$1583 SFX
+
+timeline2-segment:
+  $4000-$542e Timeline 2
 

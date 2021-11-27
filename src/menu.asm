@@ -15,19 +15,16 @@ sid_name.size()
 .var title_scroll_delay_frames_major = 30
 
 m_key_scan_delay:
-.byte $00
+.byte $05
 
 m_title_scroll_delay_counter:
 .byte $10
-
-m_title_scroll_enabled:
-.byte $00
 
 m_title_scroll_position:
 .byte $05
 
 m_title_scroll_direction:
-.byte $00
+.byte $01
 
 m_modal_context:
 .byte $00
@@ -64,10 +61,6 @@ menu_no_modal:
 //internal functions
 
 menu_scroll_title:
-//     lda m_title_scroll_enabled
-//     bne !+
-//     rts
-// !:
     dec m_title_scroll_delay_counter
     beq !+
     rts
@@ -114,15 +107,6 @@ menu_input:
     clc
     jsr keyboard
     bcc !valid_input+
-    lda m_title_scroll_enabled
-    bne !+
-    lda #$01
-    sta m_title_scroll_enabled
-    sta m_title_scroll_direction
-    lda #$05 //default location
-    sta m_title_scroll_position
-    lda #title_scroll_delay_frames
-    sta m_title_scroll_delay_counter
 !:
     rts
 !valid_input:
@@ -142,28 +126,43 @@ beq !+
     sta m_modal_ack
     rts
 !:
-    lda #$00
-    sta m_title_scroll_enabled
-    lda #title_scroll_delay_frames
-    sta m_title_scroll_delay_counter
-    lda #$05 //default location
-    sta m_title_scroll_position
     tya 
     and #%00001000
     beq !+ //not home key pressed
 !home:
     lda #$00
     sta menu_selected_item
+    lda #title_scroll_delay_frames_major
+    sta m_title_scroll_delay_counter
+    lda #$05 //default location
+    sta m_title_scroll_position
+    lda #$01
+    sta m_title_scroll_direction
     rts
 !:
     /*
     Todo: add some easter eggs in here!
     */
+    tya
+    clc
+    and #%10100000
+    cmp #%10100000
+    bne !no_eggs+
+    lda #title_scroll_delay_frames_major
+    sta m_title_scroll_delay_counter
+    lda #$05 //default location
+    sta m_title_scroll_position
+    lda #$01
+    sta m_title_scroll_direction
+    lda #100
+    jmp !egg_song+
+!no_eggs:
     txa
     and #%00000010
     beq !+ //not return key pressed
 !return:
     lda menu_selected_item
+!egg_song:
     sta menu_chosen_song
     tay
     lda menu_indexes_lo,y
@@ -192,18 +191,23 @@ beq !+
     bcs !updown+
     rts
 !updown:
+    lda #title_scroll_delay_frames_major
+    sta m_title_scroll_delay_counter
+    lda #$05 //default location
+    sta m_title_scroll_position
+    lda #$01
+    sta m_title_scroll_direction
     tya 
     and #%01010000 //check shift key to determine direction
     bne !up+
 !down:
     ldx menu_selected_item
-    cpx #100
+    cpx #99
     beq !+
     inx
     stx menu_selected_item
 !:
     rts
-
 !up:
     ldx menu_selected_item
     cpx #00
@@ -231,9 +235,9 @@ menu_redraw:
     bcs !+ //if menu_selected_item < (menu_h/2):
         ldy #$00
         jmp !redraw+
-!:  cmp #(sid_name.size() - (menu_h/2)) //elseif menu_selected > (sid_name.size() - menu_h)
+!:  cmp #(sid_name.size() - 1 - (menu_h/2)) //elseif menu_selected > (sid_name.size() - menu_h)
     bcc !+
-        ldy #(sid_name.size() - menu_h)
+        ldy #(sid_name.size() - 1 - menu_h)
         jmp !redraw+
 !: //else
     sec

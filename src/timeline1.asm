@@ -9,6 +9,14 @@ TODO: load sound effect in here
     load('G','G',$c000) 
     jsr exo_exo
     load('H','H',$c000) 
+    jsr exo_exo
+    load('J','J',$c000) 
+    jsr exo_exo
+    load('B','B',$c000) 
+    jsr exo_exo
+    //preload timeline 2
+    load('T','2',$c000) 
+
     // disable spinner
     lda #$00
     sta enable_effect 
@@ -35,20 +43,29 @@ TODO: load sound effect in here
 
     .var interframe_delay = $00
 
-    lda #$01
-    sta enable_music
     lda #$06
     sta $d021
-    petscii_animate(gg, false, $00, $00, $01)
-    jsr exo_exo
-    petscii_animate(hh, false, $00, $00, interframe_delay)
-    petscii_animate(hh, false, $00, $00, interframe_delay)
-    load('B','B',$c000) 
-    jsr exo_exo
+    lda #$01
+    sta enable_music
+    ldy #$ff
+    jsr pause
+    petscii_animate(gg, false, $00, $00, $02)
+    jsr !animation_loop+
+    jsr !animation_loop+
+    jsr !animation_loop+
+    jsr !animation_loop+
+    jsr !animation_loop+
+    jsr !animation_loop+
+    petscii_animate(jj, false, $00, $00, interframe_delay)
     petscii_animate(bb, false, $00, $00, interframe_delay)
     lda #$00
     sta enable_music
     rts
+
+!animation_loop:
+    petscii_animate(hh, false, $00, $00, interframe_delay)
+    rts
+
 
 .var sfx = LoadSid("../assets/manual_conversion/2021-11-15_patto_music_collection_sfx.sid")
 .segment SFX [outPrg="../rsrc/sx.prg"]

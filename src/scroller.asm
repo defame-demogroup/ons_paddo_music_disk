@@ -8,8 +8,7 @@ Scroller
 
 
 .var s_row = 16
-.var s_font_page = $80
-
+.var s_font_page = $78   //stick font
 /*
 Scroll init
 */
@@ -184,7 +183,7 @@ s_copy_character_rom:
     inc zp_4   
     dex        
     bne !loop-  
-    lda s_target: #$37   
+    lda s_target: #$36   
     sta $01
     cli
     rts

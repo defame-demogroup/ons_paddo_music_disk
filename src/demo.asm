@@ -3,11 +3,39 @@ Demo Sourcecode
 
 ----------------------------------------
 Memory map:
+[Global]
 $0800         : BASIC start
-$0ff0 - $3000 : Music Buffer
-$3000 - $5000 : Petscii Buffer
-$5000 - $7000 : Demo core
-$C000 - $D000 : Load Buffer
+$8000 - $A000 : Demo core (Intro and Main)
+
+[Intro]
+$0ff0 - $2000 : Music Buffer (Intro)
+$2000 - $3300 : Intro Code
+$3300 - $4500 : Fadeout Code
+$4500 - $7700 : Mega Logo
+* $8000 - $A000 : Demo core (Intro and Main)
+$A000 - $B000 : Petscii Font Image
+$B800 - $D000 : Load Buffer (Intro)
+
+[Timeline 1]
+$0ff0 - $1800 : Sfx Buffer (Timeline 1)
+$1800 - $2600 : open-segment (petscii framebuffer)
+$2600 - $3900 : open-loop (petscii framebuffer)
+$3900 - $5200 : close-segment (petscii framebuffer)
+* $5800 - $8000 : Menu and Song Titles
+* $8000 - $A000 : Demo core (Intro and Main)
+$a000 - $c000 : final segment (petscii framebuffer)
+$5200 - $5800 : Timeline 1 Code
+
+[Main]
+$0ff0 - $4000 : Music Buffer  (Main)
+$4000 - $5800 : Timelines
+$5800 - $8000 : Menu and Song Titles
+* $8000 - $A000 : Demo core (Intro and Main)
+$A000 - $C000 : Petscii Frame Buffer (Main)
+$C000 - $D000 : Load Buffer (Main)
+
+
+
 ----------------------------------------
 ZeroPage:
 $50-$5f Keyboard Handler
@@ -51,39 +79,28 @@ Template Code Modules
 ----------------------------------------
 */
 
-/*
-Intro memory map (overlay on core memory map):
-$3000-$5000     temporarily use pescii buffer for logo fadeout effect
-$7000-$8500     logo and scroller code
-$8500-$c000     mega logo data
-*/
 .segment xys_routine [outPrg="ab.prg"]
-*=$7000
+*=$2000
 .pc=* "XYSwinger Effect"
 .import source "xyswinger.asm"
 .pc = * "Tile Scroller Effect"
 .import source "scroller.asm"
 
 .segment megalogo [outPrg="ac.prg"]
-*=$8500
+*=$4500
 .pc = * "Mega Logo"
 .import source "biglogo_include.asm"
 
 .segment xys_fadeout [outPrg="ad.prg"]
-*=$3d00
+*=$3300
 .pc = * "XYSwinger Effect Fadeout"
 .import source "xyswinger_fadeout.asm"
 
-/*
-Main memory map (overlay on core memory map):
-$7000-$9800:    Effect Timelines
-$9800-$c000:    Player core UI
-*/
 .segment menu_core [outPrg="ba.prg"]
-*=$a400
+*=$6400
 .pc = * "Song Titles"
 .import source "menu_items.asm"
-*=$9800
+*=$5800
 .pc = * "Menu Core"
 .import source "menu.asm"
 .pc = * "Player Status"
@@ -159,8 +176,9 @@ loader_init:
 .var music_init = $0f02
 .var music_play = $0f04
 
-// $3000 - $5000 is reserved for packed animation in main demo
-.pc=$3000 "PETSCII Animation Buffers"
+
+// $A000 - $C000 is reserved for packed animation in main demo
+.pc=$A000 "PETSCII Animation Buffers"
 
 
 /*
@@ -168,7 +186,7 @@ loader_init:
 Base code that never gets replaced
 ----------------------------------------
 */
-.pc=$5000 "Code"
+.pc=$8000 "Code"
 .pc=* "Exomizer"
 .import source "exo.asm"
 
@@ -526,31 +544,11 @@ timeline:
 /*
 START INTRO
 */
-    //fast ram clear for logo
-    lda #$85
-    sta dzp_hi
-    tax
-    lda #$00
-    sta dzp_lo
-    ldy #$00
-    lda #$20
-!:
-    sta (dzp_lo),y
-    inc dzp_lo
-    bne !-
-    inc dzp_hi
-    inx
-    cpx #$b8
-    bne !- 
 
     load('0','7',$c000) //01.prg
     jsr m_disable
     jsr exo_exo
     jsr m_reset
-
-    // //this is how we load screens - todo - load the data
-    // load(70,70,$c000) //ff.prg
-    // jsr exo_exo
 
     //load scroller-xyswinger merged template
     load('A','B',$b800) 
@@ -563,7 +561,6 @@ START INTRO
     //load mega logo template
     load('A','C',$b800) 
     jsr exo_exo
-
     jsr xys_copy
 /*
 Todo: copy color map to phantom space and clear
@@ -572,7 +569,6 @@ Todo: copy color map to phantom space and clear
     //disable spinner
     lda #$00
     sta enable_effect
-    // clear screen
     ldx #$20
     ldy #$00
     jsr fill
@@ -699,18 +695,18 @@ debug_skip_intro:
     sta enable_music
     //enable spinner
     inc enable_effect
-    //preload menu core ($a000-$c000)
+    //preload menu core
     load('B','A',$c000) 
     jsr exo_exo
     //load timeline 1
     load('T','1',$c000) 
     jsr exo_exo
     //timeline 1
-    jsr $7000
+    jsr $5200
     //timeline 2 (player)
-    load('T','2',$c000) 
+    // load('T','2',$c000) <-- preload in timeline 1!
     jsr exo_exo
-    jsr $7000
+    jsr $4000
 
 
 !:
@@ -721,23 +717,18 @@ debug_skip_intro:
 Template code that can be overwritten
 ----------------------------------------
 */
-.pc=$7000 "Template code that is replaced"
+.pc=$4000 "Template code that is replaced"
 template_base:
-
-
-
-
-
 /*
 Timeline templates
 */
 .segment timeline1 [outPrg="t1.prg"]
-*=$7000
+*=$5200
 .pc = * "Timeline 1"
 .import source "timeline1.asm"
 
 .segment timeline2 [outPrg="t2.prg"]
-*=$7000
+*=$4000
 .pc = * "Timeline 2"
 .import source "timeline2.asm"
 
