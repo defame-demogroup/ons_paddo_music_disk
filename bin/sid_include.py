@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 from pathlib import Path
+import glob
 
 
 """
@@ -19,6 +20,8 @@ music_target = root.joinpath("src")
 music_target.mkdir(parents=True, exist_ok=True)
 print(f"Rendering SID labels...{music_source}")
 output: Path = music_target.joinpath("sid_include.asm")
+filenames = sorted( filter( os.path.isfile, glob.glob(str(music_source.joinpath("*.sid")))))
+
 with open(output, mode="w") as o:
     o.write("""
 /*
@@ -39,16 +42,17 @@ $0f04/$0f05 lo/hi byte of the music play JSR
     max_length: int = 0
     count: int  = 0
     disk: int = 0
-    for filename in os.listdir(music_source):
+    for filename in filenames:
         if filename.endswith(".sid"):
+            fname: str = os.path.basename(filename)
             if count > 43:
                 disk = 1 
             ptr: str = str(count).rjust(2,'0')
             # clean up (Patto) [8580] [1x]-optimized
             # note: double-double-space-replace is on purpose! 
-            name: str = ptr + ": " + filename.replace(".sid","").replace("(Patto)","").replace("[8580]","").replace("[1x]","").replace("[2x]","").replace("-optimized","").replace("  "," ").replace("  "," ").strip().upper()
+            name: str = ptr + ": " + fname.replace(".sid","").replace("(Patto)","").replace("[8580]","").replace("[1x]","").replace("[2x]","").replace("-optimized","").replace("  "," ").replace("  "," ").strip().upper()
             o.write(f"""
-//{ptr}.prg = {filename}
+//{ptr}.prg = {fname}
 .eval sid_name.add("{name}")
 .eval sid_disk.add({disk})
             """)
