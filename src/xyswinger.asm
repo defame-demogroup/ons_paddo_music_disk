@@ -8,11 +8,10 @@
 
 xys:
     ldx xys_index
-    lda xys_x_lo,x
+    lda xys_lo_page_ptr: xys_x_lo,x
     sta xys_x_scroll_reg
     lda xys_y_lo,x
     sta xys_y_scroll_reg
-    dex
     lda xys_y_hi,x
     tay
     lda xys_rows,y
@@ -26,7 +25,7 @@ xys:
     }
 
     ldy #$00
-    lda xys_x_hi,x
+    lda xys_hi_page_ptr: xys_x_hi,x
     tax
     xys_blit:
     .for(var i=0;i<xys_height;i++){
@@ -87,12 +86,27 @@ This is the BG for the scroller effect!
 !:
 // lda #$00
 // sta $d020
-    lda xys_index_timer
-    eor #$01
-    sta xys_index_timer
-    beq !+
+    // lda xys_index_timer
+    // eor #$01
+    // sta xys_index_timer
+    // beq !+
     inc xys_index
+    bne !+
+    inc xys_x_page
+    lda xys_x_page
+    cmp #$03
+    bne !+
+    lda #$00
+    sta xys_x_page
 !:
+    lda #>xys_x_lo
+    clc
+    adc xys_x_page
+    sta xys_lo_page_ptr + 1
+    lda #>xys_x_hi
+    clc
+    adc xys_x_page
+    sta xys_hi_page_ptr + 1
     rts
 
 
@@ -109,6 +123,9 @@ xys_x_scroll_reg:
 xys_index_timer:
     .byte $00
 
+xys_x_page:
+    .byte $00
+
 .align $100
 .pc=* "xys_rows"
 xys_rows:
@@ -121,21 +138,25 @@ xys_rows:
 .var xys_y_vals = List()
 .for(var i=0;i<256;i++)
 {
-    .var w = xys_logo_width - 70
     .var h = xys_height + 1
-    .eval xys_x_vals.add(round((((w * 8) + (w * 8 * sin(toRadians(i*720/256))*cos(toRadians(i*360/256)))))) - (8 * 8))
     .eval xys_y_vals.add(round((((h * 8) + (h * 8 * cos(toRadians(i*360/256)))))))
+}
+.for(var i=0;i<(256 * 3);i++)
+{
+    .var w = xys_logo_width - 80
+    .eval xys_x_vals.add(round((((w * 8) + (w * 8 * sin(toRadians(i*720/(256*3))))))))
 }
 
 .align $100
 xys_x_hi:
-.for(var i=0;i<256;i++)
+.for(var i=0;i<(256 * 3);i++)
 {
-    .byte (xys_x_vals.get(i) / 8)
+    .byte (xys_x_vals.get(i) >> 3)
 }
+
 .align $100
 xys_x_lo:
-.for(var i=0;i<256;i++)
+.for(var i=0;i<(256 * 3);i++)
 {
     .byte 7 - (xys_x_vals.get(i) & %00000111) + $c0
 }
@@ -144,7 +165,7 @@ xys_x_lo:
 xys_y_hi:
 .for(var i=0;i<256;i++)
 {
-    .byte (xys_y_vals.get(i) / 8)
+    .byte (xys_y_vals.get(i) >> 3)
 }
 
 .align $100
